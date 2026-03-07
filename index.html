@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LabAR.EDU — Chemistry Encyclopedia v7.0</title>
+<title>LabAR.EDU — Chemistry Encyclopedia v8.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -489,19 +489,275 @@ footer p { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
 [data-tip]::after { content: attr(data-tip); position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); background: var(--surface2); color: var(--text); border: 1px solid var(--border); font-size: 0.75rem; padding: 6px 12px; border-radius: 7px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
 [data-tip]:hover::after { opacity: 1; }
 
+/* ===== v8 NEW VARS ===== */
+:root {
+  --bonding:#a78bfa; --reactions:#f59e0b; --acids:#f87171; --electro:#22d3ee; --gas:#818cf8;
+}
+
+/* ===== LIGHT MODE — full new palette ===== */
+[data-theme="light"] {
+  --bg:        #f4f6ff;
+  --surface:   #ffffff;
+  --surface2:  #eaedff;
+  --border:    rgba(79,70,229,0.13);
+  --accent:    #059669;
+  --accent2:   #2563eb;
+  --alkane:    #059669;
+  --alkene:    #2563eb;
+  --alkyne:    #dc2626;
+  --isomer:    #d97706;
+  --nuclear:   #7c3aed;
+  --thermo:    #ea580c;
+  --solutions: #0d9488;
+  --ions-pos:  #db2777;
+  --ions-neg:  #2563eb;
+  --bonding:   #7c3aed;
+  --reactions: #d97706;
+  --acids:     #dc2626;
+  --electro:   #0891b2;
+  --gas:       #4f46e5;
+  --text:      #1e1b4b;
+  --muted:     #6b7a99;
+  --glow-green:  0 0 24px rgba(5,150,105,0.18);
+  --glow-blue:   0 0 24px rgba(37,99,235,0.18);
+  --glow-purple: 0 0 24px rgba(124,58,237,0.18);
+  --glow-orange: 0 0 24px rgba(234,88,12,0.18);
+}
+[data-theme="light"] nav {
+  background: rgba(244,246,255,0.93);
+}
+[data-theme="light"] #bgCanvas { opacity:0.07; }
+[data-theme="light"] .card { box-shadow: 0 4px 24px rgba(79,70,229,0.06); }
+[data-theme="light"] .card:hover { box-shadow: 0 8px 40px rgba(79,70,229,0.12) !important; }
+[data-theme="light"] .search-hit:hover { background: rgba(5,150,105,0.06); }
+[data-theme="light"] header {
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(5,150,105,0.08) 0%, transparent 70%);
+}
+[data-theme="light"] .chapter-divider { background: linear-gradient(135deg, rgba(5,150,105,0.06), rgba(37,99,235,0.06)); border-color: rgba(79,70,229,0.15); }
+[data-theme="light"] .progress-bar-fill { background: linear-gradient(90deg, var(--accent), var(--alkene)); }
+[data-theme="light"] .rxn-eq { background: var(--surface2); }
+[data-theme="light"] .gas-formula { background: var(--surface2); }
+[data-theme="light"] .example-box { background: var(--surface2); }
+[data-theme="light"] .halflife-formula { background: var(--surface2); border-color: var(--border); }
+[data-theme="light"] .emc2-box { box-shadow: 0 0 40px rgba(124,58,237,0.08); }
+[data-theme="light"] .heat-formula-box { box-shadow: 0 0 30px rgba(234,88,12,0.08); }
+
+/* ===== SEARCH OVERLAY ===== */
+#searchOverlay{display:none;position:fixed;inset:0;background:rgba(7,9,15,0.93);z-index:99999;backdrop-filter:blur(14px);align-items:flex-start;justify-content:center;padding-top:14vh;}
+#searchOverlay.open{display:flex;}
+.search-modal{width:min(680px,90vw);}
+.global-search-input{width:100%;background:var(--surface);border:2px solid var(--accent);border-radius:16px;padding:16px 22px;font-family:'Outfit',sans-serif;font-size:1.1rem;color:var(--text);outline:none;}
+.global-search-input::placeholder{color:var(--muted);}
+.search-results{margin-top:12px;max-height:55vh;overflow-y:auto;display:flex;flex-direction:column;gap:7px;}
+.search-hit{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 18px;cursor:pointer;transition:border-color var(--transition),background var(--transition);}
+.search-hit:hover{border-color:var(--accent);background:rgba(79,255,176,0.05);}
+.search-hit-title{font-weight:700;font-size:0.93rem;color:var(--text);}
+.search-hit-ctx{font-size:0.79rem;color:var(--muted);margin-top:2px;}
+.search-hit-tag{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--accent);border:1px solid rgba(79,255,176,0.3);padding:2px 7px;border-radius:50px;margin-left:7px;}
+.search-empty{text-align:center;color:var(--muted);font-size:0.88rem;padding:28px;}
+.search-hint{font-size:0.75rem;color:var(--muted);text-align:center;margin-top:8px;}
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar-wrap{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px 22px;margin-bottom:28px;position:relative;z-index:1;display:flex;align-items:center;gap:14px;}
+.progress-bar-track{flex:1;height:7px;background:var(--surface2);border-radius:50px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--alkene));border-radius:50px;transition:width 0.5s ease;width:0%;}
+.progress-label{font-family:'JetBrains Mono',monospace;font-size:0.73rem;color:var(--accent);white-space:nowrap;}
+.progress-check{position:absolute;top:20px;right:20px;display:flex;align-items:center;gap:7px;font-size:0.73rem;color:var(--muted);}
+.progress-check input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;}
+.progress-check label{cursor:pointer;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;font-size:0.66rem;text-transform:uppercase;}
+
+/* ===== NAV ADDITIONS ===== */
+.nav-actions{display:flex;gap:7px;flex-shrink:0;}
+.nav-btn{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);cursor:pointer;font-size:0.95rem;transition:all var(--transition);display:flex;align-items:center;justify-content:center;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(79,255,176,0.08);}
+
+/* ===== BADGES new colors ===== */
+.badge.violet{color:var(--bonding);border-color:rgba(167,139,250,0.4);}
+.badge.amber{color:var(--reactions);border-color:rgba(245,158,11,0.4);}
+.badge.red{color:var(--acids);border-color:rgba(248,113,113,0.4);}
+.badge.cyan{color:var(--electro);border-color:rgba(34,211,238,0.4);}
+.badge.indigo{color:var(--gas);border-color:rgba(129,140,248,0.4);}
+.section-title span.violet{color:var(--bonding);}
+.section-title span.amber{color:var(--reactions);}
+.section-title span.red{color:var(--acids);}
+.section-title span.cyan{color:var(--electro);}
+.section-title span.indigo{color:var(--gas);}
+.info-box.violet{border-left-color:var(--bonding);}.info-box.violet:hover{box-shadow:0 0 30px rgba(167,139,250,0.2);}
+.info-box.amber{border-left-color:var(--reactions);}.info-box.amber:hover{box-shadow:0 0 30px rgba(245,158,11,0.2);}
+.info-box.red{border-left-color:var(--acids);}.info-box.red:hover{box-shadow:0 0 30px rgba(248,113,113,0.2);}
+.info-box.cyan{border-left-color:var(--electro);}.info-box.cyan:hover{box-shadow:0 0 30px rgba(34,211,238,0.2);}
+.info-box.indigo{border-left-color:var(--gas);}.info-box.indigo:hover{box-shadow:0 0 30px rgba(129,140,248,0.2);}
+
+/* ===== BONDING ===== */
+.bond-compare{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;}
+.bond-card{background:var(--surface2);border-radius:18px;padding:24px;border:1px solid var(--border);text-align:center;transition:transform var(--transition),box-shadow var(--transition);}
+.bond-card:hover{transform:translateY(-5px);}
+.bond-card.ionic{border-top:3px solid var(--ions-pos);}.bond-card.ionic:hover{box-shadow:0 20px 50px rgba(244,114,182,0.12);}
+.bond-card.covalent{border-top:3px solid var(--alkene);}.bond-card.covalent:hover{box-shadow:0 20px 50px rgba(59,158,255,0.12);}
+.bond-card.metallic{border-top:3px solid var(--bonding);}.bond-card.metallic:hover{box-shadow:0 20px 50px rgba(167,139,250,0.12);}
+.bond-icon{font-size:2.2rem;margin-bottom:10px;display:block;}
+.bond-name{font-family:'DM Serif Display',serif;font-size:1.2rem;margin-bottom:8px;}
+.bond-card.ionic .bond-name{color:var(--ions-pos);}.bond-card.covalent .bond-name{color:var(--alkene);}.bond-card.metallic .bond-name{color:var(--bonding);}
+.bond-card p{color:var(--muted);font-size:0.82rem;line-height:1.6;}
+.bond-card ul{color:var(--muted);font-size:0.8rem;padding-left:14px;margin-top:8px;text-align:left;}.bond-card li{margin-bottom:4px;}
+
+/* ===== REACTIONS ===== */
+.rxn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:24px;}
+.rxn-card{background:var(--surface2);border-radius:15px;padding:20px;border:1px solid var(--border);border-left:4px solid var(--reactions);transition:box-shadow var(--transition);}
+.rxn-card:hover{box-shadow:0 0 28px rgba(245,158,11,0.15);}
+.rxn-type{font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:var(--reactions);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:5px;}
+.rxn-card h3{font-size:0.97rem;color:var(--text);margin-bottom:5px;}
+.rxn-card p{color:var(--muted);font-size:0.82rem;margin-bottom:9px;}
+.rxn-eq{font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;line-height:1.8;}
+
+/* ===== ACIDS & BASES ===== */
+.ph-scale{margin-top:22px;border-radius:14px;overflow:hidden;border:1px solid var(--border);}
+.ph-bar{display:flex;height:48px;}
+.ph-seg{flex:1;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:700;color:#fff;cursor:default;}
+.ph-labels{display:flex;margin-top:5px;}
+.ph-label{flex:1;text-align:center;font-size:0.6rem;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+.acid-base-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+.ab-card{background:var(--surface2);border-radius:15px;padding:20px;border:1px solid var(--border);}
+.ab-card.acid{border-top:3px solid var(--acids);}.ab-card.base{border-top:3px solid var(--alkane);}
+.ab-title{font-family:'DM Serif Display',serif;font-size:1.2rem;margin-bottom:9px;}
+.ab-card.acid .ab-title{color:var(--acids);}.ab-card.base .ab-title{color:var(--alkane);}
+.ab-card p,.ab-card ul{color:var(--muted);font-size:0.82rem;}.ab-card ul{padding-left:14px;margin-top:5px;}.ab-card li{margin-bottom:4px;}
+
+/* ===== ELECTROCHEMISTRY ===== */
+.oilrig{background:linear-gradient(135deg,rgba(34,211,238,0.06),rgba(129,140,248,0.06));border:1px solid rgba(34,211,238,0.2);border-radius:14px;padding:18px 26px;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:44px;flex-wrap:wrap;}
+.oilrig-item{text-align:center;}
+.oilrig-letters{font-family:'JetBrains Mono',monospace;font-size:2.2rem;font-weight:700;color:var(--electro);letter-spacing:0.2em;}
+.oilrig-desc{font-size:0.74rem;color:var(--muted);margin-top:5px;}
+.redox-split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px;}
+.redox-half{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:16px;}
+.redox-half h4{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:7px;}
+.redox-half.ox h4{color:var(--acids);}.redox-half.red h4{color:var(--alkene);}
+.redox-half p{font-size:0.82rem;color:var(--muted);margin-bottom:6px;}
+.redox-half code{font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent);background:rgba(79,255,176,0.07);padding:2px 6px;border-radius:4px;}
+
+/* ===== GAS LAWS ===== */
+.gas-laws-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;}
+.gas-law-card{background:var(--surface2);border-radius:15px;padding:20px;border:1px solid var(--border);border-top:3px solid var(--gas);transition:transform var(--transition),box-shadow var(--transition);}
+.gas-law-card:hover{transform:translateY(-4px);box-shadow:0 18px 45px rgba(129,140,248,0.12);}
+.gas-law-name{font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:var(--gas);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:5px;}
+.gas-law-card h3{font-size:0.97rem;color:var(--text);margin-bottom:7px;}
+.gas-formula{font-family:'JetBrains Mono',monospace;font-size:1.25rem;color:var(--accent);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:11px 14px;text-align:center;margin:9px 0;}
+.gas-law-card p{color:var(--muted);font-size:0.81rem;}
+.gas-law-card ul{color:var(--muted);font-size:0.79rem;padding-left:14px;margin-top:5px;}.gas-law-card li{margin-bottom:3px;}
+.gas-calc-box{background:var(--surface2);border:1px solid rgba(129,140,248,0.2);border-radius:16px;padding:24px;margin-top:24px;}
+.gas-calc-title{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--gas);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:12px;}
+.gas-calc-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.gas-calc-tab{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.73rem;cursor:pointer;transition:all var(--transition);}
+.gas-calc-tab.active{background:rgba(129,140,248,0.12);border-color:rgba(129,140,248,0.4);color:var(--gas);}
+.gas-fields{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;}
+.gas-field label{display:block;font-family:'JetBrains Mono',monospace;font-size:0.63rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.gas-field input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 13px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.92rem;outline:none;transition:border-color var(--transition);}
+.gas-field input:focus{border-color:var(--gas);}
+.gas-field input[readonly]{color:var(--gas);border-color:rgba(129,140,248,0.3);}
+
+/* ===== TOOLS ===== */
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px;}
+.tool-panel{background:var(--surface2);border-radius:18px;padding:26px;border:1px solid var(--border);}
+.tool-title-tag{font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;}
+.tool-panel h3{font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--text);margin-bottom:12px;}
+.tool-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.95rem;outline:none;transition:border-color var(--transition);}
+.tool-input:focus{border-color:var(--accent);}
+.tool-input::placeholder{color:var(--muted);}
+.tool-select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.87rem;outline:none;cursor:pointer;transition:border-color var(--transition);}
+.tool-select:focus{border-color:var(--accent);}
+.tool-btn{background:rgba(79,255,176,0.1);border:1px solid rgba(79,255,176,0.3);border-radius:10px;padding:10px 20px;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:0.83rem;font-weight:700;cursor:pointer;width:100%;margin-top:10px;transition:all var(--transition);}
+.tool-btn:hover{background:rgba(79,255,176,0.18);border-color:var(--accent);transform:translateY(-1px);}
+.tool-result{margin-top:12px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px 20px;min-height:56px;}
+.tool-result-main{font-family:'JetBrains Mono',monospace;font-size:1.7rem;font-weight:700;color:var(--accent);display:block;}
+.tool-result-breakdown{font-size:0.79rem;color:var(--muted);margin-top:5px;line-height:1.8;}
+.tool-result-formula{font-family:'JetBrains Mono',monospace;font-size:1.45rem;font-weight:700;color:var(--accent);}
+.tool-empty{color:var(--muted);font-size:0.83rem;font-style:italic;}
+.tool-row{display:flex;gap:9px;margin-top:9px;align-items:center;}
+.tool-row label{font-size:0.77rem;color:var(--muted);white-space:nowrap;}
+.tool-row .tool-select{flex:1;}
+.decay-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:0.8rem;}
+.decay-table th{background:var(--surface);padding:7px 11px;font-family:'JetBrains Mono',monospace;font-size:0.63rem;color:var(--nuclear);letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid var(--border);}
+.decay-table td{padding:7px 11px;border-bottom:1px solid var(--border);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.78rem;}
+.decay-table tr:last-child td{border-bottom:none;}
+.decay-bar{display:inline-block;height:7px;background:var(--nuclear);border-radius:4px;vertical-align:middle;}
+
+/* ===== PRINT ===== */
+@media print{
+  #bgCanvas,nav,.nav-actions,#searchOverlay,.progress-bar-wrap{display:none!important;}
+  .card{opacity:1!important;transform:none!important;page-break-inside:avoid;box-shadow:none!important;}
+  body{background:#fff!important;color:#000!important;}
+}
+
+.nav-group-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;padding:0 4px;opacity:0.6;pointer-events:none;white-space:nowrap;}
+.nav-sep{width:1px;height:18px;background:var(--border);margin:0 4px;align-self:center;}
+
+/* ===== MOBILE DRAWER ===== */
+.mob-link{display:block;color:var(--muted);text-decoration:none;font-size:0.88rem;font-weight:500;padding:10px 10px;border-radius:10px;transition:all var(--transition);margin-bottom:2px;}
+.mob-link:hover,.mob-link:active{color:var(--accent);background:rgba(79,255,176,0.07);}
+[data-theme="light"] .mob-link:hover,[data-theme="light"] .mob-link:active{background:rgba(5,150,105,0.07);}
+.nav-hamburger{display:none;}
+
+/* ===== CHAPTER DIVIDERS ===== */
+.chapter-divider{background:linear-gradient(135deg,rgba(79,255,176,0.05),rgba(56,189,248,0.05));border:1px solid rgba(79,255,176,0.12);border-radius:22px;padding:28px 36px;margin:12px 0 28px;display:flex;align-items:center;gap:18px;position:relative;z-index:1;}
+.chapter-icon{font-size:2.2rem;line-height:1;flex-shrink:0;}
+.chapter-label{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--accent);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:4px;}
+.chapter-title{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--text);}
+.chapter-desc{font-size:0.82rem;color:var(--muted);margin-top:4px;line-height:1.6;}
+.chapter-count{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:6px 14px;white-space:nowrap;flex-shrink:0;}
+
 @media (max-width: 1000px) {
-  .result-grid { grid-template-columns: 1fr; }
-  .tab-wrapper { grid-template-columns: 1fr; }
-  .calc-box { flex-direction: column; align-items: flex-start; }
-  nav .nav-links { display: none; }
-  .ions-split { grid-template-columns: 1fr; }
-  .systems-grid { grid-template-columns: 1fr; }
-  .solutions-grid { grid-template-columns: 1fr; }
-  .pct-grid { grid-template-columns: 1fr; }
-  .halflife-steps { grid-template-columns: 1fr; }
-  .isomer-grid { grid-template-columns: 1fr; }
-  .conv-grid { grid-template-columns: 1fr; }
-  .unit-conv-grid { grid-template-columns: 1fr; }
+  .result-grid{grid-template-columns:1fr;}
+  .tab-wrapper{grid-template-columns:1fr;}
+  .calc-box{flex-direction:column;align-items:flex-start;}
+  .ions-split{grid-template-columns:1fr;}
+  .systems-grid{grid-template-columns:1fr;}
+  .solutions-grid{grid-template-columns:1fr;}
+  .pct-grid{grid-template-columns:1fr;}
+  .halflife-steps{grid-template-columns:1fr;}
+  .isomer-grid{grid-template-columns:1fr;}
+  .conv-grid{grid-template-columns:1fr;}
+  .unit-conv-grid{grid-template-columns:1fr;}
+  .bond-compare,.gas-laws-grid{grid-template-columns:1fr;}
+  .rxn-grid,.acid-base-grid,.redox-split,.tools-grid{grid-template-columns:1fr;}
+  .gas-fields{grid-template-columns:1fr;}
+}
+
+@media (max-width: 768px) {
+  nav .nav-links{display:none;}
+  .nav-hamburger{display:flex !important;}
+  nav{padding:0 5%;}
+  .nav-logo{font-size:1rem;}
+  header{padding:80px 5% 60px;}
+  header h1{font-size:clamp(2rem,9vw,3.5rem);}
+  .hero-stats{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .wrapper{padding:0 5% 60px;}
+  .card{padding:22px 18px;border-radius:16px;}
+  .section-title{font-size:clamp(1.4rem,5vw,2rem);}
+  .calc-display{font-size:1.6rem;}
+  .chapter-divider{padding:20px;gap:12px;flex-wrap:wrap;}
+  .chapter-title{font-size:1.3rem;}
+  .chapter-count{display:none;}
+  .progress-bar-wrap{padding:12px 16px;gap:9px;}
+  .progress-check{top:14px;right:14px;}
+  .progress-check label{display:none;}
+  .tab-wrapper{gap:0;flex-direction:column;}
+  .tab-sidebar{display:flex;flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:6px;background:none;border-right:none;border-bottom:1px solid var(--border);}
+  .tab-link{white-space:nowrap;padding:8px 14px;border-radius:8px;border-bottom:none;}
+  .tab-step{display:none;}
+  .bond-compare{grid-template-columns:1fr;}
+  .gas-laws-grid{grid-template-columns:1fr;}
+  .rxn-grid{grid-template-columns:1fr;}
+  .acid-base-grid{grid-template-columns:1fr;}
+  .redox-split{grid-template-columns:1fr;}
+  .tools-grid{grid-template-columns:1fr;}
+  .gas-fields{grid-template-columns:1fr;}
+  .oilrig{gap:20px;}
+  .periodic-table{font-size:0.52rem;}
+  .pt-cell{width:34px;height:34px;}
+  .info-grid{grid-template-columns:1fr;}
+  .calc-left{width:100%;}
+  .hero-tag{font-size:0.6rem;}
+  table{font-size:0.78rem;}
 }
 </style>
 </head>
@@ -512,33 +768,104 @@ footer p { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
 <nav>
   <a href="#" class="nav-logo">LAB<span>AR</span>.EDU</a>
   <div class="nav-links">
-    <a href="#hydrocarbons">Hydrocarbons</a>
+    <span class="nav-group-label">⬡ Organic</span>
     <a href="#calc-tool">Calculator</a>
     <a href="#iupac-section">IUPAC</a>
     <a href="#isomerism-section">Isomerism</a>
     <a href="#table-section">Library</a>
+    <span class="nav-sep"></span>
+    <span class="nav-group-label">⚗️ General</span>
     <a href="#ions-section">Ions</a>
     <a href="#moles-section">Moles</a>
-    <a href="#thermo-section">Thermochemistry</a>
+    <a href="#thermo-section">Thermo</a>
     <a href="#nuclear-section">Nuclear</a>
-    <a href="#solutions-section">Solutions</a>
-    <a href="#periodic-section">Periodic Table</a>
+    <a href="#bonding-section">Bonding</a>
+    <a href="#reactions-section">Reactions</a>
+    <a href="#acids-section">Acids</a>
+    <a href="#electro-section">Redox</a>
+    <a href="#gaslaws-section">Gas Laws</a>
+    <span class="nav-sep"></span>
+    <a href="#tools-section" style="color:var(--accent)">⚡ Tools</a>
+    <a href="#periodic-section">Periodic</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn" onclick="openSearch()" title="Search (Ctrl+K)">🔍</button>
+    <button class="nav-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
+    <button class="nav-btn nav-hamburger" onclick="toggleMobileNav()" id="hamburgerBtn" title="Menu" aria-label="Open menu">☰</button>
   </div>
 </nav>
 
+<!-- MOBILE NAV DRAWER -->
+<div id="mobileNavOverlay" onclick="toggleMobileNav()" style="display:none;position:fixed;inset:0;background:rgba(7,9,15,0.7);z-index:9998;backdrop-filter:blur(4px);"></div>
+<div id="mobileNavDrawer" style="display:none;position:fixed;top:0;right:0;width:min(300px,85vw);height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:9999;overflow-y:auto;padding:20px 0;flex-direction:column;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 22px 18px;border-bottom:1px solid var(--border);margin-bottom:10px;">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:0.95rem;font-weight:700;color:var(--text)">LAB<span style="color:var(--accent)">AR</span>.EDU</span>
+    <button onclick="toggleMobileNav()" style="background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;">✕</button>
+  </div>
+  <div style="padding:0 12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;padding:8px 10px 4px;">⬡ Organic Chemistry</div>
+    <a href="#calc-tool" onclick="toggleMobileNav()" class="mob-link">Hydrocarbon Calculator</a>
+    <a href="#hydrocarbons" onclick="toggleMobileNav()" class="mob-link">What are Hydrocarbons?</a>
+    <a href="#iupac-section" onclick="toggleMobileNav()" class="mob-link">IUPAC Nomenclature</a>
+    <a href="#isomerism-section" onclick="toggleMobileNav()" class="mob-link">Isomerism</a>
+    <a href="#table-section" onclick="toggleMobileNav()" class="mob-link">Compound Library</a>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--accent2);letter-spacing:0.15em;text-transform:uppercase;padding:14px 10px 4px;">⚗️ General Chemistry</div>
+    <a href="#ions-section" onclick="toggleMobileNav()" class="mob-link">Ions &amp; Charges</a>
+    <a href="#moles-section" onclick="toggleMobileNav()" class="mob-link">Mole Concept</a>
+    <a href="#thermo-section" onclick="toggleMobileNav()" class="mob-link">Thermochemistry</a>
+    <a href="#nuclear-section" onclick="toggleMobileNav()" class="mob-link">Nuclear Chemistry</a>
+    <a href="#solutions-section" onclick="toggleMobileNav()" class="mob-link">Solutions</a>
+    <a href="#bonding-section" onclick="toggleMobileNav()" class="mob-link">Chemical Bonding</a>
+    <a href="#reactions-section" onclick="toggleMobileNav()" class="mob-link">Reaction Types</a>
+    <a href="#acids-section" onclick="toggleMobileNav()" class="mob-link">Acids &amp; Bases</a>
+    <a href="#electro-section" onclick="toggleMobileNav()" class="mob-link">Electrochemistry</a>
+    <a href="#gaslaws-section" onclick="toggleMobileNav()" class="mob-link">Gas Laws</a>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;padding:14px 10px 4px;">🔧 Tools &amp; Reference</div>
+    <a href="#tools-section" onclick="toggleMobileNav()" class="mob-link">⚡ Interactive Tools</a>
+    <a href="#periodic-section" onclick="toggleMobileNav()" class="mob-link">Periodic Table</a>
+  </div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div id="searchOverlay" onclick="closeSearchIfOutside(event)">
+  <div class="search-modal">
+    <input class="global-search-input" id="globalSearchInput" placeholder="Search all chemistry topics..." oninput="runGlobalSearch()" autocomplete="off">
+    <div class="search-hint">Press ESC to close · Click a result to jump</div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
 <header>
-  <div class="hero-tag">v7.0 &nbsp;·&nbsp; Full Chemistry Encyclopedia</div>
+  <div class="hero-tag">v8.0 &nbsp;·&nbsp; Complete Chemistry Encyclopedia</div>
   <h1>Master <em>Chemistry</em></h1>
-  <p>A complete interactive guide covering organic chemistry, thermochemistry, nuclear physics, solutions, and the periodic table.</p>
+  <p>The ultimate interactive encyclopedia — organic, bonding, reactions, acids, electrochemistry, gas laws, nuclear, and 4 live calculation tools.</p>
   <div class="hero-stats">
-    <div class="hero-stat"><span class="num">11</span><span class="lbl">Topic Sections</span></div>
-    <div class="hero-stat"><span class="num">30+</span><span class="lbl">Library Compounds</span></div>
+    <div class="hero-stat"><span class="num">15</span><span class="lbl">Topic Sections</span></div>
+    <div class="hero-stat"><span class="num">4</span><span class="lbl">Live Tools</span></div>
     <div class="hero-stat"><span class="num">118</span><span class="lbl">Elements</span></div>
-    <div class="hero-stat"><span class="num">40+</span><span class="lbl">Ions & Charges</span></div>
+    <div class="hero-stat"><span class="num">40+</span><span class="lbl">Ions &amp; Charges</span></div>
   </div>
 </header>
 
 <div class="wrapper">
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);white-space:nowrap;">Study Progress</span>
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <span class="progress-label" id="progressLabel">0 / 15</span>
+</div>
+
+  <!-- ====== CHAPTER 1: ORGANIC CHEMISTRY ====== -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">⬡</span>
+    <div>
+      <div class="chapter-label">Chapter 01</div>
+      <div class="chapter-title">Organic Chemistry</div>
+      <div class="chapter-desc">Hydrocarbons, IUPAC naming, isomerism, and the compound library — everything about carbon-based molecules.</div>
+    </div>
+    <div class="chapter-count">5 Sections</div>
+  </div>
 
   <!-- HYDROCARBON CALCULATOR -->
   <section id="calc-tool">
@@ -589,6 +916,7 @@ footer p { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
 
   <!-- HYDROCARBONS -->
   <section id="hydrocarbons" class="card">
+  <div class="progress-check"><input type="checkbox" id="chk0" onchange="updateProgress()"><label for="chk0">Studied ✓</label></div>
     <span class="badge">// Deep Learning</span>
     <h2 class="section-title">What are <span>Hydrocarbons</span>?</h2>
     <p class="section-lead">Hydrocarbons are organic compounds consisting entirely of Carbon (C) and Hydrogen (H). They form the structural backbone of fossil fuels, polymers, and countless synthetic materials.</p>
@@ -610,6 +938,7 @@ footer p { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
 
   <!-- IUPAC -->
   <section id="iupac-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chk1" onchange="updateProgress()"><label for="chk1">Studied ✓</label></div>
     <span class="badge">// Naming Science</span>
     <h2 class="section-title">IUPAC <span>Nomenclature</span></h2>
     <p class="section-lead">The International Union of Pure and Applied Chemistry rules ensure every molecule has one unique, unambiguous systematic name. Follow these five steps in order.</p>
@@ -668,34 +997,40 @@ footer p { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
 
   <!-- ISOMERISM -->
   <section id="isomerism-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chk2" onchange="updateProgress()"><label for="chk2">Studied ✓</label></div>
     <span class="badge">// Structure Logic</span>
     <h2 class="section-title">Isomerism: Same Formula, <span>Different Structure</span></h2>
-    <p class="section-lead">Isomers share the same molecular formula but differ in structural arrangement or spatial orientation — often resulting in dramatically different physical and chemical properties.</p>
+    <p class="section-lead">Isomers share the same molecular formula but differ in structural arrangement or spatial orientation — often resulting in dramatically different physical and chemical properties. Two molecules can have the same atoms and still be completely different substances.</p>
     <div class="isomer-grid">
       <div class="isomer-card orange">
         <span class="isomer-tag">Type I</span>
         <h3>Structural (Constitutional) Isomers</h3>
         <p>Atoms bonded in a different order or connectivity. Three sub-types:</p>
         <ul>
-          <li><b>Chain isomers:</b> Different skeleton branching (e.g., n-Butane vs Isobutane).</li>
-          <li><b>Position isomers:</b> Same functional group, different location (e.g., 1-Butene vs 2-Butene).</li>
-          <li><b>Functional group isomers:</b> Different functional groups (e.g., Ethanol vs Dimethyl Ether — both C₂H₆O).</li>
+          <li><b>Chain isomers:</b> Different skeleton branching. e.g. n-Butane (straight chain) vs Isobutane (branched) — both C₄H₁₀, but n-Butane boils at −1°C while Isobutane boils at −12°C.</li>
+          <li><b>Position isomers:</b> Same functional group, different location on the chain. e.g. 1-Butene (C=C at position 1) vs 2-Butene (C=C at position 2), both C₄H₈.</li>
+          <li><b>Functional group isomers:</b> Completely different functional groups. e.g. Ethanol (C₂H₅OH, an alcohol) vs Dimethyl Ether (CH₃OCH₃, an ether) — same formula C₂H₆O, totally different reactivity.</li>
         </ul>
       </div>
       <div class="isomer-card blue">
         <span class="isomer-tag">Type II</span>
         <h3>Stereoisomers (3D Arrangement)</h3>
-        <p>Same bonding connectivity, but different spatial arrangement:</p>
+        <p>Same bonding connectivity, but different spatial arrangement of atoms in 3D space. These can only be detected when you consider the geometry of the molecule:</p>
         <ul>
-          <li><b>Geometric (Cis/Trans):</b> Restricted rotation around a C=C double bond produces two distinct 3D arrangements.</li>
-          <li><b>Optical (Enantiomers):</b> Non-superimposable mirror images arising from a chiral carbon centre. Critical in pharmaceutical chemistry.</li>
+          <li><b>Geometric (Cis/Trans):</b> Arises from restricted rotation around a C=C double bond. <b>Cis</b> = same groups on the same side. <b>Trans</b> = same groups on opposite sides. e.g. Cis-2-Butene and Trans-2-Butene have different boiling points despite being C₄H₈.</li>
+          <li><b>Optical (Enantiomers):</b> Non-superimposable mirror images — like your left and right hands. Arise from a <b>chiral carbon</b> (a carbon bonded to 4 different groups). Critical in pharmaceuticals — one enantiomer may be medicinal while the other is harmful.</li>
         </ul>
       </div>
+    </div>
+    <div class="info-box" style="margin-top:16px;border-left-color:var(--isomer);">
+      <h3>💡 Why Does Isomerism Matter?</h3>
+      <p>Isomerism is one of the main reasons organic chemistry has millions of known compounds. A single molecular formula like C₅H₁₂ corresponds to 3 different structural isomers (pentane, isopentane, neopentane), each with unique boiling points, solubility, and reactivity. In pharmaceuticals, getting the wrong isomer can mean the difference between a medicine and a poison — which is why understanding this concept is critical in real-world chemistry.</p>
     </div>
   </section>
 
   <!-- LIBRARY TABLE -->
   <section id="table-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chk3" onchange="updateProgress()"><label for="chk3">Studied ✓</label></div>
     <span class="badge">// Reference Grimoire</span>
     <h2 class="section-title">Hydrocarbon <span>Library</span> (C1 – C10)</h2>
     <p class="section-lead">Complete homologous series of the first ten members with systematic IUPAC names and molecular formulas.</p>
@@ -727,8 +1062,20 @@ footer p { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
     </div>
   </section>
 
+  <!-- ====== CHAPTER 2: GENERAL CHEMISTRY ====== -->
+  <div class="chapter-divider" style="background:linear-gradient(135deg,rgba(56,189,248,0.05),rgba(167,139,250,0.05));border-color:rgba(56,189,248,0.15);">
+    <span class="chapter-icon">⚗️</span>
+    <div>
+      <div class="chapter-label" style="color:var(--accent2)">Chapter 02</div>
+      <div class="chapter-title">General Chemistry</div>
+      <div class="chapter-desc">Ions, moles, thermochemistry, nuclear reactions, solutions, bonding, reaction types, acids, electrochemistry, and gas laws.</div>
+    </div>
+    <div class="chapter-count" style="border-color:rgba(56,189,248,0.2);color:var(--accent2);">10 Sections</div>
+  </div>
+
   <!-- ====== IONS SECTION ====== -->
   <section id="ions-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chk4" onchange="updateProgress()"><label for="chk4">Studied ✓</label></div>
     <span class="badge pink">// Ionic Reference</span>
     <h2 class="section-title">Ions &amp; <span class="pink">Charges</span></h2>
     <p class="section-lead">Common cations (positive ions) and anions (negative ions) organized by charge. These are the building blocks of ionic compounds and chemical formulas.</p>
@@ -844,9 +1191,14 @@ footer p { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
 
   <!-- ====== MOLES SECTION ====== -->
   <section id="moles-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chk5" onchange="updateProgress()"><label for="chk5">Studied ✓</label></div>
     <span class="badge">// Counting Matter</span>
     <h2 class="section-title">The <span>Mole</span> Concept</h2>
-    <p class="section-lead">The mole bridges the atomic world and the measurable world. These triangle formulas show the key relationships — cover the unknown quantity to reveal the formula to use.</p>
+    <p class="section-lead">The mole is chemistry's counting unit — just like a "dozen" means 12, a "mole" means <b>6.02 × 10²³</b> particles (Avogadro's number). It bridges the atomic world and the measurable world: atoms are too small to count one by one, so we group them into moles we can weigh on a scale. These triangle formulas show the key relationships — cover the unknown quantity to reveal the formula to use.</p>
+    <div class="info-box blue" style="margin-bottom:28px;">
+      <h3>💡 Real-World Analogy</h3>
+      <p>If you had 1 mole of rice grains, they would cover the entire surface of Earth to a depth of about 75 metres. That's how large Avogadro's number (6.02 × 10²³) actually is — yet a single mole of carbon is just 12 grams. This is why the mole concept is so powerful: it lets us count trillions of invisible atoms using nothing but a lab scale.</p>
+    </div>
 
     <div class="tri-grid">
       <!-- Triangle 1: Particles & Moles -->
@@ -914,9 +1266,15 @@ footer p { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
 
   <!-- ====== THERMOCHEMISTRY ====== -->
   <section id="thermo-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chk6" onchange="updateProgress()"><label for="chk6">Studied ✓</label></div>
     <span class="badge orange">// Energy & Heat</span>
     <h2 class="section-title">Thermo<span class="orange">chemistry</span></h2>
-    <p class="section-lead">Thermochemistry studies the heat changes that accompany chemical reactions and physical processes. Understanding energy flow is essential for predicting reaction spontaneity.</p>
+    <p class="section-lead">Thermochemistry studies the heat changes that accompany chemical reactions and physical processes. Every chemical reaction either releases or absorbs energy — understanding this is essential for predicting whether a reaction is spontaneous, designing fuels, and interpreting energy diagrams.</p>
+    <div class="info-grid" style="margin-bottom:32px;">
+      <div class="info-box orange"><h3>Exothermic Reactions</h3><p>Release heat to the surroundings. The system loses energy, so ΔH is <b>negative</b>. Products are at lower energy than reactants. Examples: combustion of methane, neutralization of acid and base, rusting of iron.</p></div>
+      <div class="info-box blue"><h3>Endothermic Reactions</h3><p>Absorb heat from the surroundings. The system gains energy, so ΔH is <b>positive</b>. Products are at higher energy than reactants. Examples: photosynthesis, dissolving ammonium nitrate in water, thermal decomposition.</p></div>
+      <div class="info-box"><h3>Enthalpy (ΔH)</h3><p>Enthalpy is the total heat content of a system at constant pressure. We can't measure absolute enthalpy — only the <b>change</b> (ΔH = H<sub>products</sub> − H<sub>reactants</sub>). Standard enthalpy values are measured at 25°C and 1 atm.</p></div>
+    </div>
 
     <!-- SYSTEMS -->
     <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:8px;">Types of <span style="color:var(--thermo)">Systems</span></h3>
@@ -992,9 +1350,10 @@ footer p { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
 
   <!-- ====== NUCLEAR CHEMISTRY ====== -->
   <section id="nuclear-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chk7" onchange="updateProgress()"><label for="chk7">Studied ✓</label></div>
     <span class="badge purple">// Nuclear Physics</span>
     <h2 class="section-title">Nuclear <span class="purple">Chemistry</span></h2>
-    <p class="section-lead">Nuclear chemistry deals with the structure of atomic nuclei and the transformations they undergo. It underpins nuclear energy, medical imaging, and radiocarbon dating.</p>
+    <p class="section-lead">Nuclear chemistry deals with the structure of atomic nuclei and the transformations they undergo. Unlike ordinary chemical reactions which involve electrons only, nuclear reactions change the nucleus itself — transforming one element into another, releasing enormous energy described by Einstein's E = mc². It underpins nuclear energy, medical imaging, cancer treatment, and radiocarbon dating.</p>
 
     <!-- ATOMIC NOTATION -->
     <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">Atomic <span style="color:var(--nuclear)">Notation</span></h3>
@@ -1149,6 +1508,7 @@ footer p { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
 
   <!-- ====== SOLUTIONS SECTION ====== -->
   <section id="solutions-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chk8" onchange="updateProgress()"><label for="chk8">Studied ✓</label></div>
     <span class="badge teal">// Solution Chemistry</span>
     <h2 class="section-title">Solutions &amp; <span class="teal">Concentration</span></h2>
     <p class="section-lead">Solutions are homogeneous mixtures where a solute dissolves in a solvent. Concentration measures how much solute is present relative to the total solution or solvent.</p>
@@ -1240,8 +1600,185 @@ footer p { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
     </div>
   </section>
 
+  <!-- ========= NEW v8 SECTIONS ========= -->
+
+  <!-- CHEMICAL BONDING -->
+  <section id="bonding-section" class="card">
+    <div class="progress-check"><input type="checkbox" id="chk9" onchange="updateProgress()"><label for="chk9">Studied ✓</label></div>
+    <span class="badge violet">// Bond Theory</span>
+    <h2 class="section-title">Chemical <span class="violet">Bonding</span></h2>
+    <p class="section-lead">Chemical bonds are the forces holding atoms together. The type of bond depends on electronegativity differences between the atoms involved.</p>
+    <div class="bond-compare">
+      <div class="bond-card ionic"><span class="bond-icon">⊕⊖</span><div class="bond-name">Ionic Bond</div><p>Transfer of electrons from metal to non-metal. ΔEN &gt; 1.7.</p><ul><li>Forms crystal lattice structures</li><li>High melting/boiling points</li><li>Conducts electricity when dissolved</li><li>e.g. NaCl, MgO, CaCl₂</li></ul></div>
+      <div class="bond-card covalent"><span class="bond-icon">⬡⬡</span><div class="bond-name">Covalent Bond</div><p>Sharing of electrons between non-metals. ΔEN &lt; 1.7.</p><ul><li>Single, double, or triple bonds</li><li>Lower melting/boiling points</li><li>Poor conductors generally</li><li>e.g. H₂O, CO₂, CH₄, N₂</li></ul></div>
+      <div class="bond-card metallic"><span class="bond-icon">⚙️</span><div class="bond-name">Metallic Bond</div><p>Sea of delocalized electrons around positive metal ion lattice.</p><ul><li>Excellent electrical conductors</li><li>Malleable and ductile</li><li>High melting points generally</li><li>e.g. Cu, Fe, Al, Au</li></ul></div>
+    </div>
+    <div class="info-grid" style="margin-top:18px;">
+      <div class="info-box violet"><h3>Electronegativity Rules</h3><ul><li>ΔEN = 0 → Non-polar covalent (H₂, O₂)</li><li>ΔEN 0.1–1.7 → Polar covalent (H₂O, HCl)</li><li>ΔEN &gt; 1.7 → Ionic bond (NaCl)</li></ul></div>
+      <div class="info-box blue"><h3>Bond Polarity</h3><p>Electrons spend more time near the more electronegative atom, creating δ+ and δ− partial charges. This gives molecules like H₂O their unique properties.</p></div>
+      <div class="info-box"><h3>Lewis Dot Structures</h3><p>Dots = valence electrons. Pairs between atoms = bonds. Octet rule: atoms seek 8 valence electrons (H seeks 2). Lone pairs don't bond directly.</p></div>
+    </div>
+  </section>
+
+  <!-- REACTION TYPES -->
+  <section id="reactions-section" class="card">
+    <div class="progress-check"><input type="checkbox" id="chk10" onchange="updateProgress()"><label for="chk10">Studied ✓</label></div>
+    <span class="badge amber">// Chemical Reactions</span>
+    <h2 class="section-title">Types of <span class="amber">Reactions</span></h2>
+    <p class="section-lead">Chemical reactions are classified by how reactants transform into products. Recognizing the type helps predict products and balance equations.</p>
+    <div class="rxn-grid">
+      <div class="rxn-card"><div class="rxn-type">Type 01</div><h3>Synthesis (Combination)</h3><p>Two or more substances combine into one product.</p><div class="rxn-eq">A + B → AB<br>2H₂ + O₂ → 2H₂O</div></div>
+      <div class="rxn-card"><div class="rxn-type">Type 02</div><h3>Decomposition</h3><p>One compound breaks into two or more simpler substances.</p><div class="rxn-eq">AB → A + B<br>2H₂O → 2H₂ + O₂</div></div>
+      <div class="rxn-card"><div class="rxn-type">Type 03</div><h3>Single Displacement</h3><p>One element replaces another in a compound. Activity series determines feasibility.</p><div class="rxn-eq">A + BC → AC + B<br>Zn + 2HCl → ZnCl₂ + H₂↑</div></div>
+      <div class="rxn-card"><div class="rxn-type">Type 04</div><h3>Double Displacement</h3><p>Two compounds exchange partners — often yields precipitate or water.</p><div class="rxn-eq">AB + CD → AD + CB<br>NaCl + AgNO₃ → AgCl↓ + NaNO₃</div></div>
+      <div class="rxn-card"><div class="rxn-type">Type 05</div><h3>Combustion</h3><p>Substance reacts with O₂ releasing energy. Hydrocarbons → CO₂ + H₂O.</p><div class="rxn-eq">CH₄ + 2O₂ → CO₂ + 2H₂O + energy</div></div>
+      <div class="rxn-card"><div class="rxn-type">Type 06</div><h3>Neutralization</h3><p>Acid + Base → Salt + Water. H⁺ and OH⁻ combine to form H₂O.</p><div class="rxn-eq">HCl + NaOH → NaCl + H₂O</div></div>
+    </div>
+  </section>
+
+  <!-- ACIDS & BASES -->
+  <section id="acids-section" class="card">
+    <div class="progress-check"><input type="checkbox" id="chk11" onchange="updateProgress()"><label for="chk11">Studied ✓</label></div>
+    <span class="badge red">// pH Chemistry</span>
+    <h2 class="section-title">Acids &amp; <span class="red">Bases</span></h2>
+    <p class="section-lead">Acids donate protons (H⁺); bases accept protons or donate OH⁻. The pH scale measures acidity on a 0–14 logarithmic scale.</p>
+    <div class="ph-scale"><div class="ph-bar" id="phBar"></div><div class="ph-labels" id="phLabels"></div></div>
+    <div style="display:flex;gap:14px;margin-top:7px;font-size:0.74rem;color:var(--muted);font-family:'JetBrains Mono',monospace;flex-wrap:wrap;">
+      <span style="color:var(--acids)">◀ Acidic (pH &lt; 7)</span>
+      <span style="color:#4ade80">◆ Neutral (pH = 7)</span>
+      <span style="color:var(--alkane)">Basic (pH &gt; 7) ▶</span>
+    </div>
+    <div class="acid-base-grid">
+      <div class="ab-card acid"><div class="ab-title">Acids</div><p>Donate H⁺. pH &lt; 7. Taste sour.</p><ul><li><b>Strong:</b> HCl, H₂SO₄, HNO₃, HBr, HI</li><li><b>Weak:</b> CH₃COOH, H₂CO₃, H₃PO₄</li><li>pH = −log[H⁺]</li><li>Turn blue litmus <b>red</b></li></ul></div>
+      <div class="ab-card base"><div class="ab-title">Bases</div><p>Accept H⁺ or donate OH⁻. pH &gt; 7. Feel slippery.</p><ul><li><b>Strong:</b> NaOH, KOH, Ca(OH)₂, Ba(OH)₂</li><li><b>Weak:</b> NH₃, Mg(OH)₂</li><li>pOH = −log[OH⁻] &nbsp; pH + pOH = 14</li><li>Turn red litmus <b>blue</b></li></ul></div>
+    </div>
+    <div class="info-grid" style="margin-top:16px;">
+      <div class="info-box red"><h3>Neutralization</h3><p>H⁺ + OH⁻ → H₂O. The resulting salt may be acidic, basic, or neutral depending on relative strengths of the original acid and base.</p></div>
+      <div class="info-box"><h3>Indicators</h3><ul><li><b>Litmus:</b> red in acid, blue in base</li><li><b>Phenolphthalein:</b> colourless → pink at pH 8.3</li><li><b>Methyl orange:</b> red → yellow at pH 4.4</li><li><b>Universal:</b> full colour pH spectrum</li></ul></div>
+      <div class="info-box blue"><h3>Buffers</h3><p>Resist pH change when small acid/base amounts are added. Weak acid + conjugate base. Blood uses HCO₃⁻/H₂CO₃ to maintain pH ≈ 7.4.</p></div>
+    </div>
+  </section>
+
+  <!-- ELECTROCHEMISTRY -->
+  <section id="electro-section" class="card">
+    <div class="progress-check"><input type="checkbox" id="chk12" onchange="updateProgress()"><label for="chk12">Studied ✓</label></div>
+    <span class="badge cyan">// Redox & Cells</span>
+    <h2 class="section-title">Electro<span class="cyan">chemistry</span></h2>
+    <p class="section-lead">Electrochemistry studies the relationship between chemical reactions and electrical energy, including oxidation-reduction and electrochemical cells.</p>
+    <div class="oilrig">
+      <div class="oilrig-item"><div class="oilrig-letters">OIL</div><div class="oilrig-desc"><b style="color:var(--text)">O</b>xidation <b style="color:var(--text)">I</b>s <b style="color:var(--text)">L</b>oss of electrons</div></div>
+      <div style="font-size:1.8rem;color:var(--border);">|</div>
+      <div class="oilrig-item"><div class="oilrig-letters">RIG</div><div class="oilrig-desc"><b style="color:var(--text)">R</b>eduction <b style="color:var(--text)">I</b>s <b style="color:var(--text)">G</b>ain of electrons</div></div>
+    </div>
+    <div style="background:var(--surface2);border:1px solid rgba(34,211,238,0.2);border-radius:16px;padding:20px;margin-top:16px;">
+      <h4 style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--electro);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:11px;">Half Reactions</h4>
+      <div class="redox-split">
+        <div class="redox-half ox"><h4>Oxidation (Anode −)</h4><p>Loses electrons. Oxidation number <b>increases</b>.</p><code>Zn → Zn²⁺ + 2e⁻</code></div>
+        <div class="redox-half red"><h4>Reduction (Cathode +)</h4><p>Gains electrons. Oxidation number <b>decreases</b>.</p><code>Cu²⁺ + 2e⁻ → Cu</code></div>
+      </div>
+    </div>
+    <div class="info-grid" style="margin-top:16px;">
+      <div class="info-box cyan"><h3>Galvanic Cell</h3><p>Chemical energy → electricity spontaneously (ΔG &lt; 0). Oxidation at anode, reduction at cathode. Salt bridge maintains neutrality. e.g. Zn-Cu cell.</p></div>
+      <div class="info-box blue"><h3>Electrolytic Cell</h3><p>Uses electricity to drive non-spontaneous reactions (ΔG &gt; 0). Used in electroplating and refining metals. External power source drives current.</p></div>
+      <div class="info-box"><h3>Oxidation Number Rules</h3><ul><li>Pure elements = 0</li><li>Monoatomic ions = their charge</li><li>O = −2 (peroxides = −1)</li><li>H = +1 (hydrides = −1)</li><li>Neutral compound sum = 0</li></ul></div>
+    </div>
+    <div class="info-box cyan" style="margin-top:16px;">
+      <h3>⚡ Real-World Applications</h3>
+      <p>Electrochemistry is everywhere. <b>Galvanic cells</b> power every battery in your phone, car, and laptop. <b>Electrolytic cells</b> are used to purify copper (99.99% purity for electrical wiring), electroplate jewellery with gold or silver, and produce chlorine and aluminium industrially. Corrosion — the rusting of iron — is also an electrochemical process where iron is oxidised by oxygen in the presence of water.</p>
+    </div>
+  </section>
+
+  <!-- GAS LAWS -->
+  <section id="gaslaws-section" class="card">
+    <div class="progress-check"><input type="checkbox" id="chk13" onchange="updateProgress()"><label for="chk13">Studied ✓</label></div>
+    <span class="badge indigo">// Gas Behavior</span>
+    <h2 class="section-title">The <span class="indigo">Gas Laws</span></h2>
+    <p class="section-lead">Gas laws describe mathematical relationships between pressure (P), volume (V), temperature (T) and moles (n) for ideal gases.</p>
+    <div class="gas-laws-grid">
+      <div class="gas-law-card"><div class="gas-law-name">Boyle's Law</div><h3>P &amp; V</h3><div class="gas-formula">P₁V₁ = P₂V₂</div><p>At constant T: P and V are <b>inversely proportional</b>.</p><ul><li>T and n constant</li><li>P↑ → V↓</li></ul></div>
+      <div class="gas-law-card"><div class="gas-law-name">Charles's Law</div><h3>V &amp; T</h3><div class="gas-formula">V₁/T₁ = V₂/T₂</div><p>At constant P: V and T are <b>directly proportional</b>.</p><ul><li>T in Kelvin always</li></ul></div>
+      <div class="gas-law-card"><div class="gas-law-name">Gay-Lussac's Law</div><h3>P &amp; T</h3><div class="gas-formula">P₁/T₁ = P₂/T₂</div><p>At constant V: P and T are <b>directly proportional</b>.</p><ul><li>T in Kelvin always</li></ul></div>
+      <div class="gas-law-card"><div class="gas-law-name">Combined Gas Law</div><h3>P, V &amp; T</h3><div class="gas-formula">P₁V₁/T₁ = P₂V₂/T₂</div><p>Merges Boyle's, Charles's and Gay-Lussac's. n constant.</p></div>
+      <div class="gas-law-card"><div class="gas-law-name">Ideal Gas Law</div><h3>PV = nRT</h3><div class="gas-formula">PV = nRT</div><p><b>R = 8.314 J/(mol·K)</b>. n = moles. Assumes ideal behaviour.</p></div>
+      <div class="gas-law-card"><div class="gas-law-name">Avogadro's Law</div><h3>V &amp; n</h3><div class="gas-formula">V₁/n₁ = V₂/n₂</div><p>Equal V at same T, P → equal moles. 1 mol = 22.4 L at STP.</p></div>
+    </div>
+    <div class="gas-calc-box">
+      <div class="gas-calc-title">⚡ Interactive Gas Law Calculator</div>
+      <div class="gas-calc-tabs">
+        <button class="gas-calc-tab active" onclick="setGasLaw('boyle',this)">Boyle's</button>
+        <button class="gas-calc-tab" onclick="setGasLaw('charles',this)">Charles's</button>
+        <button class="gas-calc-tab" onclick="setGasLaw('gaylussac',this)">Gay-Lussac's</button>
+        <button class="gas-calc-tab" onclick="setGasLaw('combined',this)">Combined</button>
+        <button class="gas-calc-tab" onclick="setGasLaw('ideal',this)">Ideal (PV=nRT)</button>
+      </div>
+      <div class="gas-fields" id="gasFields"></div>
+      <button class="tool-btn" onclick="calcGasLaw()">Calculate Unknown</button>
+      <div class="tool-result" id="gasResult" style="margin-top:10px;"><span class="tool-empty">Fill known values and click Calculate.</span></div>
+    </div>
+  </section>
+
+  <!-- ====== CHAPTER 3: TOOLS & REFERENCE ====== -->
+  <div class="chapter-divider" style="background:linear-gradient(135deg,rgba(245,158,11,0.05),rgba(79,255,176,0.05));border-color:rgba(245,158,11,0.15);">
+    <span class="chapter-icon">🔧</span>
+    <div>
+      <div class="chapter-label" style="color:var(--reactions)">Chapter 03</div>
+      <div class="chapter-title">Tools &amp; Reference</div>
+      <div class="chapter-desc">Four live interactive calculators plus the full 118-element periodic table — all working directly in your browser.</div>
+    </div>
+    <div class="chapter-count" style="border-color:rgba(245,158,11,0.2);color:var(--reactions);">2 Sections</div>
+  </div>
+
+  <!-- INTERACTIVE TOOLS -->
+  <section id="tools-section" class="card">
+    <div class="progress-check"><input type="checkbox" id="chk14" onchange="updateProgress()"><label for="chk14">Studied ✓</label></div>
+    <span class="badge">// Live Chemistry Tools</span>
+    <h2 class="section-title">Interactive <span>Tools</span></h2>
+    <p class="section-lead">Four live calculators built directly into the encyclopedia — no external apps needed.</p>
+    <div class="tools-grid">
+      <div class="tool-panel">
+        <div class="tool-title-tag">Tool 01</div>
+        <h3>⚗️ Molar Mass Calculator</h3>
+        <input class="tool-input" id="molarInput" placeholder="e.g. H2SO4, Ca(OH)2, NaCl" oninput="calcMolarMass()" autocomplete="off">
+        <div class="tool-result" id="molarResult"><span class="tool-empty">Type a formula to calculate its molar mass.</span></div>
+      </div>
+      <div class="tool-panel">
+        <div class="tool-title-tag">Tool 02</div>
+        <h3>🧲 Ion Compound Builder</h3>
+        <p style="font-size:0.8rem;color:var(--muted);margin-bottom:9px;">Select a cation and anion — criss-cross method builds the formula automatically.</p>
+        <div class="tool-row"><label>Cation (+):</label><select class="tool-select" id="cationSelect" onchange="buildCompound()"><option value="Li,1">Li⁺ — Lithium</option><option value="K,1">K⁺ — Potassium</option><option value="Na,1">Na⁺ — Sodium</option><option value="Ag,1">Ag⁺ — Silver</option><option value="H,1">H⁺ — Hydrogen</option><option value="NH4,1">(NH₄)⁺ — Ammonium</option><option value="Mg,2">Mg²⁺ — Magnesium</option><option value="Ca,2">Ca²⁺ — Calcium</option><option value="Ba,2">Ba²⁺ — Barium</option><option value="Zn,2">Zn²⁺ — Zinc</option><option value="Cu,2">Cu²⁺ — Copper II</option><option value="Al,3">Al³⁺ — Aluminium</option><option value="Fe,3">Fe³⁺ — Iron III</option></select></div>
+        <div class="tool-row"><label>Anion (−):</label><select class="tool-select" id="anionSelect" onchange="buildCompound()"><option value="F,1">F⁻ — Fluoride</option><option value="Cl,1">Cl⁻ — Chloride</option><option value="Br,1">Br⁻ — Bromide</option><option value="I,1">I⁻ — Iodide</option><option value="NO3,1">(NO₃)⁻ — Nitrate</option><option value="OH,1">(OH)⁻ — Hydroxide</option><option value="HCO3,1">(HCO₃)⁻ — Bicarbonate</option><option value="CH3COO,1">(CH₃COO)⁻ — Acetate</option><option value="O,2">O²⁻ — Oxide</option><option value="S,2">S²⁻ — Sulphide</option><option value="SO4,2">(SO₄)²⁻ — Sulphate</option><option value="CO3,2">(CO₃)²⁻ — Carbonate</option><option value="N,3">N³⁻ — Nitride</option><option value="PO4,3">(PO₄)³⁻ — Phosphate</option></select></div>
+        <div class="tool-result" id="compoundResult" style="margin-top:9px;"><span class="tool-empty">Select ions to build a compound.</span></div>
+      </div>
+      <div class="tool-panel">
+        <div class="tool-title-tag">Tool 03</div>
+        <h3>☢️ Nuclear Decay Simulator</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+          <div><label style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Initial Mass (g)</label><input class="tool-input" id="decayMass" type="number" value="100" style="padding:9px 12px;"></div>
+          <div><label style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Half-Life Period</label><input class="tool-input" id="decayHLP" type="number" value="5" style="padding:9px 12px;"></div>
+          <div><label style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Total Time</label><input class="tool-input" id="decayTime" type="number" value="20" style="padding:9px 12px;"></div>
+          <div style="display:flex;align-items:flex-end;"><button class="tool-btn" onclick="runDecay()" style="margin-top:0;">Simulate</button></div>
+        </div>
+        <div id="decayResult" style="margin-top:9px;"><span class="tool-empty">Click Simulate to run the decay table.</span></div>
+      </div>
+      <div class="tool-panel">
+        <div class="tool-title-tag">Tool 04</div>
+        <h3>🔄 Unit Converter</h3>
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div><label style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Category</label><select class="tool-select" id="unitCategory" onchange="initConverter()"><option value="energy">Energy (Cal ↔ J ↔ eV)</option><option value="mass">Mass (AMU ↔ g ↔ kg)</option><option value="temp">Temperature (°C ↔ K ↔ °F)</option><option value="pressure">Pressure (atm ↔ Pa ↔ mmHg)</option><option value="volume">Volume (L ↔ mL ↔ m³)</option></select></div>
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:9px;align-items:end;">
+            <div><label style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">From</label><select class="tool-select" id="unitFrom" onchange="doConvert()"></select><input class="tool-input" id="unitFromVal" type="number" placeholder="Value" oninput="doConvert()" style="padding:9px 12px;margin-top:6px;"></div>
+            <div style="text-align:center;font-size:1.3rem;color:var(--accent);padding-bottom:2px;">→</div>
+            <div><label style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">To</label><select class="tool-select" id="unitTo" onchange="doConvert()"></select><input class="tool-input" id="unitToVal" type="number" placeholder="Result" readonly style="padding:9px 12px;margin-top:6px;color:var(--accent);"></div>
+          </div>
+          <div class="tool-result" id="convFormula"><span class="tool-empty">Select category and units above.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ====== PERIODIC TABLE ====== -->
   <section id="periodic-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkPT" onchange="updateProgress()"><label for="chkPT">Studied ✓</label></div>
     <span class="badge">// All 118 Elements</span>
     <h2 class="section-title">Periodic <span>Table</span></h2>
     <p class="section-lead">The complete periodic table of elements. Hover over any element to highlight it. Elements are color-coded by type.</p>
@@ -1277,8 +1814,8 @@ footer p { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
   <p>Designed for Excellence by Abdelrahman Mohamed © 2026</p>
   <div class="footer-divider"></div>
   <div class="footer-meta">
-    <span><span class="dot"></span> Version 7.0</span>
-    <span><span class="dot"></span> Organic + Nuclear + Solutions</span>
+    <span><span class="dot"></span> Version 8.0</span>
+    <span><span class="dot"></span> 15 Sections · 4 Live Tools</span>
     <span><span class="dot"></span> 118 Elements</span>
     <span><span class="dot"></span> Educational Level: Pro</span>
   </div>
@@ -1529,10 +2066,228 @@ function buildPeriodicTable(){
   ag.innerHTML = ACTINIDES.map(([z,s,n,w])=>makeCell(z,s,n,w,'actinide')).join('');
 }
 
+/* ===== v8 NEW JS ===== */
+
+/* THEME TOGGLE */
+function toggleTheme(){
+  const html=document.documentElement;
+  const isLight=html.getAttribute('data-theme')==='light';
+  html.setAttribute('data-theme',isLight?'dark':'light');
+  document.getElementById('themeBtn').textContent=isLight?'🌙':'☀️';
+}
+
+/* MOBILE NAV */
+function toggleMobileNav(){
+  const overlay=document.getElementById('mobileNavOverlay');
+  const drawer=document.getElementById('mobileNavDrawer');
+  const open=drawer.style.display==='flex';
+  overlay.style.display=open?'none':'block';
+  drawer.style.display=open?'none':'flex';
+  document.body.style.overflow=open?'':'hidden';
+}
+
+/* PROGRESS TRACKER */
+function updateProgress(){
+  const boxes=document.querySelectorAll('.progress-check input[type=checkbox]');
+  const done=[...boxes].filter(c=>c.checked).length;
+  const pct=Math.round(done/boxes.length*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressLabel').textContent=done+' / '+boxes.length;
+}
+
+/* GLOBAL SEARCH */
+const SEARCH_INDEX=[
+  {title:'Hydrocarbons',section:'#hydrocarbons',tag:'Organic',kw:'alkane alkene alkyne carbon saturated unsaturated'},
+  {title:'Hydrocarbon Calculator',section:'#calc-tool',tag:'Tool',kw:'calculator formula carbon n methane ethane'},
+  {title:'IUPAC Nomenclature',section:'#iupac-section',tag:'Naming',kw:'iupac naming longest chain substituent locant'},
+  {title:'Isomerism',section:'#isomerism-section',tag:'Structure',kw:'isomer structural stereo cis trans optical chiral'},
+  {title:'Hydrocarbon Library',section:'#table-section',tag:'Reference',kw:'methane ethane propane butane pentane hexane table'},
+  {title:'Ions & Charges',section:'#ions-section',tag:'Ionic',kw:'ions cations anions charges lithium sodium potassium chloride sulphate'},
+  {title:'Mole Concept',section:'#moles-section',tag:'Moles',kw:'mole avogadro particles mass molar volume calorie joule'},
+  {title:'Thermochemistry',section:'#thermo-section',tag:'Energy',kw:'heat exothermic endothermic enthalpy delta H system q'},
+  {title:'Nuclear Chemistry',section:'#nuclear-section',tag:'Nuclear',kw:'nuclear atomic proton neutron binding energy alpha beta gamma half life E=mc2'},
+  {title:'Solutions',section:'#solutions-section',tag:'Solutions',kw:'molarity molality concentration percentage yield freezing point'},
+  {title:'Chemical Bonding',section:'#bonding-section',tag:'Bonding',kw:'ionic covalent metallic bond electronegativity lewis polar'},
+  {title:'Reaction Types',section:'#reactions-section',tag:'Reactions',kw:'synthesis decomposition displacement combustion neutralization'},
+  {title:'Acids & Bases',section:'#acids-section',tag:'pH',kw:'acid base pH pOH strong weak neutralization indicator litmus buffer'},
+  {title:'Electrochemistry',section:'#electro-section',tag:'Redox',kw:'oxidation reduction OIL RIG galvanic electrolytic anode cathode'},
+  {title:'Gas Laws',section:'#gaslaws-section',tag:'Gases',kw:'boyle charles gay-lussac PV nRT pressure volume temperature moles kelvin'},
+  {title:'Interactive Tools',section:'#tools-section',tag:'Tools',kw:'molar mass ion compound builder decay simulator unit converter'},
+  {title:'Periodic Table',section:'#periodic-section',tag:'Elements',kw:'periodic table elements symbol atomic mass metals nonmetals noble gas'},
+];
+function openSearch(){
+  document.getElementById('searchOverlay').classList.add('open');
+  document.getElementById('globalSearchInput').focus();
+  document.getElementById('searchResults').innerHTML='';
+}
+function closeSearchIfOutside(e){if(e.target.id==='searchOverlay')closeSearch();}
+function closeSearch(){document.getElementById('searchOverlay').classList.remove('open');document.getElementById('globalSearchInput').value='';}
+function runGlobalSearch(){
+  const q=document.getElementById('globalSearchInput').value.toLowerCase().trim();
+  const res=document.getElementById('searchResults');
+  if(!q){res.innerHTML='';return;}
+  const hits=SEARCH_INDEX.filter(i=>i.title.toLowerCase().includes(q)||i.kw.toLowerCase().includes(q)||i.tag.toLowerCase().includes(q));
+  res.innerHTML=hits.length?hits.map(h=>`<div class="search-hit" onclick="jumpTo('${h.section}')"><div class="search-hit-title">${h.title}<span class="search-hit-tag">${h.tag}</span></div><div class="search-hit-ctx">${h.kw.split(' ').slice(0,5).join(' · ')}</div></div>`).join(''):'<div class="search-empty">No results found for "'+q+'"</div>';
+}
+function jumpTo(sec){closeSearch();setTimeout(()=>{const el=document.querySelector(sec);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},100);}
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openSearch();}if(e.key==='Escape')closeSearch();});
+
+/* pH SCALE */
+function buildPhScale(){
+  const bar=document.getElementById('phBar'),labs=document.getElementById('phLabels');
+  if(!bar)return;
+  const colors=['#ef4444','#f97316','#f59e0b','#eab308','#84cc16','#22c55e','#4ade80','#34d399','#2dd4bf','#22d3ee','#60a5fa','#818cf8','#a78bfa','#c084fc'];
+  const examples=['HCl','Lemon','Vinegar','Tomato','Coffee','Milk','Pure H₂O','Sea H₂O','Baking Soda','Soap','Milk of Mg','Ammonia','Bleach','NaOH'];
+  bar.innerHTML=colors.map((c,i)=>`<div class="ph-seg" style="background:${c}" title="pH ${i} — ${examples[i]}">${i}</div>`).join('');
+  labs.innerHTML=examples.map((e,i)=>`<div class="ph-label" title="pH ${i}">${e}</div>`).join('');
+}
+
+/* MOLAR MASS CALCULATOR */
+const AM={H:1.008,He:4.003,Li:6.94,Be:9.012,B:10.81,C:12.011,N:14.007,O:15.999,F:18.998,Ne:20.18,Na:22.99,Mg:24.305,Al:26.982,Si:28.085,P:30.974,S:32.06,Cl:35.45,Ar:39.948,K:39.098,Ca:40.078,Sc:44.956,Ti:47.867,V:50.942,Cr:51.996,Mn:54.938,Fe:55.845,Co:58.933,Ni:58.693,Cu:63.546,Zn:65.38,Ga:69.723,Ge:72.63,As:74.922,Se:78.971,Br:79.904,Kr:83.798,Rb:85.468,Sr:87.62,Y:88.906,Zr:91.224,Nb:92.906,Mo:95.95,Ag:107.87,Cd:112.41,In:114.82,Sn:118.71,Sb:121.76,Te:127.6,I:126.9,Xe:131.29,Cs:132.91,Ba:137.33,Hf:178.49,Ta:180.95,W:183.84,Re:186.21,Os:190.23,Ir:192.22,Pt:195.08,Au:196.97,Hg:200.59,Tl:204.38,Pb:207.2,Bi:208.98};
+function parseFormula(s){
+  function pg(s,i){
+    const r={};
+    while(i<s.length){
+      if(s[i]==='('){const inner=pg(s,i+1);i=inner.end+1;let n='';while(i<s.length&&/\d/.test(s[i])){n+=s[i];i++;}const m=parseInt(n)||1;for(const[el,c]of Object.entries(inner.r)){r[el]=(r[el]||0)+c*m;}}
+      else if(s[i]===')'){return{r,end:i};}
+      else if(/[A-Z]/.test(s[i])){let sym=s[i];i++;while(i<s.length&&/[a-z]/.test(s[i])){sym+=s[i];i++;}let n='';while(i<s.length&&/\d/.test(s[i])){n+=s[i];i++;}r[sym]=(r[sym]||0)+(parseInt(n)||1);}
+      else{i++;}
+    }
+    return{r,end:i};
+  }
+  return pg(s.trim(),0).r;
+}
+function calcMolarMass(){
+  const inp=document.getElementById('molarInput').value.trim();
+  const res=document.getElementById('molarResult');
+  if(!inp){res.innerHTML='<span class="tool-empty">Type a chemical formula above.</span>';return;}
+  try{
+    const counts=parseFormula(inp);let total=0,bd=[];
+    for(const[el,cnt]of Object.entries(counts)){
+      const m=AM[el];if(!m){res.innerHTML=`<span style="color:var(--alkyne)">Unknown element: ${el}</span>`;return;}
+      const sub=m*cnt;total+=sub;bd.push(`${el}: ${cnt} × ${m} = <b style="color:var(--text)">${sub.toFixed(3)}</b>`);
+    }
+    res.innerHTML=`<span class="tool-result-main">${total.toFixed(3)} g/mol</span><div class="tool-result-breakdown">${bd.join('<br>')}</div>`;
+  }catch(e){res.innerHTML='<span style="color:var(--alkyne)">Invalid formula.</span>';}
+}
+
+/* ION COMPOUND BUILDER */
+function gcd(a,b){return b===0?a:gcd(b,a%b);}
+function buildCompound(){
+  const[cSym,cCh]=document.getElementById('cationSelect').value.split(',');const cc=parseInt(cCh);
+  const[aSym,aCh]=document.getElementById('anionSelect').value.split(',');const ac=parseInt(aCh);
+  const g=gcd(cc,ac),cN=ac/g,aN=cc/g;
+  const cleanC=cSym.replace(/[()]/g,''),cleanA=aSym.replace(/[()]/g,'');
+  let formula='';
+  if(cN===1)formula+=cleanC;else if(cSym.includes('NH4'))formula+=`(${cleanC})${cN}`;else formula+=cleanC+cN;
+  if(aN===1)formula+=cleanA;else formula+=`(${cleanA})${aN}`;
+  const cLabel=document.getElementById('cationSelect').options[document.getElementById('cationSelect').selectedIndex].text.split('—')[1]?.trim()||cSym;
+  const aLabel=document.getElementById('anionSelect').options[document.getElementById('anionSelect').selectedIndex].text.split('—')[1]?.trim()||aSym;
+  document.getElementById('compoundResult').innerHTML=`<span class="tool-result-formula">${formula}</span><div class="tool-result-breakdown">${cLabel} (${cc}+) + ${aLabel} (${ac}−)<br>Criss-cross: ${cleanC}×${cN} + ${cleanA}×${aN}</div>`;
+}
+
+/* NUCLEAR DECAY SIMULATOR */
+function runDecay(){
+  const m0=parseFloat(document.getElementById('decayMass').value);
+  const hlp=parseFloat(document.getElementById('decayHLP').value);
+  const total=parseFloat(document.getElementById('decayTime').value);
+  const res=document.getElementById('decayResult');
+  if(isNaN(m0)||isNaN(hlp)||isNaN(total)||hlp<=0||m0<=0){res.innerHTML='<span style="color:var(--alkyne)">Enter valid positive numbers.</span>';return;}
+  const nP=Math.ceil(total/hlp);
+  let rows='';
+  for(let i=0;i<=nP;i++){
+    const t=(i*hlp).toFixed(1),rem=(m0/Math.pow(2,i)).toFixed(4),pct=((m0/Math.pow(2,i))/m0*100).toFixed(1);
+    const barW=Math.round(parseFloat(pct));
+    rows+=`<tr><td>${i===0?'Start':i}</td><td>${t}</td><td>${rem} g</td><td><span class="decay-bar" style="width:${barW}px;max-width:100px;"></span> ${pct}%</td></tr>`;
+  }
+  res.innerHTML=`<table class="decay-table"><thead><tr><th>Period</th><th>Time</th><th>Remaining</th><th>Visual</th></tr></thead><tbody>${rows}</tbody></table><div style="font-size:0.78rem;color:var(--muted);margin-top:8px;">Final: <b style="color:var(--nuclear)">${(m0/Math.pow(2,nP)).toFixed(4)} g</b> remaining after ${total} units</div>`;
+}
+
+/* UNIT CONVERTER */
+const UNIT_DEFS={
+  energy:{units:['Calorie','Joule','eV','kJ'],toBase:{Calorie:4.184,Joule:1,eV:1.602e-19,kJ:1000}},
+  mass:{units:['AMU','gram','kilogram','mg'],toBase:{AMU:1.66054e-24,gram:1,kilogram:1000,mg:0.001}},
+  temp:{units:['Celsius','Kelvin','Fahrenheit'],special:true},
+  pressure:{units:['atm','Pascal','mmHg','bar'],toBase:{atm:101325,Pascal:1,mmHg:133.322,bar:100000}},
+  volume:{units:['Litre','mL','m³','cm³'],toBase:{Litre:1,mL:0.001,'m³':1000,'cm³':0.001}},
+};
+function initConverter(){
+  const cat=document.getElementById('unitCategory').value;
+  const def=UNIT_DEFS[cat];
+  const from=document.getElementById('unitFrom'),to=document.getElementById('unitTo');
+  from.innerHTML=def.units.map(u=>`<option>${u}</option>`).join('');
+  to.innerHTML=def.units.map((u,i)=>`<option${i===1?' selected':''}>${u}</option>`).join('');
+  document.getElementById('convFormula').innerHTML='<span class="tool-empty">Enter a value to convert.</span>';
+  document.getElementById('unitFromVal').value='';
+  document.getElementById('unitToVal').value='';
+}
+function doConvert(){
+  const cat=document.getElementById('unitCategory').value;
+  const fromU=document.getElementById('unitFrom').value;
+  const toU=document.getElementById('unitTo').value;
+  const val=parseFloat(document.getElementById('unitFromVal').value);
+  if(isNaN(val)){document.getElementById('unitToVal').value='';return;}
+  let result;
+  if(cat==='temp'){
+    if(fromU==='Celsius'&&toU==='Kelvin')result=val+273.15;
+    else if(fromU==='Kelvin'&&toU==='Celsius')result=val-273.15;
+    else if(fromU==='Celsius'&&toU==='Fahrenheit')result=val*9/5+32;
+    else if(fromU==='Fahrenheit'&&toU==='Celsius')result=(val-32)*5/9;
+    else if(fromU==='Kelvin'&&toU==='Fahrenheit')result=(val-273.15)*9/5+32;
+    else if(fromU==='Fahrenheit'&&toU==='Kelvin')result=(val-32)*5/9+273.15;
+    else result=val;
+  } else {
+    const def=UNIT_DEFS[cat];
+    const base=val*def.toBase[fromU];
+    result=base/def.toBase[toU];
+  }
+  document.getElementById('unitToVal').value=result.toExponential(4).replace(/e\+?0$/,'');
+  document.getElementById('convFormula').innerHTML=`<span class="tool-result-breakdown">${val} ${fromU} = <b style="color:var(--accent)">${result.toExponential(4)} ${toU}</b></span>`;
+}
+
+/* GAS LAW CALCULATOR */
+let currentGasLaw='boyle';
+const GAS_LAWS={
+  boyle:{fields:[{id:'P1',label:'P₁ (pressure 1)'},{id:'V1',label:'V₁ (volume 1)'},{id:'P2',label:'P₂ (pressure 2)'},{id:'V2',label:'V₂ (volume 2) — SOLVE',solve:true}],calc:(f)=>{const{P1,V1,P2}=f;return{V2:(P1*V1/P2).toFixed(4)}}},
+  charles:{fields:[{id:'V1',label:'V₁ (volume 1)'},{id:'T1',label:'T₁ (temperature 1, K)'},{id:'V2',label:'V₂ (volume 2)'},{id:'T2',label:'T₂ (temperature 2, K) — SOLVE',solve:true}],calc:(f)=>{return{T2:(f.V2*f.T1/f.V1).toFixed(4)}}},
+  gaylussac:{fields:[{id:'P1',label:'P₁'},{id:'T1',label:'T₁ (K)'},{id:'P2',label:'P₂'},{id:'T2',label:'T₂ (K) — SOLVE',solve:true}],calc:(f)=>{return{T2:(f.P2*f.T1/f.P1).toFixed(4)}}},
+  combined:{fields:[{id:'P1',label:'P₁'},{id:'V1',label:'V₁'},{id:'T1',label:'T₁ (K)'},{id:'P2',label:'P₂'},{id:'T2',label:'T₂ (K)'},{id:'V2',label:'V₂ — SOLVE',solve:true}],calc:(f)=>{return{V2:(f.P1*f.V1*f.T2/(f.T1*f.P2)).toFixed(4)}}},
+  ideal:{fields:[{id:'P',label:'P (pressure, Pa)'},{id:'V',label:'V (volume, m³)'},{id:'n',label:'n (moles)'},{id:'T',label:'T (K) — SOLVE',solve:true}],calc:(f)=>{return{T:(f.P*f.V/(f.n*8.314)).toFixed(4)}}},
+};
+function setGasLaw(law,btn){
+  currentGasLaw=law;
+  document.querySelectorAll('.gas-calc-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderGasFields();
+  document.getElementById('gasResult').innerHTML='<span class="tool-empty">Fill known values and click Calculate.</span>';
+}
+function renderGasFields(){
+  const fields=GAS_LAWS[currentGasLaw].fields;
+  document.getElementById('gasFields').innerHTML=fields.map(f=>`<div class="gas-field"><label>${f.label}</label><input id="gas_${f.id}" type="number" placeholder="${f.solve?'← calculated':''}" ${f.solve?'readonly style="color:var(--gas);border-color:rgba(129,140,248,0.3);"':''}></div>`).join('');
+}
+function calcGasLaw(){
+  const law=GAS_LAWS[currentGasLaw];
+  const vals={};let missing=false;
+  law.fields.filter(f=>!f.solve).forEach(f=>{
+    const v=parseFloat(document.getElementById('gas_'+f.id).value);
+    if(isNaN(v)){missing=true;}else{vals[f.id]=v;}
+  });
+  if(missing){document.getElementById('gasResult').innerHTML='<span style="color:var(--alkyne)">Please fill all known fields.</span>';return;}
+  const result=law.calc(vals);
+  const key=Object.keys(result)[0];
+  const el=document.getElementById('gas_'+key);
+  if(el)el.value=result[key];
+  document.getElementById('gasResult').innerHTML=`<span class="tool-result-main">${key} = ${result[key]}</span><div class="tool-result-breakdown">All inputs in consistent SI units. T in Kelvin for gas laws.</div>`;
+}
+
 window.addEventListener('load',()=>{
   processChemistry();
   generateLibrary();
   buildPeriodicTable();
+  buildPhScale();
+  initConverter();
+  renderGasFields();
+  updateProgress();
 });
 </script>
 </body>
