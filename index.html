@@ -150,52 +150,7 @@
   <div class="chapter-count">8 Sections</div>
 </div>
 
-<section id="calc-tool" class="card">
-  <span class="badge">// Formula Engine</span>
-  <h2 class="section-title">Hydrocarbon <span>Calculator</span></h2>
-  <p class="section-lead" style="margin-bottom:24px;">Enter any value of n to instantly see the molecular formula, compound name, and series rules for all three hydrocarbon families.</p>
-  <div class="calc-box">
-    <div class="calc-left">
-      <label>Carbon Atoms (n)</label>
-      <div class="input-row">
-        <button class="calc-btn" onclick="adjustN(-1)">−</button>
-        <input type="number" id="carbonN" value="1" min="1" max="100" oninput="processChemistry()">
-        <button class="calc-btn" onclick="adjustN(1)">+</button>
-      </div>
-    </div>
-    <div class="calc-divider"></div>
-    <div class="calc-name" id="compoundName">Methane<small>Parent compound</small></div>
-  </div>
-  <div class="result-grid">
-    <div class="res-card alkane">
-      <span class="res-type">Saturated · Alkane</span>
-      <h3>Formula &amp; Series</h3>
-      <span id="alkaneFormula" class="chem-formula">CH<sub>4</sub></span>
-      <div class="res-meta">
-        <div><b>General Rule:</b> C<sub>n</sub>H<sub>2n+2</sub></div>
-        <div><b>Bonds:</b> Single (σ) only · Suffix: -ane</div>
-      </div>
-    </div>
-    <div class="res-card alkene">
-      <span class="res-type">Unsaturated · Alkene</span>
-      <h3>Formula &amp; Series</h3>
-      <span id="alkeneFormula" class="chem-formula">—</span>
-      <div class="res-meta">
-        <div><b>General Rule:</b> C<sub>n</sub>H<sub>2n</sub></div>
-        <div><b>Bonds:</b> One C=C double bond · Suffix: -ene</div>
-      </div>
-    </div>
-    <div class="res-card alkyne">
-      <span class="res-type">Highly Unsaturated · Alkyne</span>
-      <h3>Formula &amp; Series</h3>
-      <span id="alkyneFormula" class="chem-formula">—</span>
-      <div class="res-meta">
-        <div><b>General Rule:</b> C<sub>n</sub>H<sub>2n−2</sub></div>
-        <div><b>Bonds:</b> One C≡C triple bond · Suffix: -yne</div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <section id="hydrocarbons" class="card">
   <div class="progress-check"><input type="checkbox" id="chk0" onchange="updateProgress()"><label for="chk0">Studied ✓</label></div>
@@ -273,6 +228,53 @@
       <p>The <b>degree of unsaturation (DoU)</b> tells you how many double bonds or rings are in a molecule. Calculate it from the molecular formula C<sub>n</sub>H<sub>m</sub>:</p>
       <p style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--nuclear);margin-top:8px;text-align:center;">DoU = (2n + 2 − m) ÷ 2</p>
       <p style="margin-top:8px;font-size:0.82rem;color:var(--muted)">DoU=0 → alkane · DoU=1 → one ring or one C=C · DoU=2 → one C≡C or two C=C · DoU=4 → benzene ring</p>
+    </div>
+  </div>
+</section>
+
+<section id="calc-tool" class="card">
+  <span class="badge">// Formula Engine</span>
+  <h2 class="section-title">Hydrocarbon <span>Calculator</span></h2>
+  <p class="section-lead" style="margin-bottom:24px;">Enter any value of n to instantly see the molecular formula, compound name, and series rules for all three hydrocarbon families.</p>
+  <div class="calc-box">
+    <div class="calc-left">
+      <label>Carbon Atoms (n)</label>
+      <div class="input-row">
+        <button class="calc-btn" onclick="adjustN(-1)">−</button>
+        <input type="number" id="carbonN" value="1" min="1" max="100" oninput="processChemistry()">
+        <button class="calc-btn" onclick="adjustN(1)">+</button>
+      </div>
+    </div>
+    <div class="calc-divider"></div>
+    <div class="calc-name" id="compoundName">Methane<small>Parent compound</small></div>
+  </div>
+  <div class="result-grid">
+    <div class="res-card alkane">
+      <span class="res-type">Saturated · Alkane</span>
+      <h3>Formula &amp; Series</h3>
+      <span id="alkaneFormula" class="chem-formula">CH<sub>4</sub></span>
+      <div class="res-meta">
+        <div><b>General Rule:</b> C<sub>n</sub>H<sub>2n+2</sub></div>
+        <div><b>Bonds:</b> Single (σ) only · Suffix: -ane</div>
+      </div>
+    </div>
+    <div class="res-card alkene">
+      <span class="res-type">Unsaturated · Alkene</span>
+      <h3>Formula &amp; Series</h3>
+      <span id="alkeneFormula" class="chem-formula">—</span>
+      <div class="res-meta">
+        <div><b>General Rule:</b> C<sub>n</sub>H<sub>2n</sub></div>
+        <div><b>Bonds:</b> One C=C double bond · Suffix: -ene</div>
+      </div>
+    </div>
+    <div class="res-card alkyne">
+      <span class="res-type">Highly Unsaturated · Alkyne</span>
+      <h3>Formula &amp; Series</h3>
+      <span id="alkyneFormula" class="chem-formula">—</span>
+      <div class="res-meta">
+        <div><b>General Rule:</b> C<sub>n</sub>H<sub>2n−2</sub></div>
+        <div><b>Bonds:</b> One C≡C triple bond · Suffix: -yne</div>
+      </div>
     </div>
   </div>
 </section>
