@@ -1,4 +1,4 @@
-/* ========== LabAR.EDU v12.0 — Main Script ========== */
+/* ========== LabAR.EDU v12.0 \u2014 Main Script ========== */
 
 /* ---------- 1. CANVAS BACKGROUND ---------- */
 (function(){
@@ -26,11 +26,10 @@
   init();draw();
 })();
 
-/* ---------- 2. SCROLL REVEAL — staggered ---------- */
+/* ---------- 2. SCROLL REVEAL \u2014 staggered ---------- */
 const revealObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
-      // stagger siblings inside the same parent
       const siblings=[...e.target.parentElement.querySelectorAll('.card')];
       const i=siblings.indexOf(e.target);
       e.target.style.transitionDelay=Math.min(i*60,300)+'ms';
@@ -63,15 +62,12 @@ function processChemistry(){
   const n=Math.max(1,parseInt(document.getElementById('carbonN').value)||1);
   const pfx=getPrefix(n);
   document.getElementById('compoundName').innerHTML=pfx+'ane<small>Parent compound</small>';
-  // Alkane CnH(2n+2)
   const aH=2*n+2;
   document.getElementById('alkaneFormula').innerHTML=fmt(n,aH);
-  // Alkene CnH(2n) — min n=2
   if(n>=2){const eH=2*n;document.getElementById('alkeneFormula').innerHTML=fmt(n,eH);}
-  else document.getElementById('alkeneFormula').innerHTML='<span style="color:var(--muted);font-size:1rem">n ≥ 2 required</span>';
-  // Alkyne CnH(2n-2) — min n=2
+  else document.getElementById('alkeneFormula').innerHTML='<span style="color:var(--muted);font-size:1rem">n \u2265 2 required</span>';
   if(n>=2){const yH=2*n-2;document.getElementById('alkyneFormula').innerHTML=fmt(n,yH);}
-  else document.getElementById('alkyneFormula').innerHTML='<span style="color:var(--muted);font-size:1rem">n ≥ 2 required</span>';
+  else document.getElementById('alkyneFormula').innerHTML='<span style="color:var(--muted);font-size:1rem">n \u2265 2 required</span>';
 }
 
 /* ---------- 4. IUPAC TABS ---------- */
@@ -84,8 +80,8 @@ function switchTab(e,id){
 
 /* ---------- 5. COMPOUND LIBRARY ---------- */
 const ALKANE_NAMES=['Methane','Ethane','Propane','Butane','Pentane','Hexane','Heptane','Octane','Nonane','Decane'];
-const ALKENE_NAMES=['—','Ethene','Propene','Butene','Pentene','Hexene','Heptene','Octene','Nonene','Decene'];
-const ALKYNE_NAMES=['—','Ethyne','Propyne','Butyne','Pentyne','Hexyne','Heptyne','Octyne','Nonyne','Decyne'];
+const ALKENE_NAMES=['\u2014','Ethene','Propene','Butene','Pentene','Hexene','Heptene','Octene','Nonene','Decene'];
+const ALKYNE_NAMES=['\u2014','Ethyne','Propyne','Butyne','Pentyne','Hexyne','Heptyne','Octyne','Nonyne','Decyne'];
 
 function generateLibrary(){
   const tbody=document.getElementById('libraryTableBody');
@@ -195,7 +191,7 @@ function calcMolarMass(){
       const mass=AM[el];
       if(!mass){res.innerHTML=`<span style="color:var(--alkyne)">Unknown element: ${el}</span>`;return;}
       const contrib=mass*parsed[el];total+=contrib;
-      breakdown+=`${el}: ${parsed[el]} × ${mass} = ${contrib.toFixed(3)} &nbsp;`;
+      breakdown+=`${el}: ${parsed[el]} \u00d7 ${mass} = ${contrib.toFixed(3)} &nbsp;`;
     }
     res.innerHTML=`<span class="tool-result-main">${total.toFixed(3)} g/mol</span><div class="tool-result-breakdown">${breakdown}</div>`;
   }catch(e){res.innerHTML='<span style="color:var(--alkyne)">Invalid formula. Check parentheses and capitalisation.</span>';}
@@ -211,15 +207,13 @@ function buildCompound(){
   const aniSym=aniRaw[0],aniChg=parseInt(aniRaw[1]);
   const g=gcd(catChg,aniChg);
   const catN=aniChg/g,aniN=catChg/g;
-  const needParenCat=catSym.length>2||catSym.includes('4');
-  const needParenAni=aniSym.length>2||aniSym.startsWith('(');
   const cleanAni=aniSym.replace(/[()]/g,'');
   const cleanCat=catSym.replace(/[()]/g,'');
   let formula='';
   formula+=catN>1?`(${cleanCat})${catN>1?'<sub>'+catN+'</sub>':''}`:cleanCat;
   if(aniSym.includes('(')&&aniN>1)formula+=`(${cleanAni})<sub>${aniN}</sub>`;
   else formula+=cleanAni+(aniN>1?`<sub>${aniN}</sub>`:'');
-  document.getElementById('compoundResult').innerHTML=`<span class="tool-result-formula">${formula}</span><div class="tool-result-breakdown">Ratio: ${catSym}<sup>${catChg}+</sup> : ${aniSym}<sup>${aniChg}−</sup> → ${catN}:${aniN}</div>`;
+  document.getElementById('compoundResult').innerHTML=`<span class="tool-result-formula">${formula}</span><div class="tool-result-breakdown">Ratio: ${catSym}<sup>${catChg}+</sup> : ${aniSym}<sup>${aniChg}\u2212</sup> \u2192 ${catN}:${aniN}</div>`;
 }
 
 /* ---------- 9. NUCLEAR DECAY ---------- */
@@ -242,9 +236,9 @@ function runDecay(){
 const UNIT_DEFS={
   energy:{units:['Calorie','Joule','kJ','eV','MeV'],toBase:[4.184,1,1000,1.602e-19,1.602e-13]},
   mass:{units:['AMU','gram','kg','mg'],toBase:[1.66054e-27,1e-3,1,1e-6]},
-  temp:{units:['°C','K','°F'],toBase:null},
+  temp:{units:['\u00b0C','K','\u00b0F'],toBase:null},
   pressure:{units:['atm','Pa','mmHg','bar'],toBase:[101325,1,133.322,100000]},
-  volume:{units:['L','mL','m³','cm³'],toBase:[1e-3,1e-6,1,1e-6]}
+  volume:{units:['L','mL','m\u00b3','cm\u00b3'],toBase:[1e-3,1e-6,1,1e-6]}
 };
 
 function initConverter(){
@@ -268,12 +262,12 @@ function doConvert(){
   if(isNaN(val)){document.getElementById('unitToVal').value='';return;}
   let result;
   if(cat==='temp'){
-    if(from==='°C'&&to==='K')result=val+273.15;
-    else if(from==='K'&&to==='°C')result=val-273.15;
-    else if(from==='°C'&&to==='°F')result=val*1.8+32;
-    else if(from==='°F'&&to==='°C')result=(val-32)/1.8;
-    else if(from==='K'&&to==='°F')result=(val-273.15)*1.8+32;
-    else if(from==='°F'&&to==='K')result=(val-32)/1.8+273.15;
+    if(from==='\u00b0C'&&to==='K')result=val+273.15;
+    else if(from==='K'&&to==='\u00b0C')result=val-273.15;
+    else if(from==='\u00b0C'&&to==='\u00b0F')result=val*1.8+32;
+    else if(from==='\u00b0F'&&to==='\u00b0C')result=(val-32)/1.8;
+    else if(from==='K'&&to==='\u00b0F')result=(val-273.15)*1.8+32;
+    else if(from==='\u00b0F'&&to==='K')result=(val-32)/1.8+273.15;
     else result=val;
   } else {
     const def=UNIT_DEFS[cat];
@@ -287,18 +281,18 @@ function doConvert(){
 
 /* ---------- 11. GAS LAW CALCULATOR ---------- */
 const GAS_LAWS={
-  boyle:{label:"Boyle's Law — P₁V₁ = P₂V₂",fields:['P₁ (atm)','V₁ (L)','P₂ (atm)','V₂ (L)'],keys:['p1','v1','p2','v2'],
-    solve(v){const{p1,v1,p2,v2}=v;if(!v2&&p1&&v1&&p2)return{v2:p1*v1/p2,label:'V₂'};if(!p2&&p1&&v1&&v2)return{p2:p1*v1/v2,label:'P₂'};if(!v1&&p1&&p2&&v2)return{v1:p2*v2/p1,label:'V₁'};if(!p1&&v1&&p2&&v2)return{p1:p2*v2/v1,label:'P₁'};return null;}},
-  charles:{label:"Charles's Law — V₁/T₁ = V₂/T₂",fields:['V₁ (L)','T₁ (K)','V₂ (L)','T₂ (K)'],keys:['v1','t1','v2','t2'],
-    solve(v){const{v1,t1,v2,t2}=v;if(!v2&&v1&&t1&&t2)return{v2:v1*t2/t1,label:'V₂'};if(!t2&&v1&&t1&&v2)return{t2:v2*t1/v1,label:'T₂'};if(!v1&&t1&&v2&&t2)return{v1:v2*t1/t2,label:'V₁'};if(!t1&&v1&&v2&&t2)return{t1:v1*t2/v2,label:'T₁'};return null;}},
-  gaylussac:{label:"Gay-Lussac's Law — P₁/T₁ = P₂/T₂",fields:['P₁ (atm)','T₁ (K)','P₂ (atm)','T₂ (K)'],keys:['p1','t1','p2','t2'],
-    solve(v){const{p1,t1,p2,t2}=v;if(!p2&&p1&&t1&&t2)return{p2:p1*t2/t1,label:'P₂'};if(!t2&&p1&&t1&&p2)return{t2:p2*t1/p1,label:'T₂'};if(!p1&&t1&&p2&&t2)return{p1:p2*t1/t2,label:'P₁'};if(!t1&&p1&&p2&&t2)return{t1:p1*t2/p2,label:'T₁'};return null;}},
-  combined:{label:"Combined Gas Law — P₁V₁/T₁ = P₂V₂/T₂",fields:['P₁','V₁','T₁ (K)','P₂','V₂','T₂ (K)'],keys:['p1','v1','t1','p2','v2','t2'],
+  boyle:{label:"Boyle's Law \u2014 P\u2081V\u2081 = P\u2082V\u2082",fields:['P\u2081 (atm)','V\u2081 (L)','P\u2082 (atm)','V\u2082 (L)'],keys:['p1','v1','p2','v2'],
+    solve(v){const{p1,v1,p2,v2}=v;if(!v2&&p1&&v1&&p2)return{v2:p1*v1/p2,label:'V\u2082'};if(!p2&&p1&&v1&&v2)return{p2:p1*v1/v2,label:'P\u2082'};if(!v1&&p1&&p2&&v2)return{v1:p2*v2/p1,label:'V\u2081'};if(!p1&&v1&&p2&&v2)return{p1:p2*v2/v1,label:'P\u2081'};return null;}},
+  charles:{label:"Charles's Law \u2014 V\u2081/T\u2081 = V\u2082/T\u2082",fields:['V\u2081 (L)','T\u2081 (K)','V\u2082 (L)','T\u2082 (K)'],keys:['v1','t1','v2','t2'],
+    solve(v){const{v1,t1,v2,t2}=v;if(!v2&&v1&&t1&&t2)return{v2:v1*t2/t1,label:'V\u2082'};if(!t2&&v1&&t1&&v2)return{t2:v2*t1/v1,label:'T\u2082'};if(!v1&&t1&&v2&&t2)return{v1:v2*t1/t2,label:'V\u2081'};if(!t1&&v1&&v2&&t2)return{t1:v1*t2/v2,label:'T\u2081'};return null;}},
+  gaylussac:{label:"Gay-Lussac's Law \u2014 P\u2081/T\u2081 = P\u2082/T\u2082",fields:['P\u2081 (atm)','T\u2081 (K)','P\u2082 (atm)','T\u2082 (K)'],keys:['p1','t1','p2','t2'],
+    solve(v){const{p1,t1,p2,t2}=v;if(!p2&&p1&&t1&&t2)return{p2:p1*t2/t1,label:'P\u2082'};if(!t2&&p1&&t1&&p2)return{t2:p2*t1/p1,label:'T\u2082'};if(!p1&&t1&&p2&&t2)return{p1:p2*t1/t2,label:'P\u2081'};if(!t1&&p1&&p2&&t2)return{t1:p1*t2/p2,label:'T\u2081'};return null;}},
+  combined:{label:"Combined Gas Law \u2014 P\u2081V\u2081/T\u2081 = P\u2082V\u2082/T\u2082",fields:['P\u2081','V\u2081','T\u2081 (K)','P\u2082','V\u2082','T\u2082 (K)'],keys:['p1','v1','t1','p2','v2','t2'],
     solve(v){const{p1,v1,t1,p2,v2,t2}=v;const lhs=p1&&v1&&t1?p1*v1/t1:null;const rhs=p2&&v2&&t2?p2*v2/t2:null;
-      if(!t2&&lhs&&p2&&v2)return{t2:p2*v2/lhs,label:'T₂'};if(!v2&&lhs&&p2&&t2)return{v2:lhs*t2/p2,label:'V₂'};if(!p2&&lhs&&v2&&t2)return{p2:lhs*t2/v2,label:'P₂'};
-      if(!t1&&rhs&&p1&&v1)return{t1:p1*v1/rhs,label:'T₁'};if(!v1&&rhs&&p1&&t1)return{v1:rhs*t1/p1,label:'V₁'};if(!p1&&rhs&&v1&&t1)return{p1:rhs*t1/v1,label:'P₁'};return null;}},
-  ideal:{label:"Ideal Gas Law — PV = nRT (R = 8.314)",fields:['P (atm→Pa×101325)','V (m³ or L×0.001)','n (mol)','T (K)'],keys:['p','v','n','t'],
-    solve(v){const R=8.314;const{p,v:vol,n,t}=v;if(!p&&vol&&n&&t)return{p:n*R*t/vol,label:'P (Pa)'};if(!vol&&p&&n&&t)return{v:n*R*t/p,label:'V (m³)'};if(!n&&p&&vol&&t)return{n:p*vol/(R*t),label:'n (mol)'};if(!t&&p&&vol&&n)return{t:p*vol/(n*R),label:'T (K)'};return null;}}
+      if(!t2&&lhs&&p2&&v2)return{t2:p2*v2/lhs,label:'T\u2082'};if(!v2&&lhs&&p2&&t2)return{v2:lhs*t2/p2,label:'V\u2082'};if(!p2&&lhs&&v2&&t2)return{p2:lhs*t2/v2,label:'P\u2082'};
+      if(!t1&&rhs&&p1&&v1)return{t1:p1*v1/rhs,label:'T\u2081'};if(!v1&&rhs&&p1&&t1)return{v1:rhs*t1/p1,label:'V\u2081'};if(!p1&&rhs&&v1&&t1)return{p1:rhs*t1/v1,label:'P\u2081'};return null;}},
+  ideal:{label:"Ideal Gas Law \u2014 PV = nRT (R = 8.314)",fields:['P (atm\u2192Pa\u00d7101325)','V (m\u00b3 or L\u00d70.001)','n (mol)','T (K)'],keys:['p','v','n','t'],
+    solve(v){const R=8.314;const{p,v:vol,n,t}=v;if(!p&&vol&&n&&t)return{p:n*R*t/vol,label:'P (Pa)'};if(!vol&&p&&n&&t)return{v:n*R*t/p,label:'V (m\u00b3)'};if(!n&&p&&vol&&t)return{n:p*vol/(R*t),label:'n (mol)'};if(!t&&p&&vol&&n)return{t:p*vol/(n*R),label:'T (K)'};return null;}}
 };
 
 let currentGasLaw='boyle';
@@ -333,7 +327,7 @@ function calcGasLaw(){
   res.innerHTML=`<span class="tool-result-main">${result.label} = ${parseFloat(val.toPrecision(6))}</span>`;
 }
 
-/* ---------- 12. STOICHIOMETRY CALCULATOR (NEW) ---------- */
+/* ---------- 12. STOICHIOMETRY CALCULATOR ---------- */
 function calcStoichiometry(){
   const eqRaw=document.getElementById('stoichEq').value.trim();
   const knownSub=document.getElementById('stoichKnownSub').value.trim();
@@ -345,9 +339,8 @@ function calcStoichiometry(){
     res.innerHTML='<span class="tool-empty">Fill in all four fields.</span>';return;
   }
 
-  // Parse equation: support → or -> or =
-  const sides=eqRaw.split(/→|->|=>/);
-  if(sides.length<2){res.innerHTML='<span style="color:var(--alkyne)">Use → or -> to separate reactants and products.</span>';return;}
+  const sides=eqRaw.split(/\u2192|->|=>/);
+  if(sides.length<2){res.innerHTML='<span style="color:var(--alkyne)">Use \u2192 or -> to separate reactants and products.</span>';return;}
   const allTerms=[...sides[0].split('+'),...sides[1].split('+')];
   const coeffMap={};
   allTerms.forEach(term=>{
@@ -369,11 +362,11 @@ function calcStoichiometry(){
   res.innerHTML=`<span class="tool-result-main">${unknownMol.toPrecision(5)} mol of ${unknownSub}</span>
     <div class="tool-result-breakdown">
       Mole ratio: ${knownSub} : ${unknownSub} = ${kCoef} : ${uCoef}<br>
-      ${knownMol} mol ${knownSub} × (${uCoef}/${kCoef}) = <b style="color:var(--accent)">${unknownMol.toPrecision(5)} mol</b> ${unknownSub}
+      ${knownMol} mol ${knownSub} \u00d7 (${uCoef}/${kCoef}) = <b style="color:var(--accent)">${unknownMol.toPrecision(5)} mol</b> ${unknownSub}
     </div>`;
 }
 
-/* ---------- 13. pH CALCULATOR (NEW) ---------- */
+/* ---------- 13. pH CALCULATOR ---------- */
 function calcPH(from){
   const ids={h:'phH',oh:'phOH',ph:'phPH',poh:'phPOH'};
   const Kw=1e-14;
@@ -390,7 +383,6 @@ function calcPH(from){
   else if(from==='ph'){pH=raw;H=Math.pow(10,-pH);OH=Kw/H;pOH=14-pH;}
   else if(from==='poh'){pOH=raw;OH=Math.pow(10,-pOH);H=Kw/OH;pH=14-pOH;}
 
-  // Fill other fields
   if(from!=='h')document.getElementById('phH').value=H.toExponential(3);
   if(from!=='oh')document.getElementById('phOH').value=OH.toExponential(3);
   if(from!=='ph')document.getElementById('phPH').value=pH.toFixed(3);
@@ -403,138 +395,138 @@ function calcPH(from){
     <div class="tool-result-breakdown">
       pH = <b style="color:var(--accent)">${pH.toFixed(3)}</b> &nbsp;|&nbsp;
       pOH = <b style="color:var(--accent)">${pOH.toFixed(3)}</b><br>
-      [H⁺] = <b>${H.toExponential(3)}</b> mol/L &nbsp;|&nbsp;
-      [OH⁻] = <b>${OH.toExponential(3)}</b> mol/L<br>
+      [H\u207a] = <b>${H.toExponential(3)}</b> mol/L &nbsp;|&nbsp;
+      [OH\u207b] = <b>${OH.toExponential(3)}</b> mol/L<br>
       Verification: pH + pOH = <b>${(pH+pOH).toFixed(2)}</b> (should = 14)
     </div>`;
 }
 
 /* ---------- 14. PERIODIC TABLE ---------- */
 const PT=[
-  {z:1,sym:'H',name:'Hydrogen',mass:1.008,type:'nonmetal',period:1,group:1,col:1,row:1,state:'Gas',econfig:'1s¹',en:2.20,uses:'Fuel cells, rocket propellant, water (H₂O), acids.'},
-  {z:2,sym:'He',name:'Helium',mass:4.003,type:'noble',period:1,group:18,col:18,row:1,state:'Gas',econfig:'1s²',en:0,uses:'Balloons, MRI coolant, deep-sea diving mixtures.'},
-  {z:3,sym:'Li',name:'Lithium',mass:6.941,type:'alkali',period:2,group:1,col:1,row:2,state:'Solid',econfig:'[He] 2s¹',en:0.98,uses:'Lithium-ion batteries, mood stabiliser drug, alloys.'},
-  {z:4,sym:'Be',name:'Beryllium',mass:9.012,type:'alkaline',period:2,group:2,col:2,row:2,state:'Solid',econfig:'[He] 2s²',en:1.57,uses:'Aerospace alloys, X-ray windows, nuclear reactors.'},
-  {z:5,sym:'B',name:'Boron',mass:10.811,type:'metalloid',period:2,group:13,col:13,row:2,state:'Solid',econfig:'[He] 2s² 2p¹',en:2.04,uses:'Borosilicate glass, semiconductors, detergents (borax).'},
-  {z:6,sym:'C',name:'Carbon',mass:12.011,type:'nonmetal',period:2,group:14,col:14,row:2,state:'Solid',econfig:'[He] 2s² 2p²',en:2.55,uses:'All organic chemistry, graphite, diamonds, fullerenes, CO₂.'},
-  {z:7,sym:'N',name:'Nitrogen',mass:14.007,type:'nonmetal',period:2,group:15,col:15,row:2,state:'Gas',econfig:'[He] 2s² 2p³',en:3.04,uses:'78% of atmosphere, fertilisers (NH₃), explosives.'},
-  {z:8,sym:'O',name:'Oxygen',mass:15.999,type:'nonmetal',period:2,group:16,col:16,row:2,state:'Gas',econfig:'[He] 2s² 2p⁴',en:3.44,uses:'Breathing, combustion, steel production, ozone layer.'},
-  {z:9,sym:'F',name:'Fluorine',mass:18.998,type:'halogen',period:2,group:17,col:17,row:2,state:'Gas',econfig:'[He] 2s² 2p⁵',en:3.98,uses:'Toothpaste (NaF), Teflon, refrigerants. Most electronegative element.'},
-  {z:10,sym:'Ne',name:'Neon',mass:20.18,type:'noble',period:2,group:18,col:18,row:2,state:'Gas',econfig:'[He] 2s² 2p⁶',en:0,uses:'Neon signs, lasers, cryogenics.'},
-  {z:11,sym:'Na',name:'Sodium',mass:22.99,type:'alkali',period:3,group:1,col:1,row:3,state:'Solid',econfig:'[Ne] 3s¹',en:0.93,uses:'Table salt (NaCl), street lights, nerve impulse transmission.'},
-  {z:12,sym:'Mg',name:'Magnesium',mass:24.305,type:'alkaline',period:3,group:2,col:2,row:3,state:'Solid',econfig:'[Ne] 3s²',en:1.31,uses:'Alloys (aircraft), Mg flares, chlorophyll (plants).'},
-  {z:13,sym:'Al',name:'Aluminium',mass:26.982,type:'post-trans',period:3,group:13,col:13,row:3,state:'Solid',econfig:'[Ne] 3s² 3p¹',en:1.61,uses:'Packaging, aircraft, cables, kitchen foil. Most abundant metal in crust.'},
-  {z:14,sym:'Si',name:'Silicon',mass:28.086,type:'metalloid',period:3,group:14,col:14,row:3,state:'Solid',econfig:'[Ne] 3s² 3p²',en:1.90,uses:'Semiconductors, computer chips, glass, solar cells. 2nd most abundant element.'},
-  {z:15,sym:'P',name:'Phosphorus',mass:30.974,type:'nonmetal',period:3,group:15,col:15,row:3,state:'Solid',econfig:'[Ne] 3s² 3p³',en:2.19,uses:'Fertilisers, DNA backbone, matches, detergents.'},
-  {z:16,sym:'S',name:'Sulfur',mass:32.065,type:'nonmetal',period:3,group:16,col:16,row:3,state:'Solid',econfig:'[Ne] 3s² 3p⁴',en:2.58,uses:'H₂SO₄ (most used industrial chemical), rubber vulcanisation, matches.'},
-  {z:17,sym:'Cl',name:'Chlorine',mass:35.453,type:'halogen',period:3,group:17,col:17,row:3,state:'Gas',econfig:'[Ne] 3s² 3p⁵',en:3.16,uses:'Water purification, PVC, bleach (NaOCl), salt (NaCl).'},
-  {z:18,sym:'Ar',name:'Argon',mass:39.948,type:'noble',period:3,group:18,col:18,row:3,state:'Gas',econfig:'[Ne] 3s² 3p⁶',en:0,uses:'Welding shield gas, light bulbs, laser technology.'},
-  {z:19,sym:'K',name:'Potassium',mass:39.098,type:'alkali',period:4,group:1,col:1,row:4,state:'Solid',econfig:'[Ar] 4s¹',en:0.82,uses:'Fertilisers, potassium chloride, banana nutrition.'},
-  {z:20,sym:'Ca',name:'Calcium',mass:40.078,type:'alkaline',period:4,group:2,col:2,row:4,state:'Solid',econfig:'[Ar] 4s²',en:1.00,uses:'Bones & teeth (CaPO₄), cement (CaCO₃), dairy.'},
-  {z:21,sym:'Sc',name:'Scandium',mass:44.956,type:'transition',period:4,group:3,col:3,row:4,state:'Solid',econfig:'[Ar] 3d¹ 4s²',en:1.36,uses:'Lightweight alloys, sports equipment, stadium lights.'},
-  {z:22,sym:'Ti',name:'Titanium',mass:47.867,type:'transition',period:4,group:4,col:4,row:4,state:'Solid',econfig:'[Ar] 3d² 4s²',en:1.54,uses:'Aircraft, implants, TiO₂ white pigment, jewellery.'},
-  {z:23,sym:'V',name:'Vanadium',mass:50.942,type:'transition',period:4,group:5,col:5,row:4,state:'Solid',econfig:'[Ar] 3d³ 4s²',en:1.63,uses:'Steel alloys, vanadium redox batteries, catalyst.'},
-  {z:24,sym:'Cr',name:'Chromium',mass:51.996,type:'transition',period:4,group:6,col:6,row:4,state:'Solid',econfig:'[Ar] 3d⁵ 4s¹',en:1.66,uses:'Stainless steel, chrome plating, pigments.'},
-  {z:25,sym:'Mn',name:'Manganese',mass:54.938,type:'transition',period:4,group:7,col:7,row:4,state:'Solid',econfig:'[Ar] 3d⁵ 4s²',en:1.55,uses:'Steel alloys, dry cell batteries (MnO₂), water treatment.'},
-  {z:26,sym:'Fe',name:'Iron',mass:55.845,type:'transition',period:4,group:8,col:8,row:4,state:'Solid',econfig:'[Ar] 3d⁶ 4s²',en:1.83,uses:'Steel production, hemoglobin (blood), construction.'},
-  {z:27,sym:'Co',name:'Cobalt',mass:58.933,type:'transition',period:4,group:9,col:9,row:4,state:'Solid',econfig:'[Ar] 3d⁷ 4s²',en:1.88,uses:'Superalloys (jet engines), blue pigments, lithium-ion batteries.'},
-  {z:28,sym:'Ni',name:'Nickel',mass:58.693,type:'transition',period:4,group:10,col:10,row:4,state:'Solid',econfig:'[Ar] 3d⁸ 4s²',en:1.91,uses:'Coins, electroplating, stainless steel, rechargeable batteries.'},
-  {z:29,sym:'Cu',name:'Copper',mass:63.546,type:'transition',period:4,group:11,col:11,row:4,state:'Solid',econfig:'[Ar] 3d¹⁰ 4s¹',en:1.90,uses:'Electrical wiring, plumbing, coins, antimicrobial surfaces.'},
-  {z:30,sym:'Zn',name:'Zinc',mass:65.38,type:'transition',period:4,group:12,col:12,row:4,state:'Solid',econfig:'[Ar] 3d¹⁰ 4s²',en:1.65,uses:'Galvanising iron, die casting, zinc oxide (sunscreen).'},
-  {z:31,sym:'Ga',name:'Gallium',mass:69.723,type:'post-trans',period:4,group:13,col:13,row:4,state:'Solid',econfig:'[Ar] 3d¹⁰ 4s² 4p¹',en:1.81,uses:'LEDs, solar cells, semiconductors. Melts at 30°C.'},
-  {z:32,sym:'Ge',name:'Germanium',mass:72.63,type:'metalloid',period:4,group:14,col:14,row:4,state:'Solid',econfig:'[Ar] 3d¹⁰ 4s² 4p²',en:2.01,uses:'Semiconductors, fiber optics, infrared optics.'},
-  {z:33,sym:'As',name:'Arsenic',mass:74.922,type:'metalloid',period:4,group:15,col:15,row:4,state:'Solid',econfig:'[Ar] 3d¹⁰ 4s² 4p³',en:2.18,uses:'Semiconductors, wood preservative, pesticides. Highly toxic.'},
-  {z:34,sym:'Se',name:'Selenium',mass:78.971,type:'nonmetal',period:4,group:16,col:16,row:4,state:'Solid',econfig:'[Ar] 3d¹⁰ 4s² 4p⁴',en:2.55,uses:'Photocopiers, glass tinting, dietary trace element.'},
-  {z:35,sym:'Br',name:'Bromine',mass:79.904,type:'halogen',period:4,group:17,col:17,row:4,state:'Liquid',econfig:'[Ar] 3d¹⁰ 4s² 4p⁵',en:2.96,uses:'Flame retardants, photography, water purification. Liquid at RT.'},
-  {z:36,sym:'Kr',name:'Krypton',mass:83.798,type:'noble',period:4,group:18,col:18,row:4,state:'Gas',econfig:'[Ar] 3d¹⁰ 4s² 4p⁶',en:0,uses:'Flash photography, lasers, formerly defined the metre.'},
-  {z:37,sym:'Rb',name:'Rubidium',mass:85.468,type:'alkali',period:5,group:1,col:1,row:5,state:'Solid',econfig:'[Kr] 5s¹',en:0.82,uses:'Atomic clocks, photomultiplier tubes, biomedical tracers.'},
-  {z:38,sym:'Sr',name:'Strontium',mass:87.62,type:'alkaline',period:5,group:2,col:2,row:5,state:'Solid',econfig:'[Kr] 5s²',en:0.95,uses:'Red fireworks, CRT screens, nuclear medicine (⁹⁰Sr).'},
-  {z:39,sym:'Y',name:'Yttrium',mass:88.906,type:'transition',period:5,group:3,col:3,row:5,state:'Solid',econfig:'[Kr] 4d¹ 5s²',en:1.22,uses:'LEDs, superconductors, camera lenses, yttrium iron garnets.'},
-  {z:40,sym:'Zr',name:'Zirconium',mass:91.224,type:'transition',period:5,group:4,col:4,row:5,state:'Solid',econfig:'[Kr] 4d² 5s²',en:1.33,uses:'Nuclear reactor cladding, ceramics, cubic zirconia jewellery.'},
-  {z:41,sym:'Nb',name:'Niobium',mass:92.906,type:'transition',period:5,group:5,col:5,row:5,state:'Solid',econfig:'[Kr] 4d⁴ 5s¹',en:1.60,uses:'Superconducting magnets, high-strength steel alloys.'},
-  {z:42,sym:'Mo',name:'Molybdenum',mass:95.95,type:'transition',period:5,group:6,col:6,row:5,state:'Solid',econfig:'[Kr] 4d⁵ 5s¹',en:2.16,uses:'High-strength steel, aerospace, lubricants (MoS₂).'},
-  {z:43,sym:'Tc',name:'Technetium',mass:98,type:'transition',period:5,group:7,col:7,row:5,state:'Solid',econfig:'[Kr] 4d⁵ 5s²',en:1.90,uses:'Nuclear medicine imaging (⁹⁹ᵐTc scans). First synthetic element.'},
-  {z:44,sym:'Ru',name:'Ruthenium',mass:101.07,type:'transition',period:5,group:8,col:8,row:5,state:'Solid',econfig:'[Kr] 4d⁷ 5s¹',en:2.20,uses:'Electrical contacts, catalysts, hard disk coatings.'},
-  {z:45,sym:'Rh',name:'Rhodium',mass:102.906,type:'transition',period:5,group:9,col:9,row:5,state:'Solid',econfig:'[Kr] 4d⁸ 5s¹',en:2.28,uses:'Catalytic converters, jewellery plating, industrial catalysts.'},
-  {z:46,sym:'Pd',name:'Palladium',mass:106.42,type:'transition',period:5,group:10,col:10,row:5,state:'Solid',econfig:'[Kr] 4d¹⁰',en:2.20,uses:'Catalytic converters, electronics, hydrogen storage.'},
-  {z:47,sym:'Ag',name:'Silver',mass:107.868,type:'transition',period:5,group:11,col:11,row:5,state:'Solid',econfig:'[Kr] 4d¹⁰ 5s¹',en:1.93,uses:'Photography (AgBr), jewellery, electronics, antimicrobial coatings.'},
-  {z:48,sym:'Cd',name:'Cadmium',mass:112.414,type:'transition',period:5,group:12,col:12,row:5,state:'Solid',econfig:'[Kr] 4d¹⁰ 5s²',en:1.69,uses:'Ni-Cd batteries, pigments, nuclear reactor control rods. Toxic.'},
-  {z:49,sym:'In',name:'Indium',mass:114.818,type:'post-trans',period:5,group:13,col:13,row:5,state:'Solid',econfig:'[Kr] 4d¹⁰ 5s² 5p¹',en:1.78,uses:'LCD screens (ITO), solders, low-melting alloys.'},
-  {z:50,sym:'Sn',name:'Tin',mass:118.71,type:'post-trans',period:5,group:14,col:14,row:5,state:'Solid',econfig:'[Kr] 4d¹⁰ 5s² 5p²',en:1.96,uses:'Food cans (tin plating), solder, bronze (Cu+Sn).'},
-  {z:51,sym:'Sb',name:'Antimony',mass:121.76,type:'metalloid',period:5,group:15,col:15,row:5,state:'Solid',econfig:'[Kr] 4d¹⁰ 5s² 5p³',en:2.05,uses:'Flame retardants, lead alloys for batteries.'},
-  {z:52,sym:'Te',name:'Tellurium',mass:127.6,type:'metalloid',period:5,group:16,col:16,row:5,state:'Solid',econfig:'[Kr] 4d¹⁰ 5s² 5p⁴',en:2.10,uses:'Solar panels (CdTe), thermoelectrics, rewritable discs.'},
-  {z:53,sym:'I',name:'Iodine',mass:126.904,type:'halogen',period:5,group:17,col:17,row:5,state:'Solid',econfig:'[Kr] 4d¹⁰ 5s² 5p⁵',en:2.66,uses:'Thyroid hormone (iodised salt), antiseptic, photography.'},
-  {z:54,sym:'Xe',name:'Xenon',mass:131.293,type:'noble',period:5,group:18,col:18,row:5,state:'Gas',econfig:'[Kr] 4d¹⁰ 5s² 5p⁶',en:0,uses:'Ion propulsion thrusters, anaesthetic, car headlights.'},
-  {z:55,sym:'Cs',name:'Caesium',mass:132.905,type:'alkali',period:6,group:1,col:1,row:6,state:'Solid',econfig:'[Xe] 6s¹',en:0.79,uses:'Atomic clocks (defines SI second), drilling fluids, night-vision devices.'},
-  {z:56,sym:'Ba',name:'Barium',mass:137.327,type:'alkaline',period:6,group:2,col:2,row:6,state:'Solid',econfig:'[Xe] 6s²',en:0.89,uses:'Barium sulfate (X-ray contrast), rat poison (BaCO₃), green fireworks.'},
-  {z:72,sym:'Hf',name:'Hafnium',mass:178.49,type:'transition',period:6,group:4,col:4,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d² 6s²',en:1.30,uses:'Nuclear reactor control rods, microprocessor gates.'},
-  {z:73,sym:'Ta',name:'Tantalum',mass:180.948,type:'transition',period:6,group:5,col:5,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d³ 6s²',en:1.50,uses:'Capacitors in electronics, surgical implants, turbine blades.'},
-  {z:74,sym:'W',name:'Tungsten',mass:183.84,type:'transition',period:6,group:6,col:6,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d⁴ 6s²',en:2.36,uses:'Light bulb filaments, cutting tools, highest melting point metal (3422°C).'},
-  {z:75,sym:'Re',name:'Rhenium',mass:186.207,type:'transition',period:6,group:7,col:7,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d⁵ 6s²',en:1.90,uses:'Jet engine alloys, catalytic reforming of petroleum.'},
-  {z:76,sym:'Os',name:'Osmium',mass:190.23,type:'transition',period:6,group:8,col:8,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d⁶ 6s²',en:2.20,uses:'Hardening alloys, fountain pen tips. Densest natural element.'},
-  {z:77,sym:'Ir',name:'Iridium',mass:192.217,type:'transition',period:6,group:9,col:9,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d⁷ 6s²',en:2.20,uses:'Spark plugs, K-Pg boundary marker, international kilogram standard.'},
-  {z:78,sym:'Pt',name:'Platinum',mass:195.084,type:'transition',period:6,group:10,col:10,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d⁹ 6s¹',en:2.28,uses:'Catalytic converters, jewellery, fuel cells, chemotherapy (cisplatin).'},
-  {z:79,sym:'Au',name:'Gold',mass:196.967,type:'transition',period:6,group:11,col:11,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d¹⁰ 6s¹',en:2.54,uses:'Currency, jewellery, electronics contacts, medical implants.'},
-  {z:80,sym:'Hg',name:'Mercury',mass:200.592,type:'transition',period:6,group:12,col:12,row:6,state:'Liquid',econfig:'[Xe] 4f¹⁴ 5d¹⁰ 6s²',en:2.00,uses:'Thermometers, fluorescent lights, dental amalgam. Only liquid metal at RT.'},
-  {z:81,sym:'Tl',name:'Thallium',mass:204.383,type:'post-trans',period:6,group:13,col:13,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p¹',en:1.62,uses:'Cardiac imaging, infrared optics. Highly toxic.'},
-  {z:82,sym:'Pb',name:'Lead',mass:207.2,type:'post-trans',period:6,group:14,col:14,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p²',en:2.33,uses:'Car batteries, radiation shielding, historical plumbing.'},
-  {z:83,sym:'Bi',name:'Bismuth',mass:208.98,type:'post-trans',period:6,group:15,col:15,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p³',en:2.02,uses:'Pepto-Bismol, fire sprinkler alloys, beautiful oxide crystals.'},
-  {z:84,sym:'Po',name:'Polonium',mass:209,type:'post-trans',period:6,group:16,col:16,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁴',en:2.00,uses:'Alpha particle source, antistatic devices. Highly radioactive.'},
-  {z:85,sym:'At',name:'Astatine',mass:210,type:'halogen',period:6,group:17,col:17,row:6,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁵',en:2.20,uses:'Cancer radiotherapy research. Rarest naturally occurring element.'},
-  {z:86,sym:'Rn',name:'Radon',mass:222,type:'noble',period:6,group:18,col:18,row:6,state:'Gas',econfig:'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁶',en:0,uses:'Cancer radiotherapy. Radioactive — lung cancer risk from home exposure.'},
-  {z:87,sym:'Fr',name:'Francium',mass:223,type:'alkali',period:7,group:1,col:1,row:7,state:'Solid',econfig:'[Rn] 7s¹',en:0.70,uses:'Fundamental physics research only. Extremely rare and radioactive.'},
-  {z:88,sym:'Ra',name:'Radium',mass:226,type:'alkaline',period:7,group:2,col:2,row:7,state:'Solid',econfig:'[Rn] 7s²',en:0.90,uses:'Historical cancer treatment, luminous paint (radioactive). Discovered by Curie.'},
-  {z:104,sym:'Rf',name:'Rutherfordium',mass:267,type:'transition',period:7,group:4,col:4,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d² 7s²',en:0,uses:'Research only. Synthetic transuranium element.'},
-  {z:105,sym:'Db',name:'Dubnium',mass:268,type:'transition',period:7,group:5,col:5,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d³ 7s²',en:0,uses:'Research only. Named after Dubna, Russia.'},
-  {z:106,sym:'Sg',name:'Seaborgium',mass:269,type:'transition',period:7,group:6,col:6,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d⁴ 7s²',en:0,uses:'Research only. Named after Glenn Seaborg.'},
-  {z:107,sym:'Bh',name:'Bohrium',mass:270,type:'transition',period:7,group:7,col:7,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d⁵ 7s²',en:0,uses:'Research only. Named after Niels Bohr.'},
-  {z:108,sym:'Hs',name:'Hassium',mass:270,type:'transition',period:7,group:8,col:8,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d⁶ 7s²',en:0,uses:'Research only. Named after Hesse, Germany.'},
-  {z:109,sym:'Mt',name:'Meitnerium',mass:278,type:'transition',period:7,group:9,col:9,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d⁷ 7s²',en:0,uses:'Research only. Named after Lise Meitner.'},
-  {z:110,sym:'Ds',name:'Darmstadtium',mass:281,type:'transition',period:7,group:10,col:10,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d⁸ 7s²',en:0,uses:'Research only. Named after Darmstadt, Germany.'},
-  {z:111,sym:'Rg',name:'Roentgenium',mass:282,type:'transition',period:7,group:11,col:11,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d⁹ 7s²',en:0,uses:'Research only. Named after Wilhelm Röntgen.'},
-  {z:112,sym:'Cn',name:'Copernicium',mass:285,type:'transition',period:7,group:12,col:12,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d¹⁰ 7s²',en:0,uses:'Research only. Named after Copernicus.'},
-  {z:113,sym:'Nh',name:'Nihonium',mass:286,type:'post-trans',period:7,group:13,col:13,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p¹',en:0,uses:'Research only. Named after Japan (Nihon).'},
-  {z:114,sym:'Fl',name:'Flerovium',mass:289,type:'post-trans',period:7,group:14,col:14,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p²',en:0,uses:'Research only. Named after Flerov Laboratory.'},
-  {z:115,sym:'Mc',name:'Moscovium',mass:290,type:'post-trans',period:7,group:15,col:15,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p³',en:0,uses:'Research only. Named after Moscow Oblast.'},
-  {z:116,sym:'Lv',name:'Livermorium',mass:293,type:'post-trans',period:7,group:16,col:16,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁴',en:0,uses:'Research only. Named after Livermore, California.'},
-  {z:117,sym:'Ts',name:'Tennessine',mass:294,type:'halogen',period:7,group:17,col:17,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁵',en:0,uses:'Research only. Named after Tennessee.'},
-  {z:118,sym:'Og',name:'Oganesson',mass:294,type:'noble',period:7,group:18,col:18,row:7,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁶',en:0,uses:'Research only. Named after Yuri Oganessian. Heaviest confirmed element.'}
+  {z:1,sym:'H',name:'Hydrogen',mass:1.008,type:'nonmetal',period:1,group:1,col:1,row:1,state:'Gas',econfig:'1s\u00b9',en:2.20,uses:'Fuel cells, rocket propellant, water (H\u2082O), acids.'},
+  {z:2,sym:'He',name:'Helium',mass:4.003,type:'noble',period:1,group:18,col:18,row:1,state:'Gas',econfig:'1s\u00b2',en:0,uses:'Balloons, MRI coolant, deep-sea diving mixtures.'},
+  {z:3,sym:'Li',name:'Lithium',mass:6.941,type:'alkali',period:2,group:1,col:1,row:2,state:'Solid',econfig:'[He] 2s\u00b9',en:0.98,uses:'Lithium-ion batteries, mood stabiliser drug, alloys.'},
+  {z:4,sym:'Be',name:'Beryllium',mass:9.012,type:'alkaline',period:2,group:2,col:2,row:2,state:'Solid',econfig:'[He] 2s\u00b2',en:1.57,uses:'Aerospace alloys, X-ray windows, nuclear reactors.'},
+  {z:5,sym:'B',name:'Boron',mass:10.811,type:'metalloid',period:2,group:13,col:13,row:2,state:'Solid',econfig:'[He] 2s\u00b2 2p\u00b9',en:2.04,uses:'Borosilicate glass, semiconductors, detergents (borax).'},
+  {z:6,sym:'C',name:'Carbon',mass:12.011,type:'nonmetal',period:2,group:14,col:14,row:2,state:'Solid',econfig:'[He] 2s\u00b2 2p\u00b2',en:2.55,uses:'All organic chemistry, graphite, diamonds, fullerenes, CO\u2082.'},
+  {z:7,sym:'N',name:'Nitrogen',mass:14.007,type:'nonmetal',period:2,group:15,col:15,row:2,state:'Gas',econfig:'[He] 2s\u00b2 2p\u00b3',en:3.04,uses:'78% of atmosphere, fertilisers (NH\u2083), explosives.'},
+  {z:8,sym:'O',name:'Oxygen',mass:15.999,type:'nonmetal',period:2,group:16,col:16,row:2,state:'Gas',econfig:'[He] 2s\u00b2 2p\u2074',en:3.44,uses:'Breathing, combustion, steel production, ozone layer.'},
+  {z:9,sym:'F',name:'Fluorine',mass:18.998,type:'halogen',period:2,group:17,col:17,row:2,state:'Gas',econfig:'[He] 2s\u00b2 2p\u2075',en:3.98,uses:'Toothpaste (NaF), Teflon, refrigerants. Most electronegative element.'},
+  {z:10,sym:'Ne',name:'Neon',mass:20.18,type:'noble',period:2,group:18,col:18,row:2,state:'Gas',econfig:'[He] 2s\u00b2 2p\u2076',en:0,uses:'Neon signs, lasers, cryogenics.'},
+  {z:11,sym:'Na',name:'Sodium',mass:22.99,type:'alkali',period:3,group:1,col:1,row:3,state:'Solid',econfig:'[Ne] 3s\u00b9',en:0.93,uses:'Table salt (NaCl), street lights, nerve impulse transmission.'},
+  {z:12,sym:'Mg',name:'Magnesium',mass:24.305,type:'alkaline',period:3,group:2,col:2,row:3,state:'Solid',econfig:'[Ne] 3s\u00b2',en:1.31,uses:'Alloys (aircraft), Mg flares, chlorophyll (plants).'},
+  {z:13,sym:'Al',name:'Aluminium',mass:26.982,type:'post-trans',period:3,group:13,col:13,row:3,state:'Solid',econfig:'[Ne] 3s\u00b2 3p\u00b9',en:1.61,uses:'Packaging, aircraft, cables, kitchen foil. Most abundant metal in crust.'},
+  {z:14,sym:'Si',name:'Silicon',mass:28.086,type:'metalloid',period:3,group:14,col:14,row:3,state:'Solid',econfig:'[Ne] 3s\u00b2 3p\u00b2',en:1.90,uses:'Semiconductors, computer chips, glass, solar cells. 2nd most abundant element.'},
+  {z:15,sym:'P',name:'Phosphorus',mass:30.974,type:'nonmetal',period:3,group:15,col:15,row:3,state:'Solid',econfig:'[Ne] 3s\u00b2 3p\u00b3',en:2.19,uses:'Fertilisers, DNA backbone, matches, detergents.'},
+  {z:16,sym:'S',name:'Sulfur',mass:32.065,type:'nonmetal',period:3,group:16,col:16,row:3,state:'Solid',econfig:'[Ne] 3s\u00b2 3p\u2074',en:2.58,uses:'H\u2082SO\u2084 (most used industrial chemical), rubber vulcanisation, matches.'},
+  {z:17,sym:'Cl',name:'Chlorine',mass:35.453,type:'halogen',period:3,group:17,col:17,row:3,state:'Gas',econfig:'[Ne] 3s\u00b2 3p\u2075',en:3.16,uses:'Water purification, PVC, bleach (NaOCl), salt (NaCl).'},
+  {z:18,sym:'Ar',name:'Argon',mass:39.948,type:'noble',period:3,group:18,col:18,row:3,state:'Gas',econfig:'[Ne] 3s\u00b2 3p\u2076',en:0,uses:'Welding shield gas, light bulbs, laser technology.'},
+  {z:19,sym:'K',name:'Potassium',mass:39.098,type:'alkali',period:4,group:1,col:1,row:4,state:'Solid',econfig:'[Ar] 4s\u00b9',en:0.82,uses:'Fertilisers, potassium chloride, banana nutrition.'},
+  {z:20,sym:'Ca',name:'Calcium',mass:40.078,type:'alkaline',period:4,group:2,col:2,row:4,state:'Solid',econfig:'[Ar] 4s\u00b2',en:1.00,uses:'Bones & teeth (CaPO\u2084), cement (CaCO\u2083), dairy.'},
+  {z:21,sym:'Sc',name:'Scandium',mass:44.956,type:'transition',period:4,group:3,col:3,row:4,state:'Solid',econfig:'[Ar] 3d\u00b9 4s\u00b2',en:1.36,uses:'Lightweight alloys, sports equipment, stadium lights.'},
+  {z:22,sym:'Ti',name:'Titanium',mass:47.867,type:'transition',period:4,group:4,col:4,row:4,state:'Solid',econfig:'[Ar] 3d\u00b2 4s\u00b2',en:1.54,uses:'Aircraft, implants, TiO\u2082 white pigment, jewellery.'},
+  {z:23,sym:'V',name:'Vanadium',mass:50.942,type:'transition',period:4,group:5,col:5,row:4,state:'Solid',econfig:'[Ar] 3d\u00b3 4s\u00b2',en:1.63,uses:'Steel alloys, vanadium redox batteries, catalyst.'},
+  {z:24,sym:'Cr',name:'Chromium',mass:51.996,type:'transition',period:4,group:6,col:6,row:4,state:'Solid',econfig:'[Ar] 3d\u2075 4s\u00b9',en:1.66,uses:'Stainless steel, chrome plating, pigments.'},
+  {z:25,sym:'Mn',name:'Manganese',mass:54.938,type:'transition',period:4,group:7,col:7,row:4,state:'Solid',econfig:'[Ar] 3d\u2075 4s\u00b2',en:1.55,uses:'Steel alloys, dry cell batteries (MnO\u2082), water treatment.'},
+  {z:26,sym:'Fe',name:'Iron',mass:55.845,type:'transition',period:4,group:8,col:8,row:4,state:'Solid',econfig:'[Ar] 3d\u2076 4s\u00b2',en:1.83,uses:'Steel production, hemoglobin (blood), construction.'},
+  {z:27,sym:'Co',name:'Cobalt',mass:58.933,type:'transition',period:4,group:9,col:9,row:4,state:'Solid',econfig:'[Ar] 3d\u2077 4s\u00b2',en:1.88,uses:'Superalloys (jet engines), blue pigments, lithium-ion batteries.'},
+  {z:28,sym:'Ni',name:'Nickel',mass:58.693,type:'transition',period:4,group:10,col:10,row:4,state:'Solid',econfig:'[Ar] 3d\u2078 4s\u00b2',en:1.91,uses:'Coins, electroplating, stainless steel, rechargeable batteries.'},
+  {z:29,sym:'Cu',name:'Copper',mass:63.546,type:'transition',period:4,group:11,col:11,row:4,state:'Solid',econfig:'[Ar] 3d\u00b9\u2070 4s\u00b9',en:1.90,uses:'Electrical wiring, plumbing, coins, antimicrobial surfaces.'},
+  {z:30,sym:'Zn',name:'Zinc',mass:65.38,type:'transition',period:4,group:12,col:12,row:4,state:'Solid',econfig:'[Ar] 3d\u00b9\u2070 4s\u00b2',en:1.65,uses:'Galvanising iron, die casting, zinc oxide (sunscreen).'},
+  {z:31,sym:'Ga',name:'Gallium',mass:69.723,type:'post-trans',period:4,group:13,col:13,row:4,state:'Solid',econfig:'[Ar] 3d\u00b9\u2070 4s\u00b2 4p\u00b9',en:1.81,uses:'LEDs, solar cells, semiconductors. Melts at 30\u00b0C.'},
+  {z:32,sym:'Ge',name:'Germanium',mass:72.63,type:'metalloid',period:4,group:14,col:14,row:4,state:'Solid',econfig:'[Ar] 3d\u00b9\u2070 4s\u00b2 4p\u00b2',en:2.01,uses:'Semiconductors, fiber optics, infrared optics.'},
+  {z:33,sym:'As',name:'Arsenic',mass:74.922,type:'metalloid',period:4,group:15,col:15,row:4,state:'Solid',econfig:'[Ar] 3d\u00b9\u2070 4s\u00b2 4p\u00b3',en:2.18,uses:'Semiconductors, wood preservative, pesticides. Highly toxic.'},
+  {z:34,sym:'Se',name:'Selenium',mass:78.971,type:'nonmetal',period:4,group:16,col:16,row:4,state:'Solid',econfig:'[Ar] 3d\u00b9\u2070 4s\u00b2 4p\u2074',en:2.55,uses:'Photocopiers, glass tinting, dietary trace element.'},
+  {z:35,sym:'Br',name:'Bromine',mass:79.904,type:'halogen',period:4,group:17,col:17,row:4,state:'Liquid',econfig:'[Ar] 3d\u00b9\u2070 4s\u00b2 4p\u2075',en:2.96,uses:'Flame retardants, photography, water purification. Liquid at RT.'},
+  {z:36,sym:'Kr',name:'Krypton',mass:83.798,type:'noble',period:4,group:18,col:18,row:4,state:'Gas',econfig:'[Ar] 3d\u00b9\u2070 4s\u00b2 4p\u2076',en:0,uses:'Flash photography, lasers, formerly defined the metre.'},
+  {z:37,sym:'Rb',name:'Rubidium',mass:85.468,type:'alkali',period:5,group:1,col:1,row:5,state:'Solid',econfig:'[Kr] 5s\u00b9',en:0.82,uses:'Atomic clocks, photomultiplier tubes, biomedical tracers.'},
+  {z:38,sym:'Sr',name:'Strontium',mass:87.62,type:'alkaline',period:5,group:2,col:2,row:5,state:'Solid',econfig:'[Kr] 5s\u00b2',en:0.95,uses:'Red fireworks, CRT screens, nuclear medicine (\u2079\u2070Sr).'},
+  {z:39,sym:'Y',name:'Yttrium',mass:88.906,type:'transition',period:5,group:3,col:3,row:5,state:'Solid',econfig:'[Kr] 4d\u00b9 5s\u00b2',en:1.22,uses:'LEDs, superconductors, camera lenses, yttrium iron garnets.'},
+  {z:40,sym:'Zr',name:'Zirconium',mass:91.224,type:'transition',period:5,group:4,col:4,row:5,state:'Solid',econfig:'[Kr] 4d\u00b2 5s\u00b2',en:1.33,uses:'Nuclear reactor cladding, ceramics, cubic zirconia jewellery.'},
+  {z:41,sym:'Nb',name:'Niobium',mass:92.906,type:'transition',period:5,group:5,col:5,row:5,state:'Solid',econfig:'[Kr] 4d\u2074 5s\u00b9',en:1.60,uses:'Superconducting magnets, high-strength steel alloys.'},
+  {z:42,sym:'Mo',name:'Molybdenum',mass:95.95,type:'transition',period:5,group:6,col:6,row:5,state:'Solid',econfig:'[Kr] 4d\u2075 5s\u00b9',en:2.16,uses:'High-strength steel, aerospace, lubricants (MoS\u2082).'},
+  {z:43,sym:'Tc',name:'Technetium',mass:98,type:'transition',period:5,group:7,col:7,row:5,state:'Solid',econfig:'[Kr] 4d\u2075 5s\u00b2',en:1.90,uses:'Nuclear medicine imaging (\u2079\u2079\u1d50Tc scans). First synthetic element.'},
+  {z:44,sym:'Ru',name:'Ruthenium',mass:101.07,type:'transition',period:5,group:8,col:8,row:5,state:'Solid',econfig:'[Kr] 4d\u2077 5s\u00b9',en:2.20,uses:'Electrical contacts, catalysts, hard disk coatings.'},
+  {z:45,sym:'Rh',name:'Rhodium',mass:102.906,type:'transition',period:5,group:9,col:9,row:5,state:'Solid',econfig:'[Kr] 4d\u2078 5s\u00b9',en:2.28,uses:'Catalytic converters, jewellery plating, industrial catalysts.'},
+  {z:46,sym:'Pd',name:'Palladium',mass:106.42,type:'transition',period:5,group:10,col:10,row:5,state:'Solid',econfig:'[Kr] 4d\u00b9\u2070',en:2.20,uses:'Catalytic converters, electronics, hydrogen storage.'},
+  {z:47,sym:'Ag',name:'Silver',mass:107.868,type:'transition',period:5,group:11,col:11,row:5,state:'Solid',econfig:'[Kr] 4d\u00b9\u2070 5s\u00b9',en:1.93,uses:'Photography (AgBr), jewellery, electronics, antimicrobial coatings.'},
+  {z:48,sym:'Cd',name:'Cadmium',mass:112.414,type:'transition',period:5,group:12,col:12,row:5,state:'Solid',econfig:'[Kr] 4d\u00b9\u2070 5s\u00b2',en:1.69,uses:'Ni-Cd batteries, pigments, nuclear reactor control rods. Toxic.'},
+  {z:49,sym:'In',name:'Indium',mass:114.818,type:'post-trans',period:5,group:13,col:13,row:5,state:'Solid',econfig:'[Kr] 4d\u00b9\u2070 5s\u00b2 5p\u00b9',en:1.78,uses:'LCD screens (ITO), solders, low-melting alloys.'},
+  {z:50,sym:'Sn',name:'Tin',mass:118.71,type:'post-trans',period:5,group:14,col:14,row:5,state:'Solid',econfig:'[Kr] 4d\u00b9\u2070 5s\u00b2 5p\u00b2',en:1.96,uses:'Food cans (tin plating), solder, bronze (Cu+Sn).'},
+  {z:51,sym:'Sb',name:'Antimony',mass:121.76,type:'metalloid',period:5,group:15,col:15,row:5,state:'Solid',econfig:'[Kr] 4d\u00b9\u2070 5s\u00b2 5p\u00b3',en:2.05,uses:'Flame retardants, lead alloys for batteries.'},
+  {z:52,sym:'Te',name:'Tellurium',mass:127.6,type:'metalloid',period:5,group:16,col:16,row:5,state:'Solid',econfig:'[Kr] 4d\u00b9\u2070 5s\u00b2 5p\u2074',en:2.10,uses:'Solar panels (CdTe), thermoelectrics, rewritable discs.'},
+  {z:53,sym:'I',name:'Iodine',mass:126.904,type:'halogen',period:5,group:17,col:17,row:5,state:'Solid',econfig:'[Kr] 4d\u00b9\u2070 5s\u00b2 5p\u2075',en:2.66,uses:'Thyroid hormone (iodised salt), antiseptic, photography.'},
+  {z:54,sym:'Xe',name:'Xenon',mass:131.293,type:'noble',period:5,group:18,col:18,row:5,state:'Gas',econfig:'[Kr] 4d\u00b9\u2070 5s\u00b2 5p\u2076',en:0,uses:'Ion propulsion thrusters, anaesthetic, car headlights.'},
+  {z:55,sym:'Cs',name:'Caesium',mass:132.905,type:'alkali',period:6,group:1,col:1,row:6,state:'Solid',econfig:'[Xe] 6s\u00b9',en:0.79,uses:'Atomic clocks (defines SI second), drilling fluids, night-vision devices.'},
+  {z:56,sym:'Ba',name:'Barium',mass:137.327,type:'alkaline',period:6,group:2,col:2,row:6,state:'Solid',econfig:'[Xe] 6s\u00b2',en:0.89,uses:'Barium sulfate (X-ray contrast), rat poison (BaCO\u2083), green fireworks.'},
+  {z:72,sym:'Hf',name:'Hafnium',mass:178.49,type:'transition',period:6,group:4,col:4,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u00b2 6s\u00b2',en:1.30,uses:'Nuclear reactor control rods, microprocessor gates.'},
+  {z:73,sym:'Ta',name:'Tantalum',mass:180.948,type:'transition',period:6,group:5,col:5,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u00b3 6s\u00b2',en:1.50,uses:'Capacitors in electronics, surgical implants, turbine blades.'},
+  {z:74,sym:'W',name:'Tungsten',mass:183.84,type:'transition',period:6,group:6,col:6,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u2074 6s\u00b2',en:2.36,uses:'Light bulb filaments, cutting tools, highest melting point metal (3422\u00b0C).'},
+  {z:75,sym:'Re',name:'Rhenium',mass:186.207,type:'transition',period:6,group:7,col:7,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u2075 6s\u00b2',en:1.90,uses:'Jet engine alloys, catalytic reforming of petroleum.'},
+  {z:76,sym:'Os',name:'Osmium',mass:190.23,type:'transition',period:6,group:8,col:8,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u2076 6s\u00b2',en:2.20,uses:'Hardening alloys, fountain pen tips. Densest natural element.'},
+  {z:77,sym:'Ir',name:'Iridium',mass:192.217,type:'transition',period:6,group:9,col:9,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u2077 6s\u00b2',en:2.20,uses:'Spark plugs, K-Pg boundary marker, international kilogram standard.'},
+  {z:78,sym:'Pt',name:'Platinum',mass:195.084,type:'transition',period:6,group:10,col:10,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u2079 6s\u00b9',en:2.28,uses:'Catalytic converters, jewellery, fuel cells, chemotherapy (cisplatin).'},
+  {z:79,sym:'Au',name:'Gold',mass:196.967,type:'transition',period:6,group:11,col:11,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u00b9\u2070 6s\u00b9',en:2.54,uses:'Currency, jewellery, electronics contacts, medical implants.'},
+  {z:80,sym:'Hg',name:'Mercury',mass:200.592,type:'transition',period:6,group:12,col:12,row:6,state:'Liquid',econfig:'[Xe] 4f\u00b9\u2074 5d\u00b9\u2070 6s\u00b2',en:2.00,uses:'Thermometers, fluorescent lights, dental amalgam. Only liquid metal at RT.'},
+  {z:81,sym:'Tl',name:'Thallium',mass:204.383,type:'post-trans',period:6,group:13,col:13,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u00b9\u2070 6s\u00b2 6p\u00b9',en:1.62,uses:'Cardiac imaging, infrared optics. Highly toxic.'},
+  {z:82,sym:'Pb',name:'Lead',mass:207.2,type:'post-trans',period:6,group:14,col:14,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u00b9\u2070 6s\u00b2 6p\u00b2',en:2.33,uses:'Car batteries, radiation shielding, historical plumbing.'},
+  {z:83,sym:'Bi',name:'Bismuth',mass:208.98,type:'post-trans',period:6,group:15,col:15,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u00b9\u2070 6s\u00b2 6p\u00b3',en:2.02,uses:'Pepto-Bismol, fire sprinkler alloys, beautiful oxide crystals.'},
+  {z:84,sym:'Po',name:'Polonium',mass:209,type:'post-trans',period:6,group:16,col:16,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u00b9\u2070 6s\u00b2 6p\u2074',en:2.00,uses:'Alpha particle source, antistatic devices. Highly radioactive.'},
+  {z:85,sym:'At',name:'Astatine',mass:210,type:'halogen',period:6,group:17,col:17,row:6,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u00b9\u2070 6s\u00b2 6p\u2075',en:2.20,uses:'Cancer radiotherapy research. Rarest naturally occurring element.'},
+  {z:86,sym:'Rn',name:'Radon',mass:222,type:'noble',period:6,group:18,col:18,row:6,state:'Gas',econfig:'[Xe] 4f\u00b9\u2074 5d\u00b9\u2070 6s\u00b2 6p\u2076',en:0,uses:'Cancer radiotherapy. Radioactive \u2014 lung cancer risk from home exposure.'},
+  {z:87,sym:'Fr',name:'Francium',mass:223,type:'alkali',period:7,group:1,col:1,row:7,state:'Solid',econfig:'[Rn] 7s\u00b9',en:0.70,uses:'Fundamental physics research only. Extremely rare and radioactive.'},
+  {z:88,sym:'Ra',name:'Radium',mass:226,type:'alkaline',period:7,group:2,col:2,row:7,state:'Solid',econfig:'[Rn] 7s\u00b2',en:0.90,uses:'Historical cancer treatment, luminous paint (radioactive). Discovered by Curie.'},
+  {z:104,sym:'Rf',name:'Rutherfordium',mass:267,type:'transition',period:7,group:4,col:4,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u00b2 7s\u00b2',en:0,uses:'Research only. Synthetic transuranium element.'},
+  {z:105,sym:'Db',name:'Dubnium',mass:268,type:'transition',period:7,group:5,col:5,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u00b3 7s\u00b2',en:0,uses:'Research only. Named after Dubna, Russia.'},
+  {z:106,sym:'Sg',name:'Seaborgium',mass:269,type:'transition',period:7,group:6,col:6,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u2074 7s\u00b2',en:0,uses:'Research only. Named after Glenn Seaborg.'},
+  {z:107,sym:'Bh',name:'Bohrium',mass:270,type:'transition',period:7,group:7,col:7,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u2075 7s\u00b2',en:0,uses:'Research only. Named after Niels Bohr.'},
+  {z:108,sym:'Hs',name:'Hassium',mass:270,type:'transition',period:7,group:8,col:8,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u2076 7s\u00b2',en:0,uses:'Research only. Named after Hesse, Germany.'},
+  {z:109,sym:'Mt',name:'Meitnerium',mass:278,type:'transition',period:7,group:9,col:9,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u2077 7s\u00b2',en:0,uses:'Research only. Named after Lise Meitner.'},
+  {z:110,sym:'Ds',name:'Darmstadtium',mass:281,type:'transition',period:7,group:10,col:10,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u2078 7s\u00b2',en:0,uses:'Research only. Named after Darmstadt, Germany.'},
+  {z:111,sym:'Rg',name:'Roentgenium',mass:282,type:'transition',period:7,group:11,col:11,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u2079 7s\u00b2',en:0,uses:'Research only. Named after Wilhelm R\u00f6ntgen.'},
+  {z:112,sym:'Cn',name:'Copernicium',mass:285,type:'transition',period:7,group:12,col:12,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u00b9\u2070 7s\u00b2',en:0,uses:'Research only. Named after Copernicus.'},
+  {z:113,sym:'Nh',name:'Nihonium',mass:286,type:'post-trans',period:7,group:13,col:13,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u00b9\u2070 7s\u00b2 7p\u00b9',en:0,uses:'Research only. Named after Japan (Nihon).'},
+  {z:114,sym:'Fl',name:'Flerovium',mass:289,type:'post-trans',period:7,group:14,col:14,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u00b9\u2070 7s\u00b2 7p\u00b2',en:0,uses:'Research only. Named after Flerov Laboratory.'},
+  {z:115,sym:'Mc',name:'Moscovium',mass:290,type:'post-trans',period:7,group:15,col:15,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u00b9\u2070 7s\u00b2 7p\u00b3',en:0,uses:'Research only. Named after Moscow Oblast.'},
+  {z:116,sym:'Lv',name:'Livermorium',mass:293,type:'post-trans',period:7,group:16,col:16,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u00b9\u2070 7s\u00b2 7p\u2074',en:0,uses:'Research only. Named after Livermore, California.'},
+  {z:117,sym:'Ts',name:'Tennessine',mass:294,type:'halogen',period:7,group:17,col:17,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u00b9\u2070 7s\u00b2 7p\u2075',en:0,uses:'Research only. Named after Tennessee.'},
+  {z:118,sym:'Og',name:'Oganesson',mass:294,type:'noble',period:7,group:18,col:18,row:7,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 6d\u00b9\u2070 7s\u00b2 7p\u2076',en:0,uses:'Research only. Named after Yuri Oganessian. Heaviest confirmed element.'}
 ];
 
 const LANTHANIDES=[
-  {z:57,sym:'La',name:'Lanthanum',mass:138.905,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 5d¹ 6s²',en:1.10,uses:'Camera lenses, hydrogen storage, La-Ni batteries.'},
-  {z:58,sym:'Ce',name:'Cerium',mass:140.116,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f¹ 5d¹ 6s²',en:1.12,uses:'Catalytic converters, glass polishing, lighter flints.'},
-  {z:59,sym:'Pr',name:'Praseodymium',mass:140.908,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f³ 6s²',en:1.13,uses:'Permanent magnets, aircraft engine alloys, green glass.'},
-  {z:60,sym:'Nd',name:'Neodymium',mass:144.242,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f⁴ 6s²',en:1.14,uses:'Strongest permanent magnets (Nd₂Fe₁₄B), EV motors, MRI machines.'},
-  {z:61,sym:'Pm',name:'Promethium',mass:145,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f⁵ 6s²',en:1.13,uses:'Nuclear batteries, luminous paint. Radioactive, no stable isotopes.'},
-  {z:62,sym:'Sm',name:'Samarium',mass:150.36,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f⁶ 6s²',en:1.17,uses:'SmCo permanent magnets, cancer treatment, neutron absorber.'},
-  {z:63,sym:'Eu',name:'Europium',mass:151.964,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f⁷ 6s²',en:1.20,uses:'Red phosphors in TV/LED, euro banknote security feature.'},
-  {z:64,sym:'Gd',name:'Gadolinium',mass:157.25,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f⁷ 5d¹ 6s²',en:1.20,uses:'MRI contrast agent, neutron capture therapy, Gd scintillators.'},
-  {z:65,sym:'Tb',name:'Terbium',mass:158.925,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f⁹ 6s²',en:1.10,uses:'Green phosphors, terfenol-D (magnetostrictive alloy).'},
-  {z:66,sym:'Dy',name:'Dysprosium',mass:162.5,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f¹⁰ 6s²',en:1.22,uses:'Nd magnets additive (EV motors), nuclear reactor rods.'},
-  {z:67,sym:'Ho',name:'Holmium',mass:164.93,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f¹¹ 6s²',en:1.23,uses:'Laser scalpels, magnetic flux concentrators.'},
-  {z:68,sym:'Er',name:'Erbium',mass:167.259,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f¹² 6s²',en:1.24,uses:'Optical fiber amplifiers, pink glass tinting, lasers.'},
-  {z:69,sym:'Tm',name:'Thulium',mass:168.934,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f¹³ 6s²',en:1.25,uses:'Portable X-ray sources, lasers, surgical instruments.'},
-  {z:70,sym:'Yb',name:'Ytterbium',mass:173.054,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f¹⁴ 6s²',en:1.10,uses:'Optical fiber lasers, atomic clocks, stress gauges.'},
-  {z:71,sym:'Lu',name:'Lutetium',mass:174.967,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f¹⁴ 5d¹ 6s²',en:1.27,uses:'PET scan detectors, catalyst in oil refining.'}
+  {z:57,sym:'La',name:'Lanthanum',mass:138.905,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 5d\u00b9 6s\u00b2',en:1.10,uses:'Camera lenses, hydrogen storage, La-Ni batteries.'},
+  {z:58,sym:'Ce',name:'Cerium',mass:140.116,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u00b9 5d\u00b9 6s\u00b2',en:1.12,uses:'Catalytic converters, glass polishing, lighter flints.'},
+  {z:59,sym:'Pr',name:'Praseodymium',mass:140.908,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u00b3 6s\u00b2',en:1.13,uses:'Permanent magnets, aircraft engine alloys, green glass.'},
+  {z:60,sym:'Nd',name:'Neodymium',mass:144.242,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u2074 6s\u00b2',en:1.14,uses:'Strongest permanent magnets (Nd\u2082Fe\u2081\u2084B), EV motors, MRI machines.'},
+  {z:61,sym:'Pm',name:'Promethium',mass:145,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u2075 6s\u00b2',en:1.13,uses:'Nuclear batteries, luminous paint. Radioactive, no stable isotopes.'},
+  {z:62,sym:'Sm',name:'Samarium',mass:150.36,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u2076 6s\u00b2',en:1.17,uses:'SmCo permanent magnets, cancer treatment, neutron absorber.'},
+  {z:63,sym:'Eu',name:'Europium',mass:151.964,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u2077 6s\u00b2',en:1.20,uses:'Red phosphors in TV/LED, euro banknote security feature.'},
+  {z:64,sym:'Gd',name:'Gadolinium',mass:157.25,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u2077 5d\u00b9 6s\u00b2',en:1.20,uses:'MRI contrast agent, neutron capture therapy, Gd scintillators.'},
+  {z:65,sym:'Tb',name:'Terbium',mass:158.925,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u2079 6s\u00b2',en:1.10,uses:'Green phosphors, terfenol-D (magnetostrictive alloy).'},
+  {z:66,sym:'Dy',name:'Dysprosium',mass:162.5,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u00b9\u2070 6s\u00b2',en:1.22,uses:'Nd magnets additive (EV motors), nuclear reactor rods.'},
+  {z:67,sym:'Ho',name:'Holmium',mass:164.93,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u00b9\u00b9 6s\u00b2',en:1.23,uses:'Laser scalpels, magnetic flux concentrators.'},
+  {z:68,sym:'Er',name:'Erbium',mass:167.259,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u00b9\u00b2 6s\u00b2',en:1.24,uses:'Optical fiber amplifiers, pink glass tinting, lasers.'},
+  {z:69,sym:'Tm',name:'Thulium',mass:168.934,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u00b9\u00b3 6s\u00b2',en:1.25,uses:'Portable X-ray sources, lasers, surgical instruments.'},
+  {z:70,sym:'Yb',name:'Ytterbium',mass:173.054,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 6s\u00b2',en:1.10,uses:'Optical fiber lasers, atomic clocks, stress gauges.'},
+  {z:71,sym:'Lu',name:'Lutetium',mass:174.967,type:'lanthanide',period:6,group:3,state:'Solid',econfig:'[Xe] 4f\u00b9\u2074 5d\u00b9 6s\u00b2',en:1.27,uses:'PET scan detectors, catalyst in oil refining.'}
 ];
 
 const ACTINIDES=[
-  {z:89,sym:'Ac',name:'Actinium',mass:227,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 6d¹ 7s²',en:1.10,uses:'Neutron sources, targeted cancer therapy.'},
-  {z:90,sym:'Th',name:'Thorium',mass:232.038,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 6d² 7s²',en:1.30,uses:'Proposed nuclear fuel (thorium reactors), gas mantles.'},
-  {z:91,sym:'Pa',name:'Protactinium',mass:231.036,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 5f² 6d¹ 7s²',en:1.50,uses:'Research only. Radioactive and toxic.'},
-  {z:92,sym:'U',name:'Uranium',mass:238.029,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 5f³ 6d¹ 7s²',en:1.38,uses:'Nuclear fuel (U-235 fissions), depleted uranium in armour.'},
-  {z:93,sym:'Np',name:'Neptunium',mass:237,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 5f⁴ 6d¹ 7s²',en:1.36,uses:'Neutron detection equipment.'},
-  {z:94,sym:'Pu',name:'Plutonium',mass:244,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 5f⁶ 7s²',en:1.28,uses:'Nuclear weapons, nuclear power fuel, RTGs (spacecraft).'},
-  {z:95,sym:'Am',name:'Americium',mass:243,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 5f⁷ 7s²',en:1.30,uses:'Smoke detectors (Am-241), neutron sources.'},
-  {z:96,sym:'Cm',name:'Curium',mass:247,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 5f⁷ 6d¹ 7s²',en:1.30,uses:'Alpha particle X-ray spectrometer (Mars rovers).'},
-  {z:97,sym:'Bk',name:'Berkelium',mass:247,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f⁹ 7s²',en:1.30,uses:'Research only. Used to synthesise element 117.'},
-  {z:98,sym:'Cf',name:'Californium',mass:251,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f¹⁰ 7s²',en:1.30,uses:'Neutron startup sources for reactors, gold prospecting.'},
-  {z:99,sym:'Es',name:'Einsteinium',mass:252,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f¹¹ 7s²',en:1.30,uses:'Research only. Named after Albert Einstein.'},
-  {z:100,sym:'Fm',name:'Fermium',mass:257,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f¹² 7s²',en:1.30,uses:'Research only. First produced in H-bomb fallout.'},
-  {z:101,sym:'Md',name:'Mendelevium',mass:258,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f¹³ 7s²',en:1.30,uses:'Research only. Named after Dmitri Mendeleev.'},
-  {z:102,sym:'No',name:'Nobelium',mass:259,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 7s²',en:1.30,uses:'Research only. Named after Alfred Nobel.'},
-  {z:103,sym:'Lr',name:'Lawrencium',mass:266,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f¹⁴ 7s² 7p¹',en:1.30,uses:'Research only. Named after Ernest Lawrence.'}
+  {z:89,sym:'Ac',name:'Actinium',mass:227,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 6d\u00b9 7s\u00b2',en:1.10,uses:'Neutron sources, targeted cancer therapy.'},
+  {z:90,sym:'Th',name:'Thorium',mass:232.038,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 6d\u00b2 7s\u00b2',en:1.30,uses:'Proposed nuclear fuel (thorium reactors), gas mantles.'},
+  {z:91,sym:'Pa',name:'Protactinium',mass:231.036,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 5f\u00b2 6d\u00b9 7s\u00b2',en:1.50,uses:'Research only. Radioactive and toxic.'},
+  {z:92,sym:'U',name:'Uranium',mass:238.029,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 5f\u00b3 6d\u00b9 7s\u00b2',en:1.38,uses:'Nuclear fuel (U-235 fissions), depleted uranium in armour.'},
+  {z:93,sym:'Np',name:'Neptunium',mass:237,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 5f\u2074 6d\u00b9 7s\u00b2',en:1.36,uses:'Neutron detection equipment.'},
+  {z:94,sym:'Pu',name:'Plutonium',mass:244,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 5f\u2076 7s\u00b2',en:1.28,uses:'Nuclear weapons, nuclear power fuel, RTGs (spacecraft).'},
+  {z:95,sym:'Am',name:'Americium',mass:243,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 5f\u2077 7s\u00b2',en:1.30,uses:'Smoke detectors (Am-241), neutron sources.'},
+  {z:96,sym:'Cm',name:'Curium',mass:247,type:'actinide',period:7,group:3,state:'Solid',econfig:'[Rn] 5f\u2077 6d\u00b9 7s\u00b2',en:1.30,uses:'Alpha particle X-ray spectrometer (Mars rovers).'},
+  {z:97,sym:'Bk',name:'Berkelium',mass:247,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f\u2079 7s\u00b2',en:1.30,uses:'Research only. Used to synthesise element 117.'},
+  {z:98,sym:'Cf',name:'Californium',mass:251,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2070 7s\u00b2',en:1.30,uses:'Neutron startup sources for reactors, gold prospecting.'},
+  {z:99,sym:'Es',name:'Einsteinium',mass:252,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u00b9 7s\u00b2',en:1.30,uses:'Research only. Named after Albert Einstein.'},
+  {z:100,sym:'Fm',name:'Fermium',mass:257,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u00b2 7s\u00b2',en:1.30,uses:'Research only. First produced in H-bomb fallout.'},
+  {z:101,sym:'Md',name:'Mendelevium',mass:258,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u00b3 7s\u00b2',en:1.30,uses:'Research only. Named after Dmitri Mendeleev.'},
+  {z:102,sym:'No',name:'Nobelium',mass:259,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 7s\u00b2',en:1.30,uses:'Research only. Named after Alfred Nobel.'},
+  {z:103,sym:'Lr',name:'Lawrencium',mass:266,type:'actinide',period:7,group:3,state:'Synthetic',econfig:'[Rn] 5f\u00b9\u2074 7s\u00b2 7p\u00b9',en:1.30,uses:'Research only. Named after Ernest Lawrence.'}
 ];
 
 const TYPE_COLORS={alkali:'#f87171',alkaline:'#fb923c',transition:'#facc15',
@@ -553,28 +545,23 @@ function buildPeriodicTable(){
   const grid=document.getElementById('ptGrid');
   if(!grid)return;
   grid.innerHTML='';
-  // Build 7×18 grid
   const layout=Array.from({length:7},()=>Array(18).fill(null));
-  // Place main elements
   PT.forEach(el=>{
     const r=el.row-1,c=el.col-1;
     if(r>=0&&r<7&&c>=0&&c<18)layout[r][c]=el;
   });
-  // Lanthanide/Actinide placeholders in row 6,7 col 3
   for(let r=0;r<7;r++){
     for(let c=0;c<18;c++){
       const el=layout[r][c];
       if(el){grid.appendChild(makeCell(el));}
       else {
         const empty=document.createElement('div');empty.className='pt-cell empty';
-        // Add * ** markers for lanthanide/actinide gaps
         if(r===5&&c===2){empty.innerHTML='<span style="font-size:0.55rem;color:var(--ions-pos)">*</span>';}
         if(r===6&&c===2){empty.innerHTML='<span style="font-size:0.55rem;color:var(--alkene)">**</span>';}
         grid.appendChild(empty);
       }
     }
   }
-  // Build lanthanide row
   const la=document.getElementById('ptLantha');
   const ac=document.getElementById('ptActin');
   if(la){la.innerHTML='';LANTHANIDES.forEach(el=>la.appendChild(makeCell(el)));}
@@ -609,9 +596,6 @@ function closeElemModal(){
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeElemModal();});
 
-/* ---------- 15. THEME ---------- */
-// (handled in section 16b below)
-
 /* ---------- 16. MOBILE NAV ---------- */
 function toggleMobileNav(){
   const drawer=document.getElementById('mobileNavDrawer');
@@ -626,14 +610,14 @@ function toggleMobileNav(){
 function toggleTheme(){
   const isDark=!document.documentElement.hasAttribute('data-theme');
   document.documentElement.setAttribute('data-theme',isDark?'light':'');
-  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
+  document.getElementById('themeBtn').textContent=isDark?'\ud83c\udf19':'\u2600\ufe0f';
   if(!isDark)document.documentElement.removeAttribute('data-theme');
   try{localStorage.setItem('labar_theme',isDark?'light':'dark');}catch(e){}
 }
 function restoreTheme(){
   try{
     const t=localStorage.getItem('labar_theme');
-    if(t==='light'){document.documentElement.setAttribute('data-theme','light');const b=document.getElementById('themeBtn');if(b)b.textContent='🌙';}
+    if(t==='light'){document.documentElement.setAttribute('data-theme','light');const b=document.getElementById('themeBtn');if(b)b.textContent='\ud83c\udf19';}
   }catch(e){}
 }
 
@@ -657,13 +641,13 @@ const CHAPTERS=[
 ];
 
 const MESSAGES=[
-  [0,   "Start checking off sections as you study! ✨"],
-  [10,  "Great start — keep going! 🚀"],
-  [25,  "You're 25% through — solid progress! 💪"],
-  [50,  "Halfway there! You're on a roll 🔥"],
-  [75,  "75% done — almost a chemistry expert! ⚗️"],
-  [90,  "So close! Just a few sections left 🏁"],
-  [100, "🎉 Encyclopedia complete! You've mastered LabAR.EDU!"]
+  [0,   "Start checking off sections as you study! \u2728"],
+  [10,  "Great start \u2014 keep going! \ud83d\ude80"],
+  [25,  "You're 25% through \u2014 solid progress! \ud83d\udcaa"],
+  [50,  "Halfway there! You're on a roll \ud83d\udd25"],
+  [75,  "75% done \u2014 almost a chemistry expert! \u2697\ufe0f"],
+  [90,  "So close! Just a few sections left \ud83c\udfc1"],
+  [100, "\ud83c\udf89 Encyclopedia complete! You've mastered LabAR.EDU!"]
 ];
 
 function getMsg(pct){
@@ -678,24 +662,20 @@ function updateProgress(){
   const done=allIds.filter(id=>document.getElementById(id)?.checked).length;
   const pct=Math.round(done/total*100);
 
-  // Mini bar + label + badge
   const fill=document.getElementById('progressFill');
   const label=document.getElementById('progressLabel');
   const badge=document.getElementById('pdBadge');
   if(fill)fill.style.width=pct+'%';
   if(label)label.textContent=`${done} / ${total}`;
   if(badge)badge.textContent=pct+'%';
-  // Mobile mini bar
   const mf=document.getElementById('mobProgressFill');
   const ml=document.getElementById('mobProgressLabel');
   if(mf)mf.style.width=pct+'%';
   if(ml)ml.textContent=pct+'%';
 
-  // Message
   const msg=document.getElementById('pdMessage');
   if(msg)msg.textContent=getMsg(pct);
 
-  // Chapter bars + dots
   CHAPTERS.forEach((ch,i)=>{
     const chDone=ch.ids.filter(id=>document.getElementById(id)?.checked).length;
     const chTotal=ch.ids.length;
@@ -717,7 +697,6 @@ function updateProgress(){
     }
   });
 
-  // Save to localStorage
   try{localStorage.setItem('labar_progress',JSON.stringify(allIds.map(id=>document.getElementById(id)?.checked||false)));}catch(e){}
 }
 
@@ -730,7 +709,6 @@ function toggleDashboard(){
   try{localStorage.setItem('labar_dash_open',open);}catch(e){}
 }
 
-// Restore saved progress
 function restoreProgress(){
   try{
     const saved=JSON.parse(localStorage.getItem('labar_progress')||'[]');
@@ -753,304 +731,4 @@ window.addEventListener('scroll',()=>{
 
 /* ---------- 18. GLOBAL SEARCH ---------- */
 const SEARCH_INDEX=[
-  /* === Ch01: Organic Chemistry === */
-  {title:'Hydrocarbon Calculator',ctx:'Calculate alkane alkene alkyne molecular formulas CnH2n+2 carbon count empirical formula',anchor:'calc-tool'},
-  {title:'What are Hydrocarbons',ctx:'Alkanes saturated alkenes alkynes unsaturated C–H compounds fossil fuels combustion hydrocarbon types',anchor:'hydrocarbons'},
-  {title:'IUPAC Nomenclature',ctx:'Systematic naming longest chain rule substituents alphabetical order locant prefix suffix alkan alken alkyne',anchor:'iupac-section'},
-  {title:'Isomerism',ctx:'Structural isomers stereoisomers geometric cis trans optical enantiomers chiral carbon R S configuration',anchor:'isomerism-section'},
-  {title:'Compound Library',ctx:'Methane ethane propane butane pentane hexane heptane octane nonane decane full series C1 C10 homologous',anchor:'table-section'},
-  {title:'Organic Functional Groups',ctx:'Alcohol aldehyde ketone carboxylic acid ester amine ether amide alkyl halide thiol nitrile aromatic OH CHO COOH COO NH2 Tollens Fehling test benzene',anchor:'functional-section'},
-  {title:'Organic Reactions & Mechanisms',ctx:'Oxidation energy profile exothermic endothermic activation energy reaction pathway combustion substitution addition elimination polymerisation',anchor:'organic-reactions-section'},
-  {title:'Organic Synthesis',ctx:'Grignard Friedel-Crafts Aldol Diels-Alder Wittig Williamson esterification SN1 SN2 E1 E2 Markovnikov retrosynthesis named reactions protecting groups carbocation',anchor:'synthesis-section'},
-  {title:'Polymers',ctx:'Addition condensation polymer monomer polyethylene nylon PVC natural synthetic rubber proteins DNA cellulose starch',anchor:'polymers-section'},
-
-  /* === Ch02: General Chemistry === */
-  {title:'Chemistry Glossary',ctx:'Atom molecule element compound mixture ion cation anion acid base salt solution solute solvent reaction pH catalyst electrolyte vocabulary definitions',anchor:'glossary-section'},
-  {title:'Reactivity Series',ctx:'Metal activity potassium sodium calcium magnesium aluminium zinc iron tin lead copper silver gold platinum displacement reduction extraction electrolysis',anchor:'reactivity-section'},
-  {title:'Ions & Charges',ctx:'Cations anions Li Na K Mg Ca Al Fe Cu Cl SO4 NO3 OH CO3 PO4 ionic charges positive negative polyatomic acetate permanganate chromate dichromate',anchor:'ions-section'},
-  {title:'Mole Concept',ctx:'Avogadro number 6.02 ten 23 moles molarity molar mass particles volume 22.4 STP stoichiometry counting matter',anchor:'moles-section'},
-  {title:'Thermochemistry',ctx:'Exothermic endothermic enthalpy ΔH heat Q mcΔT specific heat capacity calorimetry Hess law bond energy',anchor:'thermo-section'},
-  {title:'Nuclear Chemistry',ctx:'Radioactivity alpha beta gamma half-life decay E mc2 binding energy protons neutrons fission fusion nuclear reactor',anchor:'nuclear-section'},
-  {title:'Chemical Bonding',ctx:'Ionic covalent metallic bond electronegativity polar nonpolar Lewis dot structure octet rule dipole intermolecular forces hydrogen bond',anchor:'bonding-section'},
-  {title:'Reaction Types',ctx:'Synthesis combination decomposition single double displacement combustion neutralisation balanced equations redox precipitation',anchor:'reactions-section'},
-  {title:'Acids & Bases',ctx:'pH pOH indicators litmus phenolphthalein strong weak acid base buffer neutralization Bronsted Lowry conjugate pair Ka Kb HCl H2SO4 NaOH KOH',anchor:'acids-section'},
-  {title:'Electrochemistry',ctx:'OIL RIG oxidation reduction redox half reactions galvanic electrolytic cell anode cathode electroplating oxidation number balancing',anchor:'electro-section'},
-  {title:'Electrochemical Series',ctx:'Standard electrode potential reduction potential SHE half-cell EMF cell notation reduction oxidation reactivity ranking',anchor:'electrochem-series-section'},
-  {title:'Electrochemistry Calculations',ctx:'Nernst equation cell potential E standard Gibbs free energy delta G nFE Faraday law electrolysis mass deposited current charge coulombs Q Kc equilibrium',anchor:'electro-calc-section'},
-  {title:'Gas Laws',ctx:'Boyle Charles Gay-Lussac combined ideal PV nRT Avogadro pressure volume temperature kelvin STP moles gas constant',anchor:'gaslaws-section'},
-  {title:'Chemical Equilibrium',ctx:'Kc Kp equilibrium constant Le Chatelier ICE table dynamic reversible reaction concentration pressure temperature catalyst Q reaction quotient',anchor:'equilibrium-section'},
-  {title:'Solutions & Concentration',ctx:'Molarity molality normality formality mole fraction ppm percentage mass volume freezing point depression metric concentration terms',anchor:'solutions-section'},
-  {title:'Reaction Kinetics',ctx:'Rate of reaction collision theory activation energy Arrhenius rate constant rate law order first second zero half-life Maxwell-Boltzmann temperature concentration surface area catalyst',anchor:'kinetics-section'},
-  {title:'Lab Techniques',ctx:'Filtration distillation chromatography titration reflux crystallisation Rf value TLC GC HPLC paper chromatography practical separation purification',anchor:'lab-section'},
-  {title:'Spectroscopy',ctx:'IR infrared NMR mass spectrometry chemical shift ppm splitting pattern integration wavenumber molecular ion fragmentation base peak carbonyl OH C=O functional group identification',anchor:'spectroscopy-section'},
-
-  /* === Ch03: Tools & Reference === */
-  {title:'Interactive Chemistry Tools',ctx:'Molar mass calculator ion compound builder nuclear decay simulator unit converter stoichiometry pH pOH equation balancer titration empirical formula',anchor:'tools-section'},
-  {title:'Periodic Table Blocks',ctx:'s-block p-block d-block f-block electron configuration Aufbau Hund Pauli transition metal properties coloured compounds variable oxidation states',anchor:'blocks-section'},
-  {title:'Periodic Table (All 118 Elements)',ctx:'118 elements click details electron configuration atomic number mass period group state uses lanthanide actinide',anchor:'periodic-section'},
-];
-
-function openSearch(){
-  document.getElementById('searchOverlay').classList.add('open');
-  document.getElementById('globalSearchInput').value='';
-  document.getElementById('searchResults').innerHTML='';
-  setTimeout(()=>document.getElementById('globalSearchInput').focus(),80);
-}
-
-function closeSearchIfOutside(e){
-  if(e.target===document.getElementById('searchOverlay'))closeSearch();
-}
-
-function closeSearch(){document.getElementById('searchOverlay').classList.remove('open');}
-
-function runGlobalSearch(){
-  const q=document.getElementById('globalSearchInput').value.toLowerCase().trim();
-  const container=document.getElementById('searchResults');
-  if(!q){container.innerHTML='';return;}
-  const hits=SEARCH_INDEX.filter(s=>s.title.toLowerCase().includes(q)||s.ctx.toLowerCase().includes(q));
-  if(!hits.length){container.innerHTML='<div class="search-empty">No results found.</div>';return;}
-  container.innerHTML=hits.map(h=>`
-    <div class="search-hit" onclick="jumpTo('${h.anchor}')">
-      <div class="search-hit-title">${h.title}<span class="search-hit-tag">#${h.anchor}</span></div>
-      <div class="search-hit-ctx">${h.ctx}</div>
-    </div>`).join('');
-}
-
-function jumpTo(anchor){
-  closeSearch();
-  const el=document.getElementById(anchor);
-  if(el)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),120);
-}
-
-document.addEventListener('keydown',e=>{
-  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openSearch();}
-  if(e.key==='Escape')closeSearch();
-});
-
-/* ---------- 19. INIT ---------- */
-window.addEventListener('load',()=>{
-  processChemistry();
-  generateLibrary();
-  buildPhScale();
-  buildPeriodicTable();
-  renderGasFields();
-  initConverter();
-  buildCompound();
-  restoreProgress();
-  restoreTheme();
-  initScrollSpy();
-  initBackToTop();
-  initHeroCounters();
-});
-
-/* ---------- HERO COUNTERS ---------- */
-function initHeroCounters(){
-  document.querySelectorAll('.hero-stat .num').forEach(el=>{
-    const raw=el.textContent.trim();
-    const num=parseInt(raw);
-    const suffix=raw.replace(/[0-9]/g,'');
-    if(isNaN(num))return;
-    el.textContent='0'+suffix;
-    const dur=1200;
-    const start=performance.now();
-    function tick(now){
-      const p=Math.min((now-start)/dur,1);
-      const ease=1-Math.pow(1-p,3); // ease-out cubic
-      el.textContent=Math.round(ease*num)+suffix;
-      if(p<1)requestAnimationFrame(tick);
-    }
-    // delay slightly so it fires after page paint
-    setTimeout(()=>requestAnimationFrame(tick),400);
-  });
-}
-});
-
-/* ---------- SCROLL SPY — active nav highlight ---------- */
-function initScrollSpy(){
-  const sections=document.querySelectorAll('section[id]');
-  const navLinks=document.querySelectorAll('.nav-links a[href^="#"]');
-  const navScroll=document.getElementById('navLinks');
-  if(!sections.length||!navLinks.length)return;
-  const spy=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        const id=e.target.id;
-        navLinks.forEach(a=>{
-          const active=a.getAttribute('href')==='#'+id;
-          a.classList.toggle('nav-active',active);
-          // auto-scroll active link into view in the nav bar
-          if(active&&navScroll){
-            const lRect=a.getBoundingClientRect();
-            const wRect=navScroll.getBoundingClientRect();
-            if(lRect.left<wRect.left||lRect.right>wRect.right){
-              a.scrollIntoView({inline:'center',behavior:'smooth',block:'nearest'});
-            }
-          }
-        });
-      }
-    });
-  },{rootMargin:'-20% 0px -70% 0px'});
-  sections.forEach(s=>spy.observe(s));
-}
-
-/* ---------- BACK TO TOP ---------- */
-function initBackToTop(){
-  const btn=document.getElementById('backToTop');
-  if(!btn)return;
-  window.addEventListener('scroll',()=>{
-    btn.classList.toggle('btt-show',window.scrollY>600);
-  },{passive:true});
-  btn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-}
-
-/* ===== v12.0 NEW FUNCTIONS ===== */
-
-/* ---------- 20. EQUATION BALANCER ---------- */
-function balanceEquation(){
-  const raw=document.getElementById('balanceEq').value.trim();
-  const res=document.getElementById('balanceResult');
-  if(!raw){res.innerHTML='<span class="tool-empty">Enter an equation first.</span>';return;}
-
-  const sides=raw.split(/→|->|=>/);
-  if(sides.length<2){res.innerHTML='<span style="color:var(--alkyne)">Use → or -> to separate reactants from products.</span>';return;}
-
-  function parseSide(str){
-    return str.split('+').map(t=>{
-      t=t.trim();
-      const m=t.match(/^(\d*)\s*(.+)/);
-      const coef=m&&m[1]?parseInt(m[1]):1;
-      const formula=m?m[2].trim():'';
-      return{coef,formula,atoms:parseFormula(formula)};
-    });
-  }
-
-  const reactants=parseSide(sides[0]);
-  const products=parseSide(sides[1]);
-
-  // Collect all element symbols
-  const elemSet=new Set();
-  [...reactants,...products].forEach(s=>Object.keys(s.atoms).forEach(e=>elemSet.add(e)));
-  const elems=[...elemSet];
-
-  // Try coefficients 1–8 for each substance (brute force for simple equations)
-  const substances=[...reactants,...products];
-  const nR=reactants.length,nP=products.length,n=substances.length;
-  const maxCoef=9;
-
-  function* combos(depth,current){
-    if(depth===n){yield[...current];return;}
-    for(let c=1;c<maxCoef;c++){current.push(c);yield*combos(depth+1,current);current.pop();}
-  }
-
-  let found=null;
-  outer:for(const coeffs of combos(0,[])){
-    let valid=true;
-    for(const el of elems){
-      let lhs=0,rhs=0;
-      for(let i=0;i<nR;i++)lhs+=coeffs[i]*(substances[i].atoms[el]||0);
-      for(let i=nR;i<n;i++)rhs+=coeffs[i]*(substances[i].atoms[el]||0);
-      if(lhs!==rhs){valid=false;break;}
-    }
-    if(valid){
-      // Simplify by GCD
-      let g=coeffs[0];for(let i=1;i<n;i++)g=gcd(g,coeffs[i]);
-      found=coeffs.map(c=>c/g);
-      break outer;
-    }
-  }
-
-  if(!found){res.innerHTML='<span style="color:var(--alkyne)">Could not balance automatically. Equation may need fractional coefficients or is more complex than 4 substances with coefficients ≤ 8.</span>';return;}
-
-  const rStr=reactants.map((r,i)=>`${found[i]>1?found[i]:''}${r.formula}`).join(' + ');
-  const pStr=products.map((p,i)=>`${found[nR+i]>1?found[nR+i]:''}${p.formula}`).join(' + ');
-  const balanced=`${rStr} → ${pStr}`;
-
-  res.innerHTML=`<span class="tool-result-main" style="font-size:1.2rem">${balanced}</span>
-    <div class="tool-result-breakdown">Coefficients: [${found.join(', ')}] &nbsp;·&nbsp; Equation is balanced ✓</div>`;
-}
-
-/* ---------- 21. TITRATION CALCULATOR ---------- */
-function calcTitration(){
-  const C1=parseFloat(document.getElementById('titrC1').value);
-  const V1=parseFloat(document.getElementById('titrV1').value);
-  const n1=parseFloat(document.getElementById('titrN1').value)||1;
-  const n2=parseFloat(document.getElementById('titrN2').value)||1;
-  const C2=parseFloat(document.getElementById('titrC2').value);
-  const V2=parseFloat(document.getElementById('titrV2').value);
-  const res=document.getElementById('titrResult');
-
-  // C1V1/n1 = C2V2/n2 → find the missing one
-  const c1ok=!isNaN(C1),v1ok=!isNaN(V1),c2ok=!isNaN(C2),v2ok=!isNaN(V2);
-
-  if(c1ok&&v1ok&&c2ok&&!v2ok){
-    const ans=(C1*V1*n2)/(n1*C2);
-    res.innerHTML=`<span class="tool-result-main">V₂ = ${ans.toFixed(3)} mL</span><div class="tool-result-breakdown">(${C1}×${V1}×${n2}) ÷ (${n1}×${C2}) = ${ans.toFixed(3)} mL</div>`;
-  } else if(c1ok&&v1ok&&!c2ok&&v2ok){
-    const ans=(C1*V1*n2)/(n1*V2);
-    res.innerHTML=`<span class="tool-result-main">C₂ = ${ans.toFixed(4)} mol/L</span><div class="tool-result-breakdown">(${C1}×${V1}×${n2}) ÷ (${n1}×${V2}) = ${ans.toFixed(4)} mol/L</div>`;
-  } else if(c1ok&&!v1ok&&c2ok&&v2ok){
-    const ans=(C2*V2*n1)/(n2*C1);
-    res.innerHTML=`<span class="tool-result-main">V₁ = ${ans.toFixed(3)} mL</span><div class="tool-result-breakdown">(${C2}×${V2}×${n1}) ÷ (${n2}×${C1}) = ${ans.toFixed(3)} mL</div>`;
-  } else if(!c1ok&&v1ok&&c2ok&&v2ok){
-    const ans=(C2*V2*n1)/(n2*V1);
-    res.innerHTML=`<span class="tool-result-main">C₁ = ${ans.toFixed(4)} mol/L</span><div class="tool-result-breakdown">(${C2}×${V2}×${n1}) ÷ (${n2}×${V1}) = ${ans.toFixed(4)} mol/L</div>`;
-  } else {
-    res.innerHTML='<span style="color:var(--alkyne)">Leave exactly ONE field blank as the unknown.</span>';
-  }
-}
-
-/* ---------- 22. EMPIRICAL FORMULA ---------- */
-function calcEmpiricalFormula(){
-  const rows=document.querySelectorAll('#efInputs .ef-row');
-  const data=[];
-  rows.forEach(row=>{
-    const inputs=row.querySelectorAll('input');
-    const sym=inputs[0].value.trim();
-    const pct=parseFloat(inputs[1].value);
-    if(sym&&!isNaN(pct)&&pct>0)data.push({sym,pct});
-  });
-  const res=document.getElementById('efResult');
-  if(data.length<2){res.innerHTML='<span class="tool-empty">Enter at least 2 elements with percentages.</span>';return;}
-
-  // Divide by atomic mass
-  const moles=data.map(d=>{
-    const mass=AM[d.sym];
-    if(!mass)return{...d,mol:null,err:d.sym};
-    return{...d,mol:d.pct/mass};
-  });
-  const badEl=moles.find(m=>!m.mol&&m.mol!==0);
-  if(badEl){res.innerHTML=`<span style="color:var(--alkyne)">Unknown element: ${badEl.err}</span>`;return;}
-
-  const minMol=Math.min(...moles.map(m=>m.mol));
-  const ratios=moles.map(m=>m.mol/minMol);
-
-  // Find integer ratios (multiply until all within 0.05 of integer, max ×6)
-  let mult=1;
-  for(let m=1;m<=8;m++){
-    const test=ratios.map(r=>r*m);
-    if(test.every(r=>Math.abs(r-Math.round(r))<0.08)){mult=m;break;}
-  }
-  const intRatios=ratios.map(r=>Math.round(r*mult));
-  const g=intRatios.reduce((a,b)=>gcd(a,b));
-  const finalRatios=intRatios.map(r=>r/g);
-  const empiricalFormula=moles.map((m,i)=>`${m.sym}${finalRatios[i]>1?finalRatios[i]:''}`).join('');
-
-  // Molecular formula
-  let molFormula='';
-  const mmInput=parseFloat(document.getElementById('efMolarMass').value);
-  let efMass=moles.reduce((sum,m,i)=>sum+(AM[m.sym]||0)*finalRatios[i],0);
-  if(!isNaN(mmInput)&&mmInput>0&&efMass>0){
-    const n=Math.round(mmInput/efMass);
-    molFormula=`<br>Molecular Formula: <b style="color:var(--nuclear)">${moles.map((m,i)=>`${m.sym}${finalRatios[i]*n>1?finalRatios[i]*n:''}`).join('')}</b> (n=${n})`;
-    molFormula+=`<br>Empirical mass: ${efMass.toFixed(2)} g/mol · n = ${mmInput}÷${efMass.toFixed(2)} = ${n}`;
-  }
-  res.innerHTML=`<span class="tool-result-main">${empiricalFormula}</span>
-    <div class="tool-result-breakdown">
-      Mole ratios: ${moles.map((m,i)=>`${m.sym}: ${m.mol.toFixed(4)}`).join(' | ')}<br>
-      Divided by min (${minMol.toFixed(4)}): ${ratios.map(r=>r.toFixed(3)).join(' : ')}<br>
-      Integer ratios (×${mult}): ${finalRatios.join(' : ')}
-      ${molFormula}
-    </div>`;
-}
-
-/* v11 — Search index fully updated above, no patch needed */
+  {title:'Hydrocarbon Calculator',ctx:'Calculate alkane alkene alkyne molecular formulas CnH2n+2 carbon count
