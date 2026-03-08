@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LabAR.EDU — Chemistry Encyclopedia v10.0</title>
+<title>LabAR.EDU — Chemistry Encyclopedia v11.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="labar-v10.css">
+<link rel="stylesheet" href="labar-v11.css">
 </head>
 <body>
 <canvas id="bgCanvas"></canvas>
@@ -20,18 +20,22 @@
     <a href="#table-section">Library</a>
     <a href="#functional-section">Func. Groups</a>
     <a href="#organic-reactions-section">Org. Reactions</a>
+    <a href="#synthesis-section">Synthesis</a>
     <a href="#polymers-section">Polymers</a>
     <span class="nav-sep"></span>
     <span class="nav-group-label">⚗️ General</span>
+    <a href="#glossary-section">Glossary</a>
     <a href="#ions-section">Ions</a>
     <a href="#moles-section">Moles</a>
     <a href="#thermo-section">Thermo</a>
     <a href="#nuclear-section">Nuclear</a>
     <a href="#bonding-section">Bonding</a>
     <a href="#reactions-section">Reactions</a>
+    <a href="#reactivity-section">Reactivity</a>
     <a href="#acids-section">Acids</a>
     <a href="#electro-section">Redox</a>
     <a href="#electrochem-series-section">E-Series</a>
+    <a href="#electro-calc-section">E-Calc</a>
     <a href="#gaslaws-section">Gas Laws</a>
     <a href="#equilibrium-section">Equilibrium</a>
     <a href="#solutions-section">Solutions</a>
@@ -62,23 +66,28 @@
     <a href="#table-section" onclick="toggleMobileNav()" class="mob-link">Compound Library</a>
     <a href="#functional-section" onclick="toggleMobileNav()" class="mob-link">Functional Groups</a>
     <a href="#organic-reactions-section" onclick="toggleMobileNav()" class="mob-link">Organic Reactions</a>
+    <a href="#synthesis-section" onclick="toggleMobileNav()" class="mob-link">Organic Synthesis</a>
     <a href="#polymers-section" onclick="toggleMobileNav()" class="mob-link">Polymers</a>
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--accent2);letter-spacing:0.15em;text-transform:uppercase;padding:14px 10px 4px;">⚗️ General Chemistry</div>
+    <a href="#glossary-section" onclick="toggleMobileNav()" class="mob-link">Chemistry Glossary</a>
     <a href="#ions-section" onclick="toggleMobileNav()" class="mob-link">Ions &amp; Charges</a>
     <a href="#moles-section" onclick="toggleMobileNav()" class="mob-link">Mole Concept</a>
     <a href="#thermo-section" onclick="toggleMobileNav()" class="mob-link">Thermochemistry</a>
     <a href="#nuclear-section" onclick="toggleMobileNav()" class="mob-link">Nuclear Chemistry</a>
-    <a href="#solutions-section" onclick="toggleMobileNav()" class="mob-link">Solutions</a>
     <a href="#bonding-section" onclick="toggleMobileNav()" class="mob-link">Chemical Bonding</a>
     <a href="#reactions-section" onclick="toggleMobileNav()" class="mob-link">Reaction Types</a>
+    <a href="#reactivity-section" onclick="toggleMobileNav()" class="mob-link">Reactivity Series</a>
     <a href="#acids-section" onclick="toggleMobileNav()" class="mob-link">Acids &amp; Bases</a>
     <a href="#electro-section" onclick="toggleMobileNav()" class="mob-link">Electrochemistry</a>
     <a href="#electrochem-series-section" onclick="toggleMobileNav()" class="mob-link">Electrochemical Series</a>
+    <a href="#electro-calc-section" onclick="toggleMobileNav()" class="mob-link">Electrochemistry Calculations</a>
     <a href="#gaslaws-section" onclick="toggleMobileNav()" class="mob-link">Gas Laws</a>
     <a href="#equilibrium-section" onclick="toggleMobileNav()" class="mob-link">Chemical Equilibrium</a>
+    <a href="#solutions-section" onclick="toggleMobileNav()" class="mob-link">Solutions &amp; Concentration</a>
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;padding:14px 10px 4px;">🔧 Tools &amp; Reference</div>
     <a href="#tools-section" onclick="toggleMobileNav()" class="mob-link">⚡ Interactive Tools</a>
-    <a href="#periodic-section" onclick="toggleMobileNav()" class="mob-link">Periodic Table</a>
+    <a href="#blocks-section" onclick="toggleMobileNav()" class="mob-link">Periodic Table Blocks</a>
+    <a href="#periodic-section" onclick="toggleMobileNav()" class="mob-link">Full Periodic Table</a>
   </div>
 </div>
 
@@ -125,7 +134,7 @@
   <h1>Master <em>Chemistry</em></h1>
   <p>The ultimate interactive encyclopedia — organic, functional groups, equilibrium, bonding, nuclear, electrochemistry, and 6 live calculation tools.</p>
   <div class="hero-stats">
-    <div class="hero-stat"><span class="num">22</span><span class="lbl">Topic Sections</span></div>
+    <div class="hero-stat"><span class="num">27</span><span class="lbl">Topic Sections</span></div>
     <div class="hero-stat"><span class="num">9</span><span class="lbl">Live Tools</span></div>
     <div class="hero-stat"><span class="num">118</span><span class="lbl">Elements</span></div>
     <div class="hero-stat"><span class="num">50+</span><span class="lbl">Ions &amp; Charges</span></div>
@@ -147,7 +156,7 @@
     <div class="chapter-title">Organic Chemistry</div>
     <div class="chapter-desc">Hydrocarbons, IUPAC naming, isomerism, the compound library, and organic functional groups — the language of carbon-based molecules.</div>
   </div>
-  <div class="chapter-count">8 Sections</div>
+  <div class="chapter-count">9 Sections</div>
 </div>
 
 
@@ -669,6 +678,56 @@
       <p>Carbonyl bonded to nitrogen. Very stable — the peptide bond in proteins is an amide bond. Used in nylon and paracetamol.</p>
       <div class="fg-example">HCONH₂ — Methanamide<br>CH₃CONH₂ — Ethanamide</div>
     </div>
+    <!-- NEW FUNCTIONAL GROUPS FROM IMAGE 4 -->
+    <div class="fg-card fg-halide">
+      <span class="fg-symbol">R–X</span>
+      <div class="fg-name">Alkyl Halide</div>
+      <div class="fg-suffix">X = Cl, Br, I, F</div>
+      <p>Halogen attached to a carbon chain. Undergoes nucleophilic substitution (SN1/SN2) and elimination reactions. Used as solvents and intermediates.</p>
+      <div class="fg-example">CH₃Cl — Chloromethane<br>C₄H₉Cl — 2-chlorobutane</div>
+    </div>
+    <div class="fg-card fg-thiol">
+      <span class="fg-symbol">R–SH</span>
+      <div class="fg-name">Thiol</div>
+      <div class="fg-suffix">Suffix: -thiol</div>
+      <p>Sulfur analogue of alcohol. Very strong odour (responsible for garlic and skunk smell). Oxidised to disulfide bonds in proteins.</p>
+      <div class="fg-example">CH₃SH — Methanethiol<br>C₄H₉SH — 1-butanethiol</div>
+    </div>
+    <div class="fg-card fg-nitrile">
+      <span class="fg-symbol">R–C≡N</span>
+      <div class="fg-name">Nitrile</div>
+      <div class="fg-suffix">Suffix: -nitrile</div>
+      <p>Triple bond between carbon and nitrogen. Polar and high-boiling. Hydrolysed to carboxylic acids; reduced to amines. Used in pharmaceuticals.</p>
+      <div class="fg-example">CH₃CN — Ethanenitrile<br>C₂H₅CN — Propanenitrile</div>
+    </div>
+    <div class="fg-card fg-aromatic">
+      <span class="fg-symbol">C₆H₅–</span>
+      <div class="fg-name">Aromatic</div>
+      <div class="fg-suffix">Benzene ring</div>
+      <p>Cyclic, planar, delocalised π electrons satisfying Hückel's rule (4n+2 π e⁻). Undergoes electrophilic aromatic substitution (EAS) rather than addition.</p>
+      <div class="fg-example">C₆H₆ — Benzene<br>C₆H₅CH₃ — Toluene</div>
+    </div>
+    <div class="fg-card fg-sulfide">
+      <span class="fg-symbol">R–S–R</span>
+      <div class="fg-name">Sulfide</div>
+      <div class="fg-suffix">Prefix: thio-</div>
+      <p>Sulfur bridging two carbon chains — the sulfur analogue of an ether. Less reactive than thiols. Oxidised to sulfoxides and sulfones. Found in methionine (amino acid).</p>
+      <div class="fg-example">CH₃–S–CH₃ — Dimethyl sulfide<br>C₂H₅–S–C₂H₅ — Diethyl sulfide</div>
+    </div>
+    <div class="fg-card fg-anhydride">
+      <span class="fg-symbol">RC–O–CR</span>
+      <div class="fg-name">Anhydride</div>
+      <div class="fg-suffix">Suffix: -ic anhydride</div>
+      <p>Two acyl groups joined via an oxygen. Formed by dehydration of two carboxylic acid molecules. More reactive than esters — reacts readily with alcohols, amines, and water.</p>
+      <div class="fg-example">CH₃CO–O–COCH₃ — Acetic anhydride<br>C₄H₂O₃ — Maleic anhydride</div>
+    </div>
+    <div class="fg-card fg-acylhalide">
+      <span class="fg-symbol">R–COX</span>
+      <div class="fg-name">Acyl Halide</div>
+      <div class="fg-suffix">Suffix: -oyl halide</div>
+      <p>The most reactive acyl derivative — carbonyl directly bonded to a halogen. Reacts vigorously with water, alcohols, and amines. Used to introduce acyl groups in synthesis.</p>
+      <div class="fg-example">CH₃COCl — Ethanoyl chloride<br>C₆H₅COCl — Benzoyl chloride</div>
+    </div>
   </div>
   <div class="info-grid" style="margin-top:20px;">
     <div class="info-box" style="border-left-color:var(--alkane);"><h3>🔬 Oxidation Series</h3><p>Carbon's oxidation state increases:<br><b>Alkane → Alcohol → Aldehyde → Carboxylic Acid</b><br>Each step adds oxygen or removes hydrogen. Ketones cannot be further oxidised without breaking C–C bonds.</p></div>
@@ -863,6 +922,238 @@
   </div>
 </section>
 
+<!-- ===== ORGANIC SYNTHESIS ===== -->
+<section id="synthesis-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkSynth" onchange="updateProgress()"><label for="chkSynth">Studied ✓</label></div>
+  <span class="badge">// Named Reactions &amp; Strategy</span>
+  <h2 class="section-title">Organic <span>Synthesis</span></h2>
+  <p class="section-lead">Organic synthesis is the art of building target molecules from simpler starting materials by choosing the right sequence of reactions. Understanding <b>retrosynthetic analysis</b> — working backwards from the target — is the key skill.</p>
+
+  <!-- RETROSYNTHETIC ANALYSIS -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">Retrosynthetic <span style="color:var(--accent)">Analysis</span></h3>
+  <div class="retro-box">
+    <div class="retro-concept">
+      <div class="retro-arrow-label">Target Molecule</div>
+      <div class="retro-molecule">Product (TM)</div>
+      <div class="retro-arrow">⟹ (retrosynthetic arrow)</div>
+      <div class="retro-molecule">Precursor A + Precursor B</div>
+      <div class="retro-arrow">⟹</div>
+      <div class="retro-molecule">Starting Materials</div>
+    </div>
+    <div class="retro-rules">
+      <div class="retro-rule"><span class="rr-num">1</span><span>Identify the <b>key bond</b> to form in the last step (most complex bond in the TM)</span></div>
+      <div class="retro-rule"><span class="rr-num">2</span><span>Choose a reaction that forms that bond — set your <b>disconnection</b></span></div>
+      <div class="retro-rule"><span class="rr-num">3</span><span>Work backwards until you reach <b>commercially available</b> starting materials</span></div>
+      <div class="retro-rule"><span class="rr-num">4</span><span>Consider <b>selectivity</b>: regioselectivity (where?), stereoselectivity (which face?)</span></div>
+    </div>
+  </div>
+
+  <!-- NAMED REACTIONS TABLE -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:40px;margin-bottom:16px;">Named <span style="color:var(--accent)">Reactions</span></h3>
+  <div class="named-rxn-grid">
+
+    <div class="named-rxn-card" style="border-top:3px solid #3b82f6">
+      <div class="nrxn-header">
+        <span class="nrxn-name">Grignard Reaction</span>
+        <span class="nrxn-type" style="background:rgba(59,130,246,0.12);color:#60a5fa">C–C Bond Formation</span>
+      </div>
+      <div class="nrxn-eq">R–X + Mg → R–MgX &nbsp;→&nbsp; R–MgX + C=O → R–C–OH</div>
+      <div class="nrxn-detail">
+        <div class="nrxn-reagents"><b>Reagents:</b> Alkyl halide, Mg metal (dry ether)</div>
+        <div class="nrxn-product"><b>Product:</b> Alcohol (primary from HCHO, secondary from RCHO, tertiary from ketone)</div>
+        <div class="nrxn-condition"><b>Condition:</b> Anhydrous — water destroys Grignard reagent</div>
+      </div>
+    </div>
+
+    <div class="named-rxn-card" style="border-top:3px solid #f59e0b">
+      <div class="nrxn-header">
+        <span class="nrxn-name">Friedel-Crafts Alkylation</span>
+        <span class="nrxn-type" style="background:rgba(245,158,11,0.12);color:#fbbf24">Aromatic Substitution</span>
+      </div>
+      <div class="nrxn-eq">ArH + R–Cl → Ar–R + HCl</div>
+      <div class="nrxn-detail">
+        <div class="nrxn-reagents"><b>Reagents:</b> Alkyl halide + AlCl₃ (Lewis acid catalyst)</div>
+        <div class="nrxn-product"><b>Product:</b> Alkylbenzene</div>
+        <div class="nrxn-condition"><b>Limitation:</b> Carbocation rearrangement may occur; over-alkylation possible</div>
+      </div>
+    </div>
+
+    <div class="named-rxn-card" style="border-top:3px solid #f59e0b">
+      <div class="nrxn-header">
+        <span class="nrxn-name">Friedel-Crafts Acylation</span>
+        <span class="nrxn-type" style="background:rgba(245,158,11,0.12);color:#fbbf24">Aromatic Substitution</span>
+      </div>
+      <div class="nrxn-eq">ArH + RCOCl → Ar–CO–R + HCl</div>
+      <div class="nrxn-detail">
+        <div class="nrxn-reagents"><b>Reagents:</b> Acyl halide + AlCl₃</div>
+        <div class="nrxn-product"><b>Product:</b> Aryl ketone (no rearrangement — preferred over alkylation)</div>
+        <div class="nrxn-condition"><b>Follow-up:</b> Reduce ketone with Clemmensen or Wolff–Kishner to get alkylbenzene cleanly</div>
+      </div>
+    </div>
+
+    <div class="named-rxn-card" style="border-top:3px solid #10b981">
+      <div class="nrxn-header">
+        <span class="nrxn-name">Aldol Condensation</span>
+        <span class="nrxn-type" style="background:rgba(16,185,129,0.12);color:#34d399">C–C Bond Formation</span>
+      </div>
+      <div class="nrxn-eq">2 CH₃CHO → CH₃CH(OH)CH₂CHO → CH₃CH=CHCHO + H₂O</div>
+      <div class="nrxn-detail">
+        <div class="nrxn-reagents"><b>Reagents:</b> Aldehyde or ketone with α-hydrogen; dilute NaOH (base catalyst)</div>
+        <div class="nrxn-product"><b>Product:</b> β-hydroxy carbonyl (aldol) then α,β-unsaturated carbonyl (condensation)</div>
+        <div class="nrxn-condition"><b>Key:</b> Enolate attacks carbonyl carbon of second molecule</div>
+      </div>
+    </div>
+
+    <div class="named-rxn-card" style="border-top:3px solid #8b5cf6">
+      <div class="nrxn-header">
+        <span class="nrxn-name">Diels-Alder Reaction</span>
+        <span class="nrxn-type" style="background:rgba(139,92,246,0.12);color:#a78bfa">Cycloaddition</span>
+      </div>
+      <div class="nrxn-eq">Diene + Dienophile → Cyclohexene (6-membered ring)</div>
+      <div class="nrxn-detail">
+        <div class="nrxn-reagents"><b>Reagents:</b> Conjugated diene (s-cis conformation) + electron-poor dienophile</div>
+        <div class="nrxn-product"><b>Product:</b> Cyclohexene — stereospecific (syn addition, endo rule)</div>
+        <div class="nrxn-condition"><b>Key:</b> [4+2] concerted pericyclic reaction — no intermediates</div>
+      </div>
+    </div>
+
+    <div class="named-rxn-card" style="border-top:3px solid #ec4899">
+      <div class="nrxn-header">
+        <span class="nrxn-name">Wittig Reaction</span>
+        <span class="nrxn-type" style="background:rgba(236,72,153,0.12);color:#f472b6">C=C Bond Formation</span>
+      </div>
+      <div class="nrxn-eq">R₂C=O + Ph₃P=CR'₂ → R₂C=CR'₂ + Ph₃P=O</div>
+      <div class="nrxn-detail">
+        <div class="nrxn-reagents"><b>Reagents:</b> Carbonyl compound + phosphorus ylide (Ph₃P=CR'₂)</div>
+        <div class="nrxn-product"><b>Product:</b> Alkene with precise double bond position (no ambiguity)</div>
+        <div class="nrxn-condition"><b>Advantage:</b> Unlike elimination, the C=C is formed exactly where you want it</div>
+      </div>
+    </div>
+
+    <div class="named-rxn-card" style="border-top:3px solid #0ea5e9">
+      <div class="nrxn-header">
+        <span class="nrxn-name">Williamson Ether Synthesis</span>
+        <span class="nrxn-type" style="background:rgba(14,165,233,0.12);color:#38bdf8">C–O Bond Formation</span>
+      </div>
+      <div class="nrxn-eq">R–O⁻ + R'–X → R–O–R' + X⁻</div>
+      <div class="nrxn-detail">
+        <div class="nrxn-reagents"><b>Reagents:</b> Alkoxide (from alcohol + NaH or Na) + primary alkyl halide</div>
+        <div class="nrxn-product"><b>Product:</b> Asymmetric or symmetric ether</div>
+        <div class="nrxn-condition"><b>Mechanism:</b> SN2 — use primary alkyl halide to avoid E2 competition</div>
+      </div>
+    </div>
+
+    <div class="named-rxn-card" style="border-top:3px solid #ef4444">
+      <div class="nrxn-header">
+        <span class="nrxn-name">Esterification (Fischer)</span>
+        <span class="nrxn-type" style="background:rgba(239,68,68,0.12);color:#f87171">Condensation</span>
+      </div>
+      <div class="nrxn-eq">R–COOH + R'–OH ⇌ R–COO–R' + H₂O</div>
+      <div class="nrxn-detail">
+        <div class="nrxn-reagents"><b>Reagents:</b> Carboxylic acid + alcohol, H⁺ catalyst (H₂SO₄)</div>
+        <div class="nrxn-product"><b>Product:</b> Ester + water (reversible — drive forward by removing water)</div>
+        <div class="nrxn-condition"><b>Mechanism:</b> Nucleophilic acyl substitution via tetrahedral intermediate</div>
+      </div>
+    </div>
+
+    <div class="named-rxn-card" style="border-top:3px solid #06b6d4">
+      <div class="nrxn-header">
+        <span class="nrxn-name">SN2 Substitution</span>
+        <span class="nrxn-type" style="background:rgba(6,182,212,0.12);color:#22d3ee">Nucleophilic Sub.</span>
+      </div>
+      <div class="nrxn-eq">Nu⁻ + R–X → Nu–R + X⁻ (backside attack)</div>
+      <div class="nrxn-detail">
+        <div class="nrxn-reagents"><b>Best with:</b> Primary alkyl halides, strong nucleophiles (OH⁻, CN⁻, I⁻)</div>
+        <div class="nrxn-product"><b>Stereochemistry:</b> Inversion of configuration (Walden inversion)</div>
+        <div class="nrxn-condition"><b>Rate:</b> Depends on both nucleophile and substrate (bimolecular)</div>
+      </div>
+    </div>
+
+    <div class="named-rxn-card" style="border-top:3px solid #06b6d4">
+      <div class="nrxn-header">
+        <span class="nrxn-name">SN1 Substitution</span>
+        <span class="nrxn-type" style="background:rgba(6,182,212,0.12);color:#22d3ee">Nucleophilic Sub.</span>
+      </div>
+      <div class="nrxn-eq">R–X → R⁺ + X⁻ → R⁺ + Nu⁻ → R–Nu</div>
+      <div class="nrxn-detail">
+        <div class="nrxn-reagents"><b>Best with:</b> Tertiary &gt; secondary alkyl halides, polar protic solvents</div>
+        <div class="nrxn-product"><b>Stereochemistry:</b> Racemic mixture (flat carbocation attacks from both sides)</div>
+        <div class="nrxn-condition"><b>Rate:</b> Depends only on substrate (unimolecular) — first-order kinetics</div>
+      </div>
+    </div>
+
+    <div class="named-rxn-card" style="border-top:3px solid #84cc16">
+      <div class="nrxn-header">
+        <span class="nrxn-name">E2 Elimination</span>
+        <span class="nrxn-type" style="background:rgba(132,204,22,0.12);color:#a3e635">Elimination</span>
+      </div>
+      <div class="nrxn-eq">R–CHBr–CH₂ + KOH(alc) → R–CH=CH₂ + KBr + H₂O</div>
+      <div class="nrxn-detail">
+        <div class="nrxn-reagents"><b>Reagents:</b> Strong base in alcoholic solution (KOH/ethanol, NaOEt)</div>
+        <div class="nrxn-product"><b>Regioselectivity:</b> Zaitsev's rule — more substituted (more stable) alkene preferred</div>
+        <div class="nrxn-condition"><b>Mechanism:</b> Concerted — anti periplanar H and X required (trans elimination)</div>
+      </div>
+    </div>
+
+    <div class="named-rxn-card" style="border-top:3px solid #84cc16">
+      <div class="nrxn-header">
+        <span class="nrxn-name">Markovnikov Addition</span>
+        <span class="nrxn-type" style="background:rgba(132,204,22,0.12);color:#a3e635">Electrophilic Addition</span>
+      </div>
+      <div class="nrxn-eq">CH₂=CH₂ + HBr → CH₃–CH₂Br (minor) or CH₃CHBr–CH₃ (major)</div>
+      <div class="nrxn-detail">
+        <div class="nrxn-reagents"><b>Rule:</b> H adds to the carbon that already has more H atoms (forms more stable carbocation)</div>
+        <div class="nrxn-product"><b>Anti-Markovnikov:</b> Hydroboration-oxidation (BH₃/THF then H₂O₂/NaOH) — H adds to less substituted C</div>
+        <div class="nrxn-condition"><b>Mechanism:</b> Electrophilic addition via carbocation intermediate</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SN1 vs SN2 vs E1 vs E2 COMPARISON -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:40px;margin-bottom:14px;">SN1 / SN2 / E1 / E2 <span style="color:var(--accent)">Comparison</span></h3>
+  <div style="overflow-x:auto;border-radius:16px;border:1px solid var(--border);">
+    <table class="synth-compare-table">
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th style="color:#22d3ee">SN1</th>
+          <th style="color:#22d3ee">SN2</th>
+          <th style="color:#a3e635">E1</th>
+          <th style="color:#a3e635">E2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Substrate</td><td>3° &gt; 2°</td><td>1° &gt; 2°</td><td>3° &gt; 2°</td><td>3° &gt; 2° &gt; 1°</td></tr>
+        <tr><td>Nucleophile/Base</td><td>Weak Nu</td><td>Strong Nu</td><td>Weak base</td><td>Strong base</td></tr>
+        <tr><td>Solvent</td><td>Polar protic</td><td>Polar aprotic</td><td>Polar protic</td><td>Polar aprotic / alc.</td></tr>
+        <tr><td>Mechanism</td><td>2 steps (carbocation)</td><td>1 step (concerted)</td><td>2 steps</td><td>1 step (concerted)</td></tr>
+        <tr><td>Stereochemistry</td><td>Racemisation</td><td>Inversion</td><td>Racemisation</td><td>Anti periplanar</td></tr>
+        <tr><td>Kinetics</td><td>1st order</td><td>2nd order</td><td>1st order</td><td>2nd order</td></tr>
+        <tr><td>Rearrangement</td><td style="color:#4ade80">Yes</td><td style="color:#f87171">No</td><td style="color:#4ade80">Yes</td><td style="color:#f87171">No</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PROTECTING GROUPS -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:40px;margin-bottom:14px;">Protecting <span style="color:var(--accent)">Groups</span></h3>
+  <div class="info-grid">
+    <div class="info-box blue"><h3>Why Protect?</h3><p>When a molecule has two reactive functional groups and you want to react only one, the other must be temporarily <b>protected</b>. Then you react the exposed group, and finally <b>deprotect</b> to reveal the original group.</p><div class="nrxn-eq" style="font-size:0.8rem;margin-top:8px;">–OH → –OTMS → react elsewhere → –OH</div></div>
+    <div class="info-box"><h3>Common Protecting Groups</h3><ul>
+      <li><b>Alcohols:</b> TMS ether, THP ether, benzyl ether</li>
+      <li><b>Carboxylic acids:</b> Methyl ester, benzyl ester</li>
+      <li><b>Amines:</b> Boc (t-butyloxycarbonyl), Cbz</li>
+      <li><b>Aldehydes/Ketones:</b> Acetal (1,3-dioxolane)</li>
+    </ul></div>
+    <div class="info-box purple"><h3>Synthetic Strategy Tips</h3><ul>
+      <li>Build the carbon skeleton first, then add functional groups</li>
+      <li>Plan stereochemistry at each step — early control is easier</li>
+      <li>Always check atom economy (waste minimisation)</li>
+      <li>Consider convergent synthesis for large targets</li>
+    </ul></div>
+  </div>
+</section>
+
 <div class="chapter-divider" style="background:linear-gradient(135deg,rgba(56,189,248,0.05),rgba(167,139,250,0.05));border-color:rgba(56,189,248,0.15);">
   <span class="chapter-icon">⚗️</span>
   <div>
@@ -870,8 +1161,124 @@
     <div class="chapter-title">General Chemistry</div>
     <div class="chapter-desc">Ions, moles, thermochemistry, nuclear, bonding, reactions, acids, electrochemistry, gas laws, equilibrium, and solutions.</div>
   </div>
-  <div class="chapter-count" style="border-color:rgba(56,189,248,0.2);color:var(--accent2);">12 Sections</div>
+  <div class="chapter-count" style="border-color:rgba(56,189,248,0.2);color:var(--accent2);">15 Sections</div>
 </div>
+
+<!-- ===== CHEMISTRY GLOSSARY ===== -->
+<section id="glossary-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkGlossary" onchange="updateProgress()"><label for="chkGlossary">Studied ✓</label></div>
+  <span class="badge teal">// Quick Reference</span>
+  <h2 class="section-title">Chemistry <span class="teal">Glossary</span></h2>
+  <p class="section-lead">Core chemistry terms and their meanings — the essential vocabulary for understanding all branches of chemistry.</p>
+  <div class="glossary-grid">
+    <div class="gloss-card"><div class="gloss-num">01</div><div class="gloss-content"><h3>Atom</h3><p>The smallest unit of an element that retains its chemical properties. Composed of protons, neutrons, and electrons.</p></div></div>
+    <div class="gloss-card"><div class="gloss-num">02</div><div class="gloss-content"><h3>Molecule</h3><p>Two or more atoms chemically bonded together. <span class="gloss-ex">Ex: H₂O, CO₂, O₂</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">03</div><div class="gloss-content"><h3>Element</h3><p>A pure substance made of only one kind of atom. Cannot be broken down by chemical means. <span class="gloss-ex">Ex: Hydrogen (H), Oxygen (O)</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">04</div><div class="gloss-content"><h3>Compound</h3><p>A substance formed when two or more different elements combine chemically in a fixed ratio. <span class="gloss-ex">Ex: NaCl, H₂O, CO₂</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">05</div><div class="gloss-content"><h3>Mixture</h3><p>A physical combination of two or more substances that are not chemically bonded. Can be separated physically. <span class="gloss-ex">Ex: Air (N₂, O₂, CO₂…), sand + water</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">06</div><div class="gloss-content"><h3>Ion</h3><p>An atom or molecule that carries an electric charge due to gaining or losing electrons. <span class="gloss-ex">Ex: Na⁺, Cl⁻, SO₄²⁻</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">07</div><div class="gloss-content"><h3>Cation</h3><p>A positively charged ion formed by the loss of electrons. <span class="gloss-ex">Ex: Na⁺ (sodium loses 1e⁻), Ca²⁺</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">08</div><div class="gloss-content"><h3>Anion</h3><p>A negatively charged ion formed by the gain of electrons. <span class="gloss-ex">Ex: Cl⁻ (chlorine gains 1e⁻), O²⁻</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">09</div><div class="gloss-content"><h3>Acid</h3><p>A substance that donates protons (H⁺) or produces hydrogen ions in aqueous solution. pH &lt; 7. <span class="gloss-ex">Ex: HCl, H₂SO₄, CH₃COOH</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">10</div><div class="gloss-content"><h3>Base</h3><p>A substance that accepts protons or produces hydroxide ions (OH⁻) in aqueous solution. pH &gt; 7. <span class="gloss-ex">Ex: NaOH, KOH, NH₃</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">11</div><div class="gloss-content"><h3>Salt</h3><p>An ionic compound formed by the reaction of an acid and a base (neutralisation). <span class="gloss-ex">Ex: NaCl, CaSO₄, K₂CO₃</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">12</div><div class="gloss-content"><h3>Solution</h3><p>A homogeneous mixture where a solute is uniformly dissolved in a solvent. <span class="gloss-ex">Ex: Salt water, sugar water</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">13</div><div class="gloss-content"><h3>Solute</h3><p>The substance that is dissolved in a solution. Present in lesser amount. <span class="gloss-ex">Ex: Salt in salt water</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">14</div><div class="gloss-content"><h3>Solvent</h3><p>The substance that dissolves the solute to form a solution. Present in greater amount. <span class="gloss-ex">Ex: Water (universal solvent)</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">15</div><div class="gloss-content"><h3>Reaction</h3><p>A process in which substances (reactants) undergo chemical change to form new substances (products). Bonds break and form. <span class="gloss-ex">Ex: A + B → C</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">16</div><div class="gloss-content"><h3>pH</h3><p>A scale (0–14) that measures the acidity or basicity of a solution. pH = −log[H⁺]. pH 7 = neutral, &lt;7 = acidic, &gt;7 = basic.</p></div></div>
+    <div class="gloss-card"><div class="gloss-num">17</div><div class="gloss-content"><h3>Catalyst</h3><p>A substance that increases the rate of a chemical reaction without being consumed. Lowers activation energy. <span class="gloss-ex">Ex: MnO₂, enzymes, Pt</span></p></div></div>
+    <div class="gloss-card"><div class="gloss-num">18</div><div class="gloss-content"><h3>Electrolyte</h3><p>A substance that produces ions when dissolved in water, allowing the solution to conduct electricity. <span class="gloss-ex">Ex: NaCl, HCl, KOH</span></p></div></div>
+  </div>
+  <!-- Chemistry Abbreviations / Full Forms -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--text);margin:36px 0 16px;">Chemistry Abbreviations &amp; Full Forms</h3>
+  <div class="abbrev-grid">
+    <div class="abbrev-row"><span class="abbrev-key">pH</span><span class="abbrev-val">Potential of Hydrogen</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">DNA</span><span class="abbrev-val">Deoxyribonucleic Acid</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">RNA</span><span class="abbrev-val">Ribonucleic Acid</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">ATP</span><span class="abbrev-val">Adenosine Triphosphate</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">LPG</span><span class="abbrev-val">Liquefied Petroleum Gas</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">CNG</span><span class="abbrev-val">Compressed Natural Gas</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">PVC</span><span class="abbrev-val">Polyvinyl Chloride</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">DDT</span><span class="abbrev-val">Dichloro Diphenyl Trichloroethane</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">TNT</span><span class="abbrev-val">Trinitrotoluene</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">BHC</span><span class="abbrev-val">Benzene Hexachloride</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">STP</span><span class="abbrev-val">Standard Temperature &amp; Pressure (0°C, 1 atm)</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">RTP</span><span class="abbrev-val">Room Temperature &amp; Pressure (25°C, 1 atm)</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">EMF</span><span class="abbrev-val">Electromotive Force</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">KMnO₄</span><span class="abbrev-val">Potassium Permanganate</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">K₂Cr₂O₇</span><span class="abbrev-val">Potassium Dichromate</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">Na₂S₂O₃</span><span class="abbrev-val">Sodium Thiosulphate (Hypo)</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">CaSO₄·2H₂O</span><span class="abbrev-val">Calcium Sulphate Dihydrate (Gypsum)</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">MgSO₄·7H₂O</span><span class="abbrev-val">Magnesium Sulphate (Epsom Salt)</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">Na₂CO₃·10H₂O</span><span class="abbrev-val">Sodium Carbonate Decahydrate (Washing Soda)</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">CaSO₄·½H₂O</span><span class="abbrev-val">Calcium Sulphate Hemihydrate (Plaster of Paris)</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">CuSO₄·5H₂O</span><span class="abbrev-val">Copper Sulphate Pentahydrate (Blue Vitriol)</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">FeSO₄·7H₂O</span><span class="abbrev-val">Ferrous Sulphate Heptahydrate (Green Vitriol)</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">Pb(NO₃)₂</span><span class="abbrev-val">Lead Nitrate</span></div>
+    <div class="abbrev-row"><span class="abbrev-key">Na₃PO₄</span><span class="abbrev-val">Sodium Phosphate</span></div>
+  </div>
+</section>
+
+<!-- ===== REACTIVITY SERIES ===== -->
+<section id="reactivity-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkReactivity" onchange="updateProgress()"><label for="chkReactivity">Studied ✓</label></div>
+  <span class="badge amber">// Metal Activity</span>
+  <h2 class="section-title">Reactivity <span class="amber">Series</span></h2>
+  <p class="section-lead">The reactivity series ranks metals (and hydrogen) from most reactive to least reactive. A more reactive metal can displace a less reactive one from its compound in solution.</p>
+  <div class="reactivity-layout">
+    <div class="reactivity-scale">
+      <div class="react-header">
+        <div class="react-arrow-label react-most">▲ Most Reactive</div>
+      </div>
+      <div class="react-item react-very-high"><span class="react-rank">1</span><div class="react-elem-box" style="background:#ef4444"><span class="react-z">19</span><span class="react-sym">K</span></div><span class="react-name">Potassium</span><span class="react-note">Reacts violently with cold water, releases H₂</span></div>
+      <div class="react-item react-very-high"><span class="react-rank">2</span><div class="react-elem-box" style="background:#f87171"><span class="react-z">11</span><span class="react-sym">Na</span></div><span class="react-name">Sodium</span><span class="react-note">Reacts vigorously with cold water</span></div>
+      <div class="react-item react-very-high"><span class="react-rank">3</span><div class="react-elem-box" style="background:#fb923c"><span class="react-z">20</span><span class="react-sym">Ca</span></div><span class="react-name">Calcium</span><span class="react-note">Reacts with cold water, forms Ca(OH)₂</span></div>
+      <div class="react-item react-high"><span class="react-rank">4</span><div class="react-elem-box" style="background:#f97316"><span class="react-z">12</span><span class="react-sym">Mg</span></div><span class="react-name">Magnesium</span><span class="react-note">Reacts with hot water and steam</span></div>
+      <div class="react-item react-high"><span class="react-rank">5</span><div class="react-elem-box" style="background:#a16207"><span class="react-z">13</span><span class="react-sym">Al</span></div><span class="react-name">Aluminium</span><span class="react-note">Reacts with steam, protected by oxide layer</span></div>
+      <div class="react-item react-mid"><span class="react-rank">6</span><div class="react-elem-box" style="background:#854d0e"><span class="react-z">6</span><span class="react-sym">C</span></div><span class="react-name">Carbon</span><span class="react-note">Non-metal; used as reducing agent in extraction</span></div>
+      <div class="react-item react-mid"><span class="react-rank">7</span><div class="react-elem-box" style="background:#713f12"><span class="react-z">30</span><span class="react-sym">Zn</span></div><span class="react-name">Zinc</span><span class="react-note">Reacts with steam; used in galvanising</span></div>
+      <div class="react-item react-mid"><span class="react-rank">8</span><div class="react-elem-box" style="background:#5c3d11"><span class="react-z">26</span><span class="react-sym">Fe</span></div><span class="react-name">Iron</span><span class="react-note">Reacts with steam; rusts in air/water</span></div>
+      <div class="react-item react-mid"><span class="react-rank">9</span><div class="react-elem-box" style="background:#44403c"><span class="react-z">50</span><span class="react-sym">Sn</span></div><span class="react-name">Tin</span><span class="react-note">Reacts with steam only</span></div>
+      <div class="react-item react-low"><span class="react-rank">10</span><div class="react-elem-box" style="background:#374151"><span class="react-z">82</span><span class="react-sym">Pb</span></div><span class="react-name">Lead</span><span class="react-note">Barely reacts with water; below hydrogen</span></div>
+      <div class="react-item react-h react-special"><span class="react-rank">—</span><div class="react-elem-box" style="background:#1e40af"><span class="react-z">1</span><span class="react-sym">H</span></div><span class="react-name">Hydrogen</span><span class="react-note">Reference point; not a metal</span></div>
+      <div class="react-item react-low"><span class="react-rank">11</span><div class="react-elem-box" style="background:#1e3a5f"><span class="react-z">29</span><span class="react-sym">Cu</span></div><span class="react-name">Copper</span><span class="react-note">Does not react with water; used in wiring</span></div>
+      <div class="react-item react-very-low"><span class="react-rank">12</span><div class="react-elem-box" style="background:#1e293b"><span class="react-z">47</span><span class="react-sym">Ag</span></div><span class="react-name">Silver</span><span class="react-note">Very unreactive; tarnishes in H₂S</span></div>
+      <div class="react-item react-very-low"><span class="react-rank">13</span><div class="react-elem-box" style="background:#111827"><span class="react-z">79</span><span class="react-sym">Au</span></div><span class="react-name">Gold</span><span class="react-note">Virtually inert; found native in nature</span></div>
+      <div class="react-item react-very-low"><span class="react-rank">14</span><div class="react-elem-box" style="background:#0f172a"><span class="react-z">78</span><span class="react-sym">Pt</span></div><span class="react-name">Platinum</span><span class="react-note">Most unreactive metal; used as catalyst</span></div>
+      <div class="react-arrow-label react-least">▼ Least Reactive</div>
+    </div>
+    <div class="reactivity-rules">
+      <div class="react-rule-card react-rule-green">
+        <div class="react-rule-title">✅ Displacement Rule</div>
+        <p>A more reactive metal displaces a less reactive one from its salt solution.</p>
+        <div class="react-eq">Zn + CuSO₄ → ZnSO₄ + Cu</div>
+        <div class="react-eq">Fe + CuSO₄ → FeSO₄ + Cu</div>
+      </div>
+      <div class="react-rule-card react-rule-blue">
+        <div class="react-rule-title">💧 Reaction with Water</div>
+        <p>Only metals above Mg react with cold water. Mg reacts with hot water. Metals below Mg react only with steam or dilute acids.</p>
+        <div class="react-eq">2Na + 2H₂O → 2NaOH + H₂↑</div>
+        <div class="react-eq">Mg + H₂O(steam) → MgO + H₂</div>
+      </div>
+      <div class="react-rule-card react-rule-orange">
+        <div class="react-rule-title">⚗️ Extraction Method</div>
+        <div style="margin-top:8px;">
+          <div class="react-extract-row"><span style="color:#ef4444">K, Na, Ca, Mg, Al</span><span>Electrolysis</span></div>
+          <div class="react-extract-row"><span style="color:#fb923c">C, Zn, Fe, Sn, Pb</span><span>Reduction with Carbon (coke)</span></div>
+          <div class="react-extract-row"><span style="color:#4fffb0">Cu, Ag, Au, Pt</span><span>Found native or simple heating</span></div>
+        </div>
+      </div>
+      <div class="react-rule-card react-rule-purple">
+        <div class="react-rule-title">🧪 Reaction with Dilute Acids</div>
+        <p>Metals above hydrogen react with dilute acids to produce a salt + hydrogen gas.</p>
+        <div class="react-eq">Zn + H₂SO₄ → ZnSO₄ + H₂↑</div>
+        <div class="react-eq">Fe + 2HCl → FeCl₂ + H₂↑</div>
+        <p style="margin-top:8px;font-size:0.8rem;color:var(--muted)">Metals below H (Cu, Ag, Au) do NOT react with dilute acids.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="ions-section" class="card">
   <div class="progress-check"><input type="checkbox" id="chk4" onchange="updateProgress()"><label for="chk4">Studied ✓</label></div>
@@ -955,6 +1362,63 @@
   <h3 style="font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--text);margin-top:40px;margin-bottom:8px;">Atomic <span style="color:var(--accent)">Mass Reference</span></h3>
   <div style="overflow-x:auto;"><table class="mass-table" style="margin-top:18px;min-width:500px;"><thead><tr><th>Symbol</th><th>H</th><th>Li</th><th>N</th><th>Na</th><th>S</th><th>K</th><th>C</th><th>Cl</th><th>O</th></tr></thead><tbody><tr><td style="color:var(--muted);font-size:0.78rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;">Mass</td><td>1</td><td>7</td><td>14</td><td>23</td><td>32</td><td>39</td><td>12</td><td>35.5</td><td>16</td></tr></tbody></table></div>
   <div style="overflow-x:auto;margin-top:10px;"><table class="mass-table" style="min-width:500px;"><thead><tr><th>Symbol</th><th>Al</th><th>Ca</th><th>P</th><th>Si</th><th>Ag</th><th>Fe</th><th>Ba</th><th>Mg</th><th>Cu</th></tr></thead><tbody><tr><td style="color:var(--muted);font-size:0.78rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;">Mass</td><td>27</td><td>40</td><td>30</td><td>28</td><td>107</td><td>56</td><td>137</td><td>24</td><td>63.5</td></tr></tbody></table></div>
+
+  <!-- POLYATOMIC IONS TABLE -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:40px;margin-bottom:8px;">Common <span style="color:var(--ions-neg)">Polyatomic Ions</span></h3>
+  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:18px;">Multi-atom ions that behave as a single charged unit in ionic compounds.</p>
+  <div class="polyion-grid">
+    <div class="polyion-panel">
+      <div class="polyion-header" style="color:var(--ions-pos)">⊕ Positive Polyatomic</div>
+      <div class="polyion-row"><span class="polyion-name">Ammonium</span><span class="polyion-formula" style="color:var(--ions-pos)">NH₄⁺</span></div>
+      <div class="polyion-row"><span class="polyion-name">Hydronium</span><span class="polyion-formula" style="color:var(--ions-pos)">H₃O⁺</span></div>
+    </div>
+    <div class="polyion-panel">
+      <div class="polyion-header" style="color:var(--ions-neg)">⊖ 1− Anions</div>
+      <div class="polyion-row"><span class="polyion-name">Acetate</span><span class="polyion-formula">C₂H₃O₂⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Azide</span><span class="polyion-formula">N₃⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Benzoate</span><span class="polyion-formula">C₇H₅O₂⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Bromate</span><span class="polyion-formula">BrO₃⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Chlorate</span><span class="polyion-formula">ClO₃⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Chlorite</span><span class="polyion-formula">ClO₂⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Cyanide</span><span class="polyion-formula">CN⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Dihydrogen phosphate</span><span class="polyion-formula">H₂PO₄⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Hydrogen carbonate</span><span class="polyion-formula">HCO₃⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Hydrogen sulfide</span><span class="polyion-formula">HS⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Hydrogen sulfate</span><span class="polyion-formula">HSO₄⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Hydroxide</span><span class="polyion-formula">OH⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Hypochlorite</span><span class="polyion-formula">ClO⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Iodate</span><span class="polyion-formula">IO₃⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Nitrate</span><span class="polyion-formula">NO₃⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Nitrite</span><span class="polyion-formula">NO₂⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Perchlorate</span><span class="polyion-formula">ClO₄⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Permanganate</span><span class="polyion-formula">MnO₄⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Thiocyanate</span><span class="polyion-formula">SCN⁻</span></div>
+    </div>
+    <div class="polyion-panel">
+      <div class="polyion-header" style="color:var(--alkene)">⊖ 2− Anions</div>
+      <div class="polyion-row"><span class="polyion-name">Carbonate</span><span class="polyion-formula">CO₃²⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Chromate</span><span class="polyion-formula">CrO₄²⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Dichromate</span><span class="polyion-formula">Cr₂O₇²⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Hydrogen phosphate</span><span class="polyion-formula">HPO₄²⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Hydrogen sulfite</span><span class="polyion-formula">HSO₃⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Oxalate</span><span class="polyion-formula">C₂O₄²⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Peroxide</span><span class="polyion-formula">O₂²⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Silicate</span><span class="polyion-formula">SiO₃²⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Sulfate</span><span class="polyion-formula">SO₄²⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Sulfite</span><span class="polyion-formula">SO₃²⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Tartrate</span><span class="polyion-formula">C₄H₄O₆²⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Thiosulfate</span><span class="polyion-formula">S₂O₃²⁻</span></div>
+    </div>
+    <div class="polyion-panel">
+      <div class="polyion-header" style="color:var(--nuclear)">⊖ 3− Anions</div>
+      <div class="polyion-row"><span class="polyion-name">Arsenate</span><span class="polyion-formula">AsO₄³⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Arsenite</span><span class="polyion-formula">AsO₃³⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Borate</span><span class="polyion-formula">BO₃³⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Phosphate</span><span class="polyion-formula">PO₄³⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Phosphite</span><span class="polyion-formula">PO₃³⁻</span></div>
+      <div class="polyion-row"><span class="polyion-name">Citrate</span><span class="polyion-formula">C₆H₅O₇³⁻</span></div>
+    </div>
+  </div>
 </section>
 
 <section id="moles-section" class="card">
@@ -1054,6 +1518,96 @@
     <div class="info-box"><h3>Indicators</h3><ul><li><b>Litmus:</b> red in acid, blue in base</li><li><b>Phenolphthalein:</b> colourless → pink at pH 8.3</li><li><b>Methyl orange:</b> red → yellow at pH 4.4</li><li><b>Universal:</b> full colour pH spectrum</li></ul></div>
     <div class="info-box blue"><h3>Buffers</h3><p>Resist pH change when small amounts of acid/base are added. Weak acid + conjugate base. Blood uses HCO₃⁻/H₂CO₃ to maintain pH ≈ 7.4.</p></div>
   </div>
+
+  <!-- CONJUGATE ACID-BASE PAIRS STRENGTH TABLE -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:40px;margin-bottom:8px;">Relative Acid &amp; Base <span style="color:var(--acids)">Strength</span></h3>
+  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:18px;">Conjugate acid-base pairs — stronger acids have weaker conjugate bases. Acid strength increases downward ↓ on the left; base strength increases upward ↑ on the right.</p>
+  <div class="conjpairs-wrap">
+    <div class="conjpairs-col conjpairs-acid">
+      <div class="conjpairs-header">ACID</div>
+      <div class="conjpairs-group cp-negligible"><span class="cp-group-label">negligible</span>
+        <div class="cp-row">OH⁻</div><div class="cp-row">HS⁻</div>
+      </div>
+      <div class="conjpairs-group cp-weak"><span class="cp-group-label">weak ↓ stronger</span>
+        <div class="cp-row">H₂O</div><div class="cp-row">HPO₄²⁻</div><div class="cp-row">HCO₃⁻</div>
+        <div class="cp-row">NH₄⁺</div><div class="cp-row">HCN</div><div class="cp-row">H₂PO₄⁻</div>
+        <div class="cp-row">HSO₃⁻</div><div class="cp-row">H₂S</div><div class="cp-row">H₂CO₃</div>
+        <div class="cp-row">CH₃CO₂H</div><div class="cp-row">HF</div><div class="cp-row">H₃PO₄</div>
+        <div class="cp-row">H₂SO₃</div><div class="cp-row">HSO₄⁻</div>
+      </div>
+      <div class="conjpairs-group cp-strong"><span class="cp-group-label">strong</span>
+        <div class="cp-row">H₃O⁺</div><div class="cp-row">HNO₃</div><div class="cp-row">H₂SO₄</div>
+        <div class="cp-row">HCl</div><div class="cp-row">HBr</div>
+      </div>
+    </div>
+    <div class="conjpairs-arrow-col">
+      <div class="cp-arrow-acid">← Acid strength</div>
+      <div class="cp-arrow-base">Base strength →</div>
+    </div>
+    <div class="conjpairs-col conjpairs-base">
+      <div class="conjpairs-header">BASE (Conjugate)</div>
+      <div class="conjpairs-group cp-strong-base"><span class="cp-group-label">strong ↑ stronger</span>
+        <div class="cp-row">O²⁻</div><div class="cp-row">S²⁻</div>
+      </div>
+      <div class="conjpairs-group cp-weak-base"><span class="cp-group-label">weak</span>
+        <div class="cp-row">OH⁻</div><div class="cp-row">PO₄³⁻</div><div class="cp-row">CO₃²⁻</div>
+        <div class="cp-row">NH₃</div><div class="cp-row">CN⁻</div><div class="cp-row">HPO₄²⁻</div>
+        <div class="cp-row">SO₃²⁻</div><div class="cp-row">HS⁻</div><div class="cp-row">HCO₃⁻</div>
+        <div class="cp-row">CH₃CO₂⁻</div><div class="cp-row">F⁻</div><div class="cp-row">H₂PO₄⁻</div>
+        <div class="cp-row">HSO₃⁻</div><div class="cp-row">SO₄²⁻</div>
+      </div>
+      <div class="conjpairs-group cp-negligible-base"><span class="cp-group-label">negligible</span>
+        <div class="cp-row">H₂O</div><div class="cp-row">NO₃⁻</div><div class="cp-row">HSO₄⁻</div>
+        <div class="cp-row">Cl⁻</div><div class="cp-row">Br⁻</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPORTANT COMPOUNDS REFERENCE -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:40px;margin-bottom:8px;">Important <span style="color:var(--acids)">Compounds &amp; Formulas</span></h3>
+  <div class="compounds-mega-grid">
+    <div class="compounds-panel">
+      <div class="compounds-panel-title" style="color:var(--acids)">🧪 Acids</div>
+      <div class="cmpd-row"><span>Hydrochloric Acid</span><span class="cmpd-formula">HCl</span></div>
+      <div class="cmpd-row"><span>Sulphuric Acid</span><span class="cmpd-formula">H₂SO₄</span></div>
+      <div class="cmpd-row"><span>Nitric Acid</span><span class="cmpd-formula">HNO₃</span></div>
+      <div class="cmpd-row"><span>Carbonic Acid</span><span class="cmpd-formula">H₂CO₃</span></div>
+      <div class="cmpd-row"><span>Acetic Acid</span><span class="cmpd-formula">CH₃COOH</span></div>
+      <div class="cmpd-row"><span>Phosphoric Acid</span><span class="cmpd-formula">H₃PO₄</span></div>
+    </div>
+    <div class="compounds-panel">
+      <div class="compounds-panel-title" style="color:var(--alkane)">🧪 Bases</div>
+      <div class="cmpd-row"><span>Sodium Hydroxide</span><span class="cmpd-formula">NaOH</span></div>
+      <div class="cmpd-row"><span>Potassium Hydroxide</span><span class="cmpd-formula">KOH</span></div>
+      <div class="cmpd-row"><span>Calcium Hydroxide</span><span class="cmpd-formula">Ca(OH)₂</span></div>
+      <div class="cmpd-row"><span>Ammonium Hydroxide</span><span class="cmpd-formula">NH₄OH</span></div>
+      <div class="cmpd-row"><span>Magnesium Hydroxide</span><span class="cmpd-formula">Mg(OH)₂</span></div>
+      <div class="cmpd-row"><span>Ammonia</span><span class="cmpd-formula">NH₃</span></div>
+    </div>
+    <div class="compounds-panel">
+      <div class="compounds-panel-title" style="color:var(--accent2)">🧂 Salts</div>
+      <div class="cmpd-row"><span>Sodium Chloride (Table Salt)</span><span class="cmpd-formula">NaCl</span></div>
+      <div class="cmpd-row"><span>Sodium Carbonate (Washing Soda)</span><span class="cmpd-formula">Na₂CO₃·10H₂O</span></div>
+      <div class="cmpd-row"><span>Sodium Bicarbonate (Baking Soda)</span><span class="cmpd-formula">NaHCO₃</span></div>
+      <div class="cmpd-row"><span>Calcium Carbonate (Marble/Chalk)</span><span class="cmpd-formula">CaCO₃</span></div>
+      <div class="cmpd-row"><span>Plaster of Paris</span><span class="cmpd-formula">CaSO₄·½H₂O</span></div>
+      <div class="cmpd-row"><span>Gypsum</span><span class="cmpd-formula">CaSO₄·2H₂O</span></div>
+      <div class="cmpd-row"><span>Ammonium Chloride</span><span class="cmpd-formula">NH₄Cl</span></div>
+    </div>
+    <div class="compounds-panel">
+      <div class="compounds-panel-title" style="color:var(--isomer)">⚗️ Common Oxides</div>
+      <div class="cmpd-row"><span>Carbon Dioxide</span><span class="cmpd-formula">CO₂</span></div>
+      <div class="cmpd-row"><span>Carbon Monoxide</span><span class="cmpd-formula">CO</span></div>
+      <div class="cmpd-row"><span>Sulphur Dioxide</span><span class="cmpd-formula">SO₂</span></div>
+      <div class="cmpd-row"><span>Nitrogen Dioxide</span><span class="cmpd-formula">NO₂</span></div>
+      <div class="cmpd-row"><span>Water</span><span class="cmpd-formula">H₂O</span></div>
+      <div class="cmpd-row"><span>Hydrogen Peroxide</span><span class="cmpd-formula">H₂O₂</span></div>
+      <div class="cmpd-row"><span>Zinc Oxide</span><span class="cmpd-formula">ZnO</span></div>
+      <div class="cmpd-row"><span>Aluminium Oxide</span><span class="cmpd-formula">Al₂O₃</span></div>
+      <div class="cmpd-row"><span>Copper Sulphate (Blue Vitriol)</span><span class="cmpd-formula">CuSO₄·5H₂O</span></div>
+      <div class="cmpd-row"><span>Ferrous Sulphate (Green Vitriol)</span><span class="cmpd-formula">FeSO₄·7H₂O</span></div>
+    </div>
+  </div>
 </section>
 
 <section id="electro-section" class="card">
@@ -1145,6 +1699,129 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ===== ELECTROCHEMISTRY CALCULATIONS ===== -->
+<section id="electro-calc-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkECalc" onchange="updateProgress()"><label for="chkECalc">Studied ✓</label></div>
+  <span class="badge cyan">// Quantitative Electrochemistry</span>
+  <h2 class="section-title">Electrochemistry <span class="cyan">Calculations</span></h2>
+  <p class="section-lead">The quantitative side of electrochemistry — connecting cell potential to Gibbs free energy, equilibrium constants, and reaction spontaneity through the Nernst equation and Faraday's laws.</p>
+
+  <!-- CELL POTENTIAL -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">Standard Cell <span style="color:var(--electro,#22d3ee)">Potential</span></h3>
+  <div class="ecalc-formula-grid">
+    <div class="ecalc-card" style="border-left:4px solid #22d3ee">
+      <div class="ecalc-label">E°cell</div>
+      <div class="ecalc-eq">E°<sub>cell</sub> = E°<sub>cathode</sub> − E°<sub>anode</sub></div>
+      <div class="ecalc-desc">Standard electrode potentials are measured vs. the Standard Hydrogen Electrode (SHE = 0.00 V) at 25°C, 1 M, 1 atm.</div>
+      <div class="ecalc-rule"><span class="ecalc-rule-pos">E°cell &gt; 0</span> → Spontaneous (ΔG &lt; 0)</div>
+      <div class="ecalc-rule"><span class="ecalc-rule-neg">E°cell &lt; 0</span> → Non-spontaneous (ΔG &gt; 0)</div>
+    </div>
+    <div class="ecalc-card" style="border-left:4px solid #4fffb0">
+      <div class="ecalc-label">Example: Zn–Cu Daniell Cell</div>
+      <div class="ecalc-eq-small">Cathode (reduction): Cu²⁺ + 2e⁻ → Cu &nbsp; E° = +0.34 V</div>
+      <div class="ecalc-eq-small">Anode (oxidation): Zn → Zn²⁺ + 2e⁻ &nbsp; E° = −0.76 V</div>
+      <div class="ecalc-eq" style="margin-top:10px;">E°cell = +0.34 − (−0.76) = <span style="color:#4fffb0">+1.10 V</span></div>
+      <div class="ecalc-desc">Positive → spontaneous. Electrons flow from Zn (anode) to Cu (cathode).</div>
+    </div>
+  </div>
+
+  <!-- GIBBS FREE ENERGY -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Gibbs Free Energy <span style="color:var(--electro,#22d3ee)">&amp; Equilibrium</span></h3>
+  <div class="ecalc-trio">
+    <div class="ecalc-trio-card">
+      <div class="ecalc-trio-formula">ΔG° = −nFE°</div>
+      <div class="ecalc-trio-vars">
+        <div><span class="etv-sym">ΔG°</span><span class="etv-desc">Standard Gibbs free energy (J)</span></div>
+        <div><span class="etv-sym">n</span><span class="etv-desc">Moles of electrons transferred</span></div>
+        <div><span class="etv-sym">F</span><span class="etv-desc">Faraday's constant = 96,485 C/mol</span></div>
+        <div><span class="etv-sym">E°</span><span class="etv-desc">Standard cell potential (V)</span></div>
+      </div>
+    </div>
+    <div class="ecalc-trio-card">
+      <div class="ecalc-trio-formula">ΔG° = −RT ln K</div>
+      <div class="ecalc-trio-vars">
+        <div><span class="etv-sym">R</span><span class="etv-desc">Gas constant = 8.314 J/mol·K</span></div>
+        <div><span class="etv-sym">T</span><span class="etv-desc">Temperature in Kelvin</span></div>
+        <div><span class="etv-sym">K</span><span class="etv-desc">Equilibrium constant</span></div>
+      </div>
+    </div>
+    <div class="ecalc-trio-card">
+      <div class="ecalc-trio-formula">E° = (RT/nF) ln K</div>
+      <div class="ecalc-trio-vars">
+        <div><span class="etv-sym">At 25°C:</span><span class="etv-desc">simplifies to:</span></div>
+        <div><span class="etv-sym" style="font-size:1rem">E° = (0.0592/n) log K</span><span class="etv-desc">This is the most used form</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="info-box cyan" style="margin-top:14px;"><h3>🔗 The Grand Relationship</h3><p>All three quantities are linked: <b>ΔG° = −nFE° = −RT ln K</b>. If you know any one of them, you can find the other two. A spontaneous reaction (ΔG° &lt; 0) has E° &gt; 0 and K &gt; 1 — products are favoured at equilibrium.</p></div>
+
+  <!-- NERNST EQUATION -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">The Nernst <span style="color:var(--electro,#22d3ee)">Equation</span></h3>
+  <div class="nernst-box">
+    <div class="nernst-formula">E = E° − (RT / nF) · ln Q</div>
+    <div class="nernst-at25">At 25°C (298 K): &nbsp; E = E° − (0.0592 / n) · log Q</div>
+    <div class="nernst-vars">
+      <div class="nv-row"><span class="nv-sym">E</span><span class="nv-desc">Cell potential under non-standard conditions</span></div>
+      <div class="nv-row"><span class="nv-sym">E°</span><span class="nv-desc">Standard cell potential</span></div>
+      <div class="nv-row"><span class="nv-sym">n</span><span class="nv-desc">Number of moles of electrons transferred</span></div>
+      <div class="nv-row"><span class="nv-sym">Q</span><span class="nv-desc">Reaction quotient = [products]/[reactants] at current conditions</span></div>
+      <div class="nv-row"><span class="nv-sym">F</span><span class="nv-desc">Faraday constant = 96,485 C mol⁻¹</span></div>
+    </div>
+  </div>
+  <div class="info-grid" style="margin-top:14px;">
+    <div class="info-box"><h3>When Q = 1 (Standard)</h3><p>E = E°. All concentrations are 1 M, all pressures 1 atm — standard conditions. The equation reduces to just E°.</p></div>
+    <div class="info-box blue"><h3>When Q &lt; 1</h3><p>−ln Q &gt; 0, so E &gt; E°. More reactants than products pushes the cell forward — higher driving force.</p></div>
+    <div class="info-box"><h3>When Q = K (Equilibrium)</h3><p>E = 0. The cell is at equilibrium and can no longer do work. This is a dead battery. E = 0 when Q = K.</p></div>
+  </div>
+
+  <!-- FARADAY'S LAWS -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Faraday's Laws of <span style="color:var(--electro,#22d3ee)">Electrolysis</span></h3>
+  <div class="faraday-grid">
+    <div class="faraday-card">
+      <div class="faraday-law-num">First Law</div>
+      <div class="faraday-formula">m = (M × I × t) / (n × F)</div>
+      <div class="faraday-desc">The mass of substance deposited at an electrode is proportional to the charge passed (Q = I × t).</div>
+      <div class="faraday-vars">
+        <div><b>m</b> = mass deposited (g)</div>
+        <div><b>M</b> = molar mass (g/mol)</div>
+        <div><b>I</b> = current (Amperes)</div>
+        <div><b>t</b> = time (seconds)</div>
+        <div><b>n</b> = electrons per ion</div>
+        <div><b>F</b> = 96,485 C/mol</div>
+      </div>
+    </div>
+    <div class="faraday-card">
+      <div class="faraday-law-num">Second Law</div>
+      <div class="faraday-formula">m₁/m₂ = E₁/E₂</div>
+      <div class="faraday-desc">When the same charge passes through different electrolytes, the masses deposited are proportional to their <b>equivalent weights</b> (E = M/n).</div>
+      <div class="faraday-vars">
+        <div><b>E (equivalent weight)</b> = M / n</div>
+        <div>Passing 1 Faraday deposits 1 equivalent of any substance</div>
+        <div>1 Faraday = 96,485 C = charge of 1 mol of electrons</div>
+      </div>
+    </div>
+    <div class="faraday-card" style="grid-column:span 2">
+      <div class="faraday-law-num">⚡ Worked Example</div>
+      <div style="font-size:0.85rem;color:var(--muted);margin-bottom:10px;">How much copper deposits when 2 A flows for 30 minutes through CuSO₄ solution? (Cu molar mass = 63.5, n = 2)</div>
+      <div class="faraday-steps">
+        <div class="fstep"><span class="fstep-n">1</span> Q = I × t = 2 A × (30 × 60 s) = 3600 C</div>
+        <div class="fstep"><span class="fstep-n">2</span> moles of e⁻ = 3600 / 96485 = 0.0373 mol</div>
+        <div class="fstep"><span class="fstep-n">3</span> moles of Cu = 0.0373 / 2 = 0.0187 mol (2 e⁻ per Cu²⁺)</div>
+        <div class="fstep"><span class="fstep-n">4</span> mass = 0.0187 × 63.5 = <span style="color:var(--accent)">1.19 g Cu deposited</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ELECTROCHEMICAL SERIES APPLICATION -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Quick Reference: <span style="color:var(--electro,#22d3ee)">Key Constants</span></h3>
+  <div class="unit-conv-grid">
+    <div class="unit-row"><div class="unit-from" style="color:var(--electro)">Faraday (F)</div><div class="unit-op">=</div><div class="unit-to">96,485 C mol⁻¹</div></div>
+    <div class="unit-row"><div class="unit-from" style="color:var(--electro)">At 25°C</div><div class="unit-op">RT/F =</div><div class="unit-to">0.02569 V</div></div>
+    <div class="unit-row"><div class="unit-from" style="color:var(--electro)">Nernst factor</div><div class="unit-op">2.303RT/F =</div><div class="unit-to">0.05916 V</div></div>
+    <div class="unit-row"><div class="unit-from" style="color:var(--electro)">1 Coulomb</div><div class="unit-op">=</div><div class="unit-to">1 Ampere × 1 second</div></div>
   </div>
 </section>
 
@@ -1243,6 +1920,84 @@
   <div class="frez-box"><div class="frez-formula">ΔTf = Conc. of Particles × (−1.86)</div><div class="frez-desc">Adding a solute lowers the freezing point of a solvent. The cryoscopic constant for water is <b>−1.86 °C·kg/mol</b>. More particles = greater depression.</div></div>
   <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Metric <span style="color:var(--solutions)">Prefixes</span></h3>
   <div class="unit-conv-grid"><div class="unit-row"><div class="unit-from" style="color:var(--text)">Unit</div><div class="unit-op">× 10³</div><div class="unit-to" style="color:var(--solutions)">Milli</div></div><div class="unit-row"><div class="unit-from" style="color:var(--text)">Milli</div><div class="unit-op">× 10³</div><div class="unit-to" style="color:var(--solutions)">Micro</div></div><div class="unit-row"><div class="unit-from" style="color:var(--text)">Micro</div><div class="unit-op">× 10³</div><div class="unit-to" style="color:var(--solutions)">Nano</div></div><div class="unit-row"><div class="unit-from" style="color:var(--solutions)">Milli</div><div class="unit-op">× 10⁻³</div><div class="unit-to" style="color:var(--text)">Unit</div></div></div>
+
+  <!-- ALL 6 CONCENTRATION TERMS from Image 9 -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:40px;margin-bottom:14px;">All <span style="color:var(--solutions)">Concentration Terms</span></h3>
+  <div class="conc-terms-grid">
+    <div class="conc-term-card" style="border-top:3px solid #f97316">
+      <div class="conc-term-label" style="color:#f97316">01 — Molarity (M)</div>
+      <div class="conc-term-def">Moles of solute per litre of solution</div>
+      <div class="conc-term-formula">M = moles of solute / volume (L)</div>
+      <div class="conc-term-note">Most common unit in lab chemistry. Changes with temperature.</div>
+    </div>
+    <div class="conc-term-card" style="border-top:3px solid #0d9488">
+      <div class="conc-term-label" style="color:#0d9488">02 — Molality (m)</div>
+      <div class="conc-term-def">Moles of solute per kilogram of solvent</div>
+      <div class="conc-term-formula">m = moles of solute / weight of solvent (kg)</div>
+      <div class="conc-term-note">Temperature-independent. Used for colligative properties.</div>
+    </div>
+    <div class="conc-term-card" style="border-top:3px solid #2563eb">
+      <div class="conc-term-label" style="color:#2563eb">03 — Normality (N)</div>
+      <div class="conc-term-def">Gram equivalents of solute per litre of solution</div>
+      <div class="conc-term-formula">N = gram equivalents / volume (L)</div>
+      <div class="conc-term-note">Useful for acid-base and redox reactions. N = M × n-factor.</div>
+    </div>
+    <div class="conc-term-card" style="border-top:3px solid #7c3aed">
+      <div class="conc-term-label" style="color:#7c3aed">04 — Formality (F)</div>
+      <div class="conc-term-def">Gram formula masses of ionic solute per litre</div>
+      <div class="conc-term-formula">F = weight (g) / (formula weight × volume (L))</div>
+      <div class="conc-term-note">Used for ionic solutes that fully dissociate. Similar to molarity.</div>
+    </div>
+    <div class="conc-term-card" style="border-top:3px solid #16a34a">
+      <div class="conc-term-label" style="color:#16a34a">05 — Mole Fraction (Xₐ)</div>
+      <div class="conc-term-def">Moles of one component divided by total moles in solution</div>
+      <div class="conc-term-formula">Xₐ = nₐ / (nₐ + n_B)</div>
+      <div class="conc-term-note">Dimensionless (0 to 1). Sum of all mole fractions = 1.</div>
+    </div>
+    <div class="conc-term-card" style="border-top:3px solid #b45309">
+      <div class="conc-term-label" style="color:#b45309">06 — Parts per Million (ppm)</div>
+      <div class="conc-term-def">Mass of solute per million parts of solvent</div>
+      <div class="conc-term-formula">ppm = (mass of solute / mass of solvent) × 10⁶</div>
+      <div class="conc-term-note">Used for very dilute solutions — water quality, pollutants, trace elements.</div>
+    </div>
+  </div>
+
+  <!-- COMMON CHEMICAL FORMULAS QUICK REFERENCE -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:40px;margin-bottom:8px;">Common Chemical <span style="color:var(--solutions)">Formula List</span></h3>
+  <div class="chem-formulas-grid">
+    <div class="cfrow"><span class="cfname">Water</span><span class="cff">H₂O</span></div>
+    <div class="cfrow"><span class="cfname">Glucose</span><span class="cff">C₆H₁₂O₆</span></div>
+    <div class="cfrow"><span class="cfname">Ethanol</span><span class="cff">C₂H₅OH</span></div>
+    <div class="cfrow"><span class="cfname">Ammonia</span><span class="cff">NH₃</span></div>
+    <div class="cfrow"><span class="cfname">Methane</span><span class="cff">CH₄</span></div>
+    <div class="cfrow"><span class="cfname">Aspirin</span><span class="cff">C₉H₈O₄</span></div>
+    <div class="cfrow"><span class="cfname">Benzene</span><span class="cff">C₆H₆</span></div>
+    <div class="cfrow"><span class="cfname">Acetic Acid (Vinegar)</span><span class="cff">CH₃COOH</span></div>
+    <div class="cfrow"><span class="cfname">Sulfuric Acid</span><span class="cff">H₂SO₄</span></div>
+    <div class="cfrow"><span class="cfname">Sodium Hydroxide</span><span class="cff">NaOH</span></div>
+    <div class="cfrow"><span class="cfname">Calcium Carbonate</span><span class="cff">CaCO₃</span></div>
+    <div class="cfrow"><span class="cfname">Table Salt</span><span class="cff">NaCl</span></div>
+    <div class="cfrow"><span class="cfname">Baking Soda</span><span class="cff">NaHCO₃</span></div>
+    <div class="cfrow"><span class="cfname">Bleach</span><span class="cff">NaOCl</span></div>
+    <div class="cfrow"><span class="cfname">Hydrogen Peroxide</span><span class="cff">H₂O₂</span></div>
+    <div class="cfrow"><span class="cfname">Acetone</span><span class="cff">CH₃COCH₃</span></div>
+    <div class="cfrow"><span class="cfname">Propane (LPG)</span><span class="cff">C₃H₈</span></div>
+    <div class="cfrow"><span class="cfname">Butane</span><span class="cff">C₄H₁₀</span></div>
+    <div class="cfrow"><span class="cfname">Sucrose (Sugar)</span><span class="cff">C₁₂H₂₂O₁₁</span></div>
+    <div class="cfrow"><span class="cfname">Caffeine</span><span class="cff">C₈H₁₀N₄O₂</span></div>
+    <div class="cfrow"><span class="cfname">Citric Acid</span><span class="cff">C₆H₈O₇</span></div>
+    <div class="cfrow"><span class="cfname">Urea</span><span class="cff">CO(NH₂)₂</span></div>
+    <div class="cfrow"><span class="cfname">Methanol</span><span class="cff">CH₃OH</span></div>
+    <div class="cfrow"><span class="cfname">Potassium Permanganate</span><span class="cff">KMnO₄</span></div>
+    <div class="cfrow"><span class="cfname">Copper Sulfate</span><span class="cff">CuSO₄</span></div>
+    <div class="cfrow"><span class="cfname">Carbon Dioxide</span><span class="cff">CO₂</span></div>
+    <div class="cfrow"><span class="cfname">Nitrogen Gas</span><span class="cff">N₂</span></div>
+    <div class="cfrow"><span class="cfname">Oxygen Gas</span><span class="cff">O₂</span></div>
+    <div class="cfrow"><span class="cfname">Dry Ice</span><span class="cff">CO₂(s)</span></div>
+    <div class="cfrow"><span class="cfname">Silver Nitrate</span><span class="cff">AgNO₃</span></div>
+    <div class="cfrow"><span class="cfname">Calcium Oxide (Quicklime)</span><span class="cff">CaO</span></div>
+    <div class="cfrow"><span class="cfname">Ferric Oxide (Rust)</span><span class="cff">Fe₂O₃</span></div>
+  </div>
 </section>
 
 <div class="chapter-divider" style="background:linear-gradient(135deg,rgba(245,158,11,0.05),rgba(79,255,176,0.05));border-color:rgba(245,158,11,0.15);">
@@ -1252,7 +2007,7 @@
     <div class="chapter-title">Tools &amp; Reference</div>
     <div class="chapter-desc">Six live interactive calculators plus the full 118-element periodic table with element detail panels.</div>
   </div>
-  <div class="chapter-count" style="border-color:rgba(245,158,11,0.2);color:var(--reactions);">2 Sections</div>
+  <div class="chapter-count" style="border-color:rgba(245,158,11,0.2);color:var(--reactions);">3 Sections</div>
 </div>
 
 <section id="tools-section" class="card">
@@ -1426,10 +2181,99 @@
     <div class="trans-prop-card"><div class="tp-icon">🧲</div><div class="tp-title">Magnetic Properties</div><p>Unpaired d-electrons make many transition metals and compounds <b>paramagnetic</b> (attracted to magnetic field). Fe, Co, Ni are <b>ferromagnetic</b> — permanently magnetic.</p></div>
     <div class="trans-prop-card"><div class="tp-icon">⬡</div><div class="tp-title">Complex Ion Formation</div><p>Form complex ions with ligands (Lewis bases donating lone pairs). e.g. [Cu(H₂O)₄]²⁺, [Fe(CN)₆]³⁻. Coordination number 6 is most common.</p></div>
     <div class="trans-prop-card"><div class="tp-icon">💪</div><div class="tp-title">High Density &amp; Strength</div><p>Small atomic radii, strong metallic bonding. High melting points, densities, and hardness. W has highest melting point (3422°C). Os is densest metal (22.59 g/cm³).</p></div>
+  </div>
 
-    <!-- TOOL 7: Equation Balancer (NEW) -->
+  <!-- ELECTRON CONFIGURATIONS (from Images 10 & 11) -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:8px;">Electronic <span style="color:var(--accent)">Configurations</span> — First 30 Elements</h3>
+  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:18px;">Written using the Aufbau principle: fill from lowest energy level. Notation: 1s², 2s², 2p⁶ … etc.</p>
+  <div class="econfig-table-wrap">
+    <table class="econfig-table">
+      <thead><tr><th>Element</th><th>Symbol</th><th>Z</th><th>Configuration</th></tr></thead>
+      <tbody>
+        <tr><td>Hydrogen</td><td>H</td><td>1</td><td class="ecfg">1s¹</td></tr>
+        <tr><td>Helium</td><td>He</td><td>2</td><td class="ecfg">1s²</td></tr>
+        <tr><td>Lithium</td><td>Li</td><td>3</td><td class="ecfg">1s² 2s¹</td></tr>
+        <tr><td>Beryllium</td><td>Be</td><td>4</td><td class="ecfg">1s² 2s²</td></tr>
+        <tr><td>Boron</td><td>B</td><td>5</td><td class="ecfg">1s² 2s² 2p¹</td></tr>
+        <tr><td>Carbon</td><td>C</td><td>6</td><td class="ecfg">1s² 2s² 2p²</td></tr>
+        <tr><td>Nitrogen</td><td>N</td><td>7</td><td class="ecfg">1s² 2s² 2p³</td></tr>
+        <tr><td>Oxygen</td><td>O</td><td>8</td><td class="ecfg">1s² 2s² 2p⁴</td></tr>
+        <tr><td>Fluorine</td><td>F</td><td>9</td><td class="ecfg">1s² 2s² 2p⁵</td></tr>
+        <tr><td>Neon</td><td>Ne</td><td>10</td><td class="ecfg">1s² 2s² 2p⁶</td></tr>
+        <tr><td>Sodium</td><td>Na</td><td>11</td><td class="ecfg">1s² 2s² 2p⁶ 3s¹</td></tr>
+        <tr><td>Magnesium</td><td>Mg</td><td>12</td><td class="ecfg">1s² 2s² 2p⁶ 3s²</td></tr>
+        <tr><td>Aluminium</td><td>Al</td><td>13</td><td class="ecfg">1s² 2s² 2p⁶ 3s² 3p¹</td></tr>
+        <tr><td>Silicon</td><td>Si</td><td>14</td><td class="ecfg">1s² 2s² 2p⁶ 3s² 3p²</td></tr>
+        <tr><td>Phosphorus</td><td>P</td><td>15</td><td class="ecfg">1s² 2s² 2p⁶ 3s² 3p³</td></tr>
+        <tr><td>Sulfur</td><td>S</td><td>16</td><td class="ecfg">1s² 2s² 2p⁶ 3s² 3p⁴</td></tr>
+        <tr><td>Chlorine</td><td>Cl</td><td>17</td><td class="ecfg">1s² 2s² 2p⁶ 3s² 3p⁵</td></tr>
+        <tr><td>Argon</td><td>Ar</td><td>18</td><td class="ecfg">1s² 2s² 2p⁶ 3s² 3p⁶</td></tr>
+        <tr><td>Potassium</td><td>K</td><td>19</td><td class="ecfg">[Ar] 4s¹</td></tr>
+        <tr><td>Calcium</td><td>Ca</td><td>20</td><td class="ecfg">[Ar] 4s²</td></tr>
+        <tr><td>Scandium</td><td>Sc</td><td>21</td><td class="ecfg">[Ar] 3d¹ 4s²</td></tr>
+        <tr><td>Titanium</td><td>Ti</td><td>22</td><td class="ecfg">[Ar] 3d² 4s²</td></tr>
+        <tr><td>Vanadium</td><td>V</td><td>23</td><td class="ecfg">[Ar] 3d³ 4s²</td></tr>
+        <tr><td>Chromium <span class="ecfg-note">★ exception</span></td><td>Cr</td><td>24</td><td class="ecfg ecfg-except">[Ar] 3d⁵ 4s¹</td></tr>
+        <tr><td>Manganese</td><td>Mn</td><td>25</td><td class="ecfg">[Ar] 3d⁵ 4s²</td></tr>
+        <tr><td>Iron</td><td>Fe</td><td>26</td><td class="ecfg">[Ar] 3d⁶ 4s²</td></tr>
+        <tr><td>Cobalt</td><td>Co</td><td>27</td><td class="ecfg">[Ar] 3d⁷ 4s²</td></tr>
+        <tr><td>Nickel</td><td>Ni</td><td>28</td><td class="ecfg">[Ar] 3d⁸ 4s²</td></tr>
+        <tr><td>Copper <span class="ecfg-note">★ exception</span></td><td>Cu</td><td>29</td><td class="ecfg ecfg-except">[Ar] 3d¹⁰ 4s¹</td></tr>
+        <tr><td>Zinc</td><td>Zn</td><td>30</td><td class="ecfg">[Ar] 3d¹⁰ 4s²</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="info-box orange" style="margin-top:14px;"><h3>★ Chromium &amp; Copper Exceptions</h3><p>Cr prefers [Ar] 3d⁵ 4s¹ (half-filled d = extra stability) over [Ar] 3d⁴ 4s². Cu prefers [Ar] 3d¹⁰ 4s¹ (fully-filled d) over [Ar] 3d⁹ 4s². Half-filled and fully-filled d subshells are extra stable due to exchange energy and symmetry.</p></div>
+
+  <!-- TRANSITION METAL CATION CONFIGS (Image 11) -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:8px;">Transition Metal <span style="color:#facc15">Cation</span> Configurations</h3>
+  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:18px;">When transition metals form cations, <b>ns electrons are removed first</b> (before (n−1)d electrons), regardless of which filled last. This is because in cations the 4s is higher energy than 3d.</p>
+  <div class="tm-cation-grid">
+    <div class="tm-cation-card">
+      <div class="tm-cation-atom">Zn → Zn²⁺</div>
+      <div class="tm-cation-before">[Ar] <span class="tc-s">4s²</span><span class="tc-d">3d¹⁰</span></div>
+      <div class="tm-cation-arrow">−2e⁻ (remove 4s)</div>
+      <div class="tm-cation-after">[Ar] <span class="tc-d">3d¹⁰</span></div>
+    </div>
+    <div class="tm-cation-card">
+      <div class="tm-cation-atom">Cu → Cu²⁺</div>
+      <div class="tm-cation-before">[Ar] <span class="tc-s">4s¹</span><span class="tc-d">3d¹⁰</span></div>
+      <div class="tm-cation-arrow">−2e⁻ (4s then 3d)</div>
+      <div class="tm-cation-after">[Ar] <span class="tc-d">3d⁹</span></div>
+    </div>
+    <div class="tm-cation-card">
+      <div class="tm-cation-atom">Fe → Fe³⁺</div>
+      <div class="tm-cation-before">[Ar] <span class="tc-s">4s²</span><span class="tc-d">3d⁶</span></div>
+      <div class="tm-cation-arrow">−3e⁻ (4s then 3d)</div>
+      <div class="tm-cation-after">[Ar] <span class="tc-d">3d⁵</span></div>
+    </div>
+    <div class="tm-cation-card">
+      <div class="tm-cation-atom">Cr → Cr³⁺</div>
+      <div class="tm-cation-before">[Ar] <span class="tc-s">4s¹</span><span class="tc-d">3d⁵</span></div>
+      <div class="tm-cation-arrow">−3e⁻ (4s then 3d)</div>
+      <div class="tm-cation-after">[Ar] <span class="tc-d">3d³</span></div>
+    </div>
+    <div class="tm-cation-card">
+      <div class="tm-cation-atom">Mn → Mn²⁺</div>
+      <div class="tm-cation-before">[Ar] <span class="tc-s">4s²</span><span class="tc-d">3d⁵</span></div>
+      <div class="tm-cation-arrow">−2e⁻ (remove 4s)</div>
+      <div class="tm-cation-after">[Ar] <span class="tc-d">3d⁵</span></div>
+    </div>
+    <div class="tm-cation-card">
+      <div class="tm-cation-atom">Ni → Ni²⁺</div>
+      <div class="tm-cation-before">[Ar] <span class="tc-s">4s²</span><span class="tc-d">3d⁸</span></div>
+      <div class="tm-cation-arrow">−2e⁻ (remove 4s)</div>
+      <div class="tm-cation-after">[Ar] <span class="tc-d">3d⁸</span></div>
+    </div>
+  </div>
+  <div class="info-box" style="margin-top:14px;border-left-color:#facc15;"><h3>⚠️ Key Rule</h3><p>Transition metal ions do <b>not</b> usually attain a noble gas configuration (unlike main-group ions). This is because the ns orbital empties first into the (n−1)d orbitals when ionising. The resulting partial d-filling explains their colour, variable oxidation states, and magnetic properties.</p></div>
+
+  <!-- Extra tools (7/8/9) placed here in blocks section as in v10 -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Extra <span style="color:var(--accent)">Tools</span></h3>
+  <div class="tools-grid">
+    <!-- TOOL 7: Equation Balancer -->
     <div class="tool-panel">
-      <div class="tool-title-tag">Tool 07 — NEW</div>
+      <div class="tool-title-tag">Tool 07</div>
       <h3>⚖️ Equation Balancer</h3>
       <p style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;">Enter an unbalanced equation. Use + to separate substances, → or -&gt; for the arrow. Coefficients will be found automatically.</p>
       <label style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Unbalanced Equation</label>
@@ -1437,9 +2281,9 @@
       <button class="tool-btn" onclick="balanceEquation()">Balance Equation</button>
       <div class="tool-result" id="balanceResult" style="margin-top:10px;"><span class="tool-empty">Enter equation above.</span></div>
     </div>
-    <!-- TOOL 8: Titration Calculator (NEW) -->
+    <!-- TOOL 8: Titration Calculator -->
     <div class="tool-panel">
-      <div class="tool-title-tag">Tool 08 — NEW</div>
+      <div class="tool-title-tag">Tool 08</div>
       <h3>🧫 Titration Calculator</h3>
       <p style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;">Based on: C₁V₁/n₁ = C₂V₂/n₂. Leave the unknown blank.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
@@ -1453,24 +2297,15 @@
       <button class="tool-btn" onclick="calcTitration()" style="margin-top:9px;">Calculate Unknown</button>
       <div class="tool-result" id="titrResult" style="margin-top:10px;"><span class="tool-empty">Leave one field blank as the unknown.</span></div>
     </div>
-    <!-- TOOL 9: Empirical Formula (NEW) -->
+    <!-- TOOL 9: Empirical Formula -->
     <div class="tool-panel">
-      <div class="tool-title-tag">Tool 09 — NEW</div>
+      <div class="tool-title-tag">Tool 09</div>
       <h3>🔢 Empirical &amp; Molecular Formula</h3>
       <p style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;">Enter percentage composition (must total ~100%). Optionally enter molar mass to get molecular formula.</p>
       <div id="efInputs" style="display:flex;flex-direction:column;gap:7px;">
-        <div class="ef-row" style="display:grid;grid-template-columns:60px 1fr;gap:8px;align-items:center;">
-          <input class="tool-input" placeholder="e.g. C" style="padding:8px 10px;text-align:center;font-weight:700;" oninput="calcEmpiricalFormula()">
-          <input class="tool-input" type="number" placeholder="% mass (e.g. 40)" step="any" style="padding:8px 12px;" oninput="calcEmpiricalFormula()">
-        </div>
-        <div class="ef-row" style="display:grid;grid-template-columns:60px 1fr;gap:8px;align-items:center;">
-          <input class="tool-input" placeholder="e.g. H" style="padding:8px 10px;text-align:center;font-weight:700;" oninput="calcEmpiricalFormula()">
-          <input class="tool-input" type="number" placeholder="% mass (e.g. 6.7)" step="any" style="padding:8px 12px;" oninput="calcEmpiricalFormula()">
-        </div>
-        <div class="ef-row" style="display:grid;grid-template-columns:60px 1fr;gap:8px;align-items:center;">
-          <input class="tool-input" placeholder="e.g. O" style="padding:8px 10px;text-align:center;font-weight:700;" oninput="calcEmpiricalFormula()">
-          <input class="tool-input" type="number" placeholder="% mass (e.g. 53.3)" step="any" style="padding:8px 12px;" oninput="calcEmpiricalFormula()">
-        </div>
+        <div class="ef-row"><input class="tool-input" placeholder="e.g. C" style="padding:8px 10px;text-align:center;font-weight:700;" oninput="calcEmpiricalFormula()"><input class="tool-input" type="number" placeholder="% mass (e.g. 40)" step="any" style="padding:8px 12px;" oninput="calcEmpiricalFormula()"></div>
+        <div class="ef-row"><input class="tool-input" placeholder="e.g. H" style="padding:8px 10px;text-align:center;font-weight:700;" oninput="calcEmpiricalFormula()"><input class="tool-input" type="number" placeholder="% mass (e.g. 6.7)" step="any" style="padding:8px 12px;" oninput="calcEmpiricalFormula()"></div>
+        <div class="ef-row"><input class="tool-input" placeholder="e.g. O" style="padding:8px 10px;text-align:center;font-weight:700;" oninput="calcEmpiricalFormula()"><input class="tool-input" type="number" placeholder="% mass (e.g. 53.3)" step="any" style="padding:8px 12px;" oninput="calcEmpiricalFormula()"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px;">
         <div><label style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Molar Mass (optional)</label><input class="tool-input" id="efMolarMass" type="number" step="any" placeholder="g/mol" oninput="calcEmpiricalFormula()" style="padding:9px 12px;"></div>
@@ -1516,12 +2351,12 @@
   <p>Designed for Excellence by Abdelrahman Mohamed © 2026</p>
   <div class="footer-divider"></div>
   <div class="footer-meta">
-    <span><span class="dot"></span> Version 10.0</span>
-    <span><span class="dot"></span> 22 Sections · 9 Live Tools</span>
+    <span><span class="dot"></span> Version 11.0</span>
+    <span><span class="dot"></span> 27 Sections · 9 Live Tools</span>
     <span><span class="dot"></span> 118 Elements · Click for Details</span>
     <span><span class="dot"></span> Educational Level: Pro</span>
   </div>
 </footer>
-<script src="labar-v10.js"></script>
+<script src="labar-v11.js"></script>
 </body>
 </html>
