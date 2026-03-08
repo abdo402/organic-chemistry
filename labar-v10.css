@@ -629,3 +629,21 @@ footer p{color:var(--muted);font-size:0.85rem;margin-bottom:6px;}
 [data-theme="light"] .ep-svg{background:rgba(244,246,255,0.8);}
 [data-theme="light"] .ecs-row-top{background:rgba(220,38,38,0.04)!important;}
 [data-theme="light"] .ecs-row-bot{background:rgba(22,163,74,0.04)!important;}
+
+/* ===== IUPAC Enhanced Styles ===== */
+.iupac-root-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.iupac-root{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 8px;text-align:center;}
+.iupac-root-n{display:block;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);margin-bottom:3px;}
+.iupac-root-name{display:block;font-family:'JetBrains Mono',monospace;font-size:0.95rem;font-weight:700;color:var(--accent);}
+.iupac-rules-list{display:flex;flex-direction:column;gap:10px;margin-top:18px;}
+.iupac-rule{display:flex;gap:12px;align-items:flex-start;background:var(--surface2);border-radius:11px;padding:13px 16px;border:1px solid var(--border);font-size:0.85rem;color:var(--muted);}
+.iupac-rule b{color:var(--text);}
+.iupac-rule-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+.iupac-sub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:16px;}
+.iupac-sub-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center;}
+.iupac-sub-formula{font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent);font-weight:700;margin-bottom:4px;}
+.iupac-sub-name{font-size:0.78rem;color:var(--muted);}
+.iupac-format-box{background:var(--surface2);border:1px solid rgba(79,255,176,0.2);border-radius:14px;padding:20px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:700;letter-spacing:0.03em;margin-top:18px;}
+.iupac-fmt-part{font-size:1.1rem;}
+.iupac-fmt-dash{color:var(--muted);margin:0 2px;}
+@media(max-width:768px){.iupac-root-grid{grid-template-columns:repeat(5,1fr);}.iupac-sub-grid{grid-template-columns:repeat(2,1fr);}}
