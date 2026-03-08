@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="labar-v10.css">
 </head>
-</head>
 <body>
 <canvas id="bgCanvas"></canvas>
 <nav>
@@ -138,7 +137,7 @@
 <div class="progress-bar-wrap">
   <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);white-space:nowrap;">Study Progress</span>
   <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
-  <span class="progress-label" id="progressLabel">0 / 17</span>
+  <span class="progress-label" id="progressLabel">0 / 22</span>
 </div>
 
 <div class="chapter-divider">
@@ -198,11 +197,79 @@
   <div class="progress-check"><input type="checkbox" id="chk0" onchange="updateProgress()"><label for="chk0">Studied ✓</label></div>
   <span class="badge">// Deep Learning</span>
   <h2 class="section-title">What are <span>Hydrocarbons</span>?</h2>
-  <p class="section-lead">Hydrocarbons are organic compounds consisting entirely of Carbon (C) and Hydrogen (H). They form the backbone of fossil fuels, polymers, and countless synthetic materials.</p>
+  <p class="section-lead">Hydrocarbons are organic compounds consisting <b>entirely</b> of Carbon (C) and Hydrogen (H) atoms — nothing else. They form the backbone of fossil fuels, polymers, and countless synthetic materials. Understanding hydrocarbons is the foundation of all organic chemistry.</p>
   <div class="info-grid">
-    <div class="info-box"><h3>⬡ Alkanes — Saturated</h3><p>Contain the <b>maximum</b> possible hydrogen atoms. No multiple bonds — chemically stable except in combustion and halogenation. Formula: C<sub>n</sub>H<sub>2n+2</sub>.</p></div>
-    <div class="info-box blue"><h3>⬡ Alkenes &amp; Alkynes — Unsaturated</h3><p>Contain <b>double</b> or <b>triple</b> C–C bonds. Highly reactive π electrons undergo addition reactions with H₂, Br₂, HX, and H₂O — critical in industrial chemistry.</p></div>
-    <div class="info-box purple"><h3>⬡ The n=1 Exception</h3><p>Both alkenes and alkynes <b>cannot exist</b> at n=1. A double or triple bond requires at least two carbons. Ethene (C₂H₄) and Ethyne (C₂H₂) are the minimum members.</p></div>
+    <div class="info-box"><h3>⬡ Alkanes — Saturated</h3>
+      <p>Contain the <b>maximum possible</b> hydrogen atoms. All C–C bonds are single bonds (σ bonds only) — no π bonds. This makes them chemically <b>stable and unreactive</b> at room temperature.</p>
+      <p style="margin-top:8px;">Formula: <b>C<sub>n</sub>H<sub>2n+2</sub></b></p>
+      <p style="margin-top:6px;font-size:0.82rem;color:var(--muted)">React only in: combustion (burning) and halogenation (substitution with Cl₂/Br₂ under UV light). Both require breaking the strong C–H bond first.</p>
+    </div>
+    <div class="info-box blue"><h3>⬡ Alkenes &amp; Alkynes — Unsaturated</h3>
+      <p>Contain <b>double</b> (alkenes) or <b>triple</b> (alkynes) C–C bonds. The π bond electrons are above and below the bond axis — they are loosely held and highly reactive. These π electrons are attacked by electrophiles in <b>addition reactions</b>.</p>
+      <p style="margin-top:8px;">Alkene: <b>C<sub>n</sub>H<sub>2n</sub></b> &nbsp;·&nbsp; Alkyne: <b>C<sub>n</sub>H<sub>2n−2</sub></b></p>
+      <p style="margin-top:6px;font-size:0.82rem;color:var(--muted)">React with: H₂ (hydrogenation), Br₂ (bromine water test), HX (hydrohalogenation), H₂O (hydration to alcohol).</p>
+    </div>
+    <div class="info-box purple"><h3>⬡ The n=1 Exception</h3>
+      <p>Both alkenes and alkynes <b>cannot exist at n=1</b>. A double or triple bond requires <b>at least two carbon atoms</b> — you need two carbons to share a double bond between them.</p>
+      <p style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--nuclear)">n=1: Methane (CH₄) only — no ethene or ethyne equivalent<br>n=2: Ethene (C₂H₄) and Ethyne (C₂H₂) are the minimum</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Physical <span style="color:var(--accent)">Properties &amp; Trends</span></h3>
+  <div class="info-grid">
+    <div class="info-box">
+      <h3>🌡️ Boiling Point Trend</h3>
+      <p>As the carbon chain gets <b>longer</b>, boiling point <b>increases</b>. More carbons = larger surface area = stronger van der Waals (dispersion) forces between molecules = more energy needed to separate them.</p>
+      <ul>
+        <li>Methane (CH₄): bp <b>−162°C</b> (gas)</li>
+        <li>Pentane (C₅H₁₂): bp <b>36°C</b> (liquid)</li>
+        <li>Decane (C₁₀H₂₂): bp <b>174°C</b> (liquid)</li>
+        <li>Icosane (C₂₀H₄₂): bp <b>343°C</b> (solid wax)</li>
+      </ul>
+    </div>
+    <div class="info-box blue">
+      <h3>🔀 Effect of Branching</h3>
+      <p>Branched isomers have <b>lower</b> boiling points than straight-chain isomers. Branching makes the molecule more spherical, <b>reducing surface area</b> contact between molecules, so less energy is needed to separate them.</p>
+      <ul>
+        <li>n-Pentane: bp <b>36°C</b> (straight)</li>
+        <li>Isopentane: bp <b>28°C</b> (one branch)</li>
+        <li>Neopentane: bp <b>10°C</b> (most branched)</li>
+      </ul>
+      <p style="margin-top:6px;font-size:0.82rem;color:var(--muted)">All three are C₅H₁₂ but have very different boiling points.</p>
+    </div>
+    <div class="info-box">
+      <h3>💧 Solubility &amp; State</h3>
+      <p>All hydrocarbons are <b>non-polar</b> — they do not mix with water ("like dissolves like"). They dissolve freely in non-polar organic solvents.</p>
+      <ul>
+        <li><b>C₁–C₄:</b> gases at room temperature</li>
+        <li><b>C₅–C₁₇:</b> liquids (petrol, kerosene, diesel)</li>
+        <li><b>C₁₈+:</b> waxy solids (paraffin wax, bitumen)</li>
+      </ul>
+      <p style="margin-top:6px;font-size:0.82rem;color:var(--muted)">This is why crude oil is separated by fractional distillation — each fraction boils at a different temperature range.</p>
+    </div>
+  </div>
+
+  <div class="info-grid" style="margin-top:18px;">
+    <div class="info-box orange">
+      <h3>🔥 Combustion — The Key Reaction</h3>
+      <p>All hydrocarbons burn in oxygen. <b>Complete combustion</b> (excess O₂) gives only CO₂ and H₂O. <b>Incomplete combustion</b> (limited O₂) gives CO and/or carbon soot — both toxic/polluting.</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.79rem;color:var(--isomer);margin-top:8px;">C₄H₁₀ + 6½O₂ → 4CO₂ + 5H₂O (complete)<br>2C₄H₁₀ + 9O₂ → 8CO + 10H₂O (incomplete)</p>
+    </div>
+    <div class="info-box blue">
+      <h3>🧪 Bromine Water Test</h3>
+      <p>A quick test to distinguish saturated from unsaturated hydrocarbons:</p>
+      <ul>
+        <li>Add orange/brown bromine water (Br₂(aq)) to the compound</li>
+        <li><b>Decolourises</b> (turns colourless) → unsaturated (alkene or alkyne present — addition reaction occurs)</li>
+        <li><b>Stays orange/brown</b> → saturated (alkane — no reaction)</li>
+      </ul>
+    </div>
+    <div class="info-box purple">
+      <h3>⚡ Degree of Unsaturation</h3>
+      <p>The <b>degree of unsaturation (DoU)</b> tells you how many double bonds or rings are in a molecule. Calculate it from the molecular formula C<sub>n</sub>H<sub>m</sub>:</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--nuclear);margin-top:8px;text-align:center;">DoU = (2n + 2 − m) ÷ 2</p>
+      <p style="margin-top:8px;font-size:0.82rem;color:var(--muted)">DoU=0 → alkane · DoU=1 → one ring or one C=C · DoU=2 → one C≡C or two C=C · DoU=4 → benzene ring</p>
+    </div>
   </div>
 </section>
 
@@ -210,7 +277,8 @@
   <div class="progress-check"><input type="checkbox" id="chk1" onchange="updateProgress()"><label for="chk1">Studied ✓</label></div>
   <span class="badge">// Naming Science</span>
   <h2 class="section-title">IUPAC <span>Nomenclature</span></h2>
-  <p class="section-lead">IUPAC rules ensure every molecule has one unique, unambiguous systematic name. Follow these five steps in order.</p>
+  <p class="section-lead">IUPAC rules ensure every molecule has one unique, unambiguous systematic name understood by chemists worldwide. Follow these five steps in order — every time.</p>
+
   <div class="tab-wrapper">
     <div class="tab-sidebar" role="tablist">
       <button class="tab-link active" onclick="switchTab(event,'r1')"><span class="tab-step">1</span>Longest Chain</button>
@@ -220,11 +288,165 @@
       <button class="tab-link" onclick="switchTab(event,'r5')"><span class="tab-step">5</span>Assembly</button>
     </div>
     <div>
-      <div id="r1" class="tab-pane show"><h3>Find the Parent Chain</h3><p>Identify the <b>longest continuous chain</b> of carbon atoms. Root names: Meth-(1C), Eth-(2C), Prop-(3C), But-(4C), Pent-(5C), Hex-(6C), Hept-(7C), Oct-(8C), Non-(9C), Dec-(10C).</p><p><b>Key rule:</b> The chain <u>must include</u> the double or triple bond.</p><div class="example-box"><span>Example</span>CH₃–CH₂–CH=CH₂ → 4 carbons → "But-"</div></div>
-      <div id="r2" class="tab-pane"><h3>The Lowest Locant Rule</h3><p>Number the chain from the end giving the <b>lowest possible locant</b> to the first multiple bond. If no multiple bonds, number from the end nearest the first branch.</p></div>
-      <div id="r3" class="tab-pane"><h3>Name the Substituents</h3><p>Branches are named by replacing "-ane" with <b>"-yl"</b>: –CH₃ → Methyl, –C₂H₅ → Ethyl, –C₃H₇ → Propyl. Use prefixes di-, tri-, tetra- for identical groups.</p></div>
-      <div id="r4" class="tab-pane"><h3>Alphabetical Priority</h3><p>List substituents in <b>strict alphabetical order</b> based on the substituent name, <u>ignoring</u> multiplicative prefixes (di, tri, etc.).</p><div class="example-box"><span>Correct</span>Ethyl before Methyl → "...ethyl...methyl..."</div></div>
-      <div id="r5" class="tab-pane"><h3>Final Construction</h3><p>Assemble as: <b>[locant]-[substituent]-[parent][suffix]</b>. Use commas between numbers. Use hyphens between numbers and words. No space before the parent name.</p><div class="example-box"><span>Examples</span>2,2-dimethylpentane &nbsp;·&nbsp; 3-ethyl-2-methylhexane</div></div>
+
+      <!-- TAB 1 -->
+      <div id="r1" class="tab-pane show">
+        <h3>Find the Parent Chain</h3>
+        <p>Look at the whole molecule and trace the <b>longest continuous chain</b> of carbon atoms — this is your parent chain and gives the base name.</p>
+        <div class="iupac-root-grid">
+          <div class="iupac-root"><span class="iupac-root-n">1C</span><span class="iupac-root-name">Meth-</span></div>
+          <div class="iupac-root"><span class="iupac-root-n">2C</span><span class="iupac-root-name">Eth-</span></div>
+          <div class="iupac-root"><span class="iupac-root-n">3C</span><span class="iupac-root-name">Prop-</span></div>
+          <div class="iupac-root"><span class="iupac-root-n">4C</span><span class="iupac-root-name">But-</span></div>
+          <div class="iupac-root"><span class="iupac-root-n">5C</span><span class="iupac-root-name">Pent-</span></div>
+          <div class="iupac-root"><span class="iupac-root-n">6C</span><span class="iupac-root-name">Hex-</span></div>
+          <div class="iupac-root"><span class="iupac-root-n">7C</span><span class="iupac-root-name">Hept-</span></div>
+          <div class="iupac-root"><span class="iupac-root-n">8C</span><span class="iupac-root-name">Oct-</span></div>
+          <div class="iupac-root"><span class="iupac-root-n">9C</span><span class="iupac-root-name">Non-</span></div>
+          <div class="iupac-root"><span class="iupac-root-n">10C</span><span class="iupac-root-name">Dec-</span></div>
+        </div>
+        <div class="iupac-rules-list">
+          <div class="iupac-rule"><span class="iupac-rule-icon">⚠️</span><div><b>Multiple bonds must be included:</b> If there is a C=C or C≡C bond, your chain must pass through it — even if a longer chain exists that skips it.</div></div>
+          <div class="iupac-rule"><span class="iupac-rule-icon">⚠️</span><div><b>Tie-breaker rule:</b> If two chains have equal length, choose the one that gives the greatest number of substituents (branches).</div></div>
+          <div class="iupac-rule"><span class="iupac-rule-icon">✅</span><div><b>Suffix:</b> Single bonds → <b>-ane</b> · One double bond → <b>-ene</b> · One triple bond → <b>-yne</b></div></div>
+        </div>
+        <div class="example-box"><span>Example 1 — Alkane</span>CH₃–CH₂–CH₂–CH₃ → 4 carbons → Parent: <b>But-</b> → <b>Butane</b></div>
+        <div class="example-box" style="margin-top:10px;"><span>Example 2 — Alkene</span>CH₃–CH₂–CH=CH₂ → 4 carbons (includes C=C) → Parent: <b>But-</b> → <b>But-1-ene</b></div>
+        <div class="example-box" style="margin-top:10px;"><span>Common Mistake ✗</span>Choosing a 5-carbon chain that skips a C=C when a 4-carbon chain through the C=C exists — always include the multiple bond.</div>
+      </div>
+
+      <!-- TAB 2 -->
+      <div id="r2" class="tab-pane">
+        <h3>The Lowest Locant Rule</h3>
+        <p>Once you have the parent chain, number its carbons from <b>one end to the other</b>. You must choose the direction that gives the <b>lowest set of locants</b> (position numbers).</p>
+        <div class="iupac-rules-list">
+          <div class="iupac-rule"><span class="iupac-rule-icon">1️⃣</span><div><b>Multiple bonds get priority:</b> Number from the end that gives the C=C or C≡C the lowest position number first.</div></div>
+          <div class="iupac-rule"><span class="iupac-rule-icon">2️⃣</span><div><b>No multiple bonds?</b> Number from the end nearest the first branch (substituent).</div></div>
+          <div class="iupac-rule"><span class="iupac-rule-icon">3️⃣</span><div><b>Compare sets:</b> If you get {2,3} from one end and {4,5} from the other — use {2,3}. Compare the first point of difference.</div></div>
+        </div>
+        <div class="example-box"><span>Example — Branched Alkane</span>
+          CH₃–CH(CH₃)–CH₂–CH₂–CH₃<br><br>
+          From left → branch at carbon <b>2</b> → locant set: {2}<br>
+          From right → branch at carbon <b>4</b> → locant set: {4}<br>
+          ✅ Number from left → branch is at <b>C2</b> → 2-methylpentane
+        </div>
+        <div class="example-box" style="margin-top:10px;"><span>Example — Alkene</span>
+          CH₂=CH–CH₂–CH₃<br><br>
+          From left → double bond starts at C<b>1</b> → <b>But-1-ene</b> ✅<br>
+          From right → double bond starts at C<b>3</b> → But-3-ene ✗<br>
+          Always pick the direction giving the double bond the lowest number.
+        </div>
+        <div class="example-box" style="margin-top:10px;"><span>Common Mistake ✗</span>Naming CH₃–CH=CH–CH₃ as "But-3-ene" — the correct name is <b>But-2-ene</b> (number from the end closer to the double bond).
+        </div>
+      </div>
+
+      <!-- TAB 3 -->
+      <div id="r3" class="tab-pane">
+        <h3>Name the Substituents (Branches)</h3>
+        <p>Any group attached to the main chain (but not part of it) is a <b>substituent</b>. These are named using the carbon count of the branch + the suffix <b>"-yl"</b>.</p>
+        <div class="iupac-sub-grid">
+          <div class="iupac-sub-card"><div class="iupac-sub-formula">–CH₃</div><div class="iupac-sub-name">Methyl</div></div>
+          <div class="iupac-sub-card"><div class="iupac-sub-formula">–C₂H₅</div><div class="iupac-sub-name">Ethyl</div></div>
+          <div class="iupac-sub-card"><div class="iupac-sub-formula">–C₃H₇</div><div class="iupac-sub-name">Propyl</div></div>
+          <div class="iupac-sub-card"><div class="iupac-sub-formula">–C₄H₉</div><div class="iupac-sub-name">Butyl</div></div>
+          <div class="iupac-sub-card"><div class="iupac-sub-formula">–F</div><div class="iupac-sub-name">Fluoro</div></div>
+          <div class="iupac-sub-card"><div class="iupac-sub-formula">–Cl</div><div class="iupac-sub-name">Chloro</div></div>
+          <div class="iupac-sub-card"><div class="iupac-sub-formula">–Br</div><div class="iupac-sub-name">Bromo</div></div>
+          <div class="iupac-sub-card"><div class="iupac-sub-formula">–I</div><div class="iupac-sub-name">Iodo</div></div>
+        </div>
+        <div class="iupac-rules-list" style="margin-top:16px;">
+          <div class="iupac-rule"><span class="iupac-rule-icon">✖️</span><div><b>Multiple identical substituents:</b> Use prefixes — <b>di-</b> (×2), <b>tri-</b> (×3), <b>tetra-</b> (×4). Each still needs its own locant number.</div></div>
+          <div class="iupac-rule"><span class="iupac-rule-icon">📌</span><div><b>Example:</b> Two –CH₃ on carbon 2 → write <b>2,2-dimethyl</b> not "2-methyl-2-methyl"</div></div>
+        </div>
+        <div class="example-box" style="margin-top:12px;"><span>Halogen Example</span>CH₃–CHCl–CH₂–CH₃ → 4-carbon chain, Cl on C2 → <b>2-chlorobutane</b></div>
+        <div class="example-box" style="margin-top:10px;"><span>Two Methyls Example</span>CH₃–C(CH₃)₂–CH₂–CH₃ → 4-carbon chain, two methyls on C2 → <b>2,2-dimethylbutane</b></div>
+      </div>
+
+      <!-- TAB 4 -->
+      <div id="r4" class="tab-pane">
+        <h3>Alphabetical Priority</h3>
+        <p>When two or more <b>different</b> substituents are present, list them in the name in <b>strict alphabetical order</b> based on the substituent name alone.</p>
+        <div class="iupac-rules-list">
+          <div class="iupac-rule"><span class="iupac-rule-icon">✅</span><div><b>Alphabetise the substituent name itself:</b> bromo, chloro, ethyl, fluoro, iodo, methyl, propyl…</div></div>
+          <div class="iupac-rule"><span class="iupac-rule-icon">❌</span><div><b>Ignore multiplying prefixes</b> (di-, tri-, tetra-) when alphabetising. "dimethyl" is alphabetised as "methyl" (m), not "d".</div></div>
+          <div class="iupac-rule"><span class="iupac-rule-icon">❌</span><div><b>Do NOT ignore</b> prefixes that are part of the substituent name itself — iso-, cyclo-, neo- are included in alphabetisation.</div></div>
+        </div>
+        <div class="example-box" style="margin-top:12px;"><span>Example 1 — Ethyl vs Methyl</span>
+          A molecule with an ethyl group at C3 and a methyl group at C2:<br><br>
+          E (ethyl) comes before M (methyl) alphabetically.<br>
+          ✅ Correct: <b>3-ethyl-2-methylpentane</b><br>
+          ✗ Wrong: 2-methyl-3-ethylpentane
+        </div>
+        <div class="example-box" style="margin-top:10px;"><span>Example 2 — Dimethyl vs Ethyl</span>
+          A molecule with two methyls (at C2, C4) and one ethyl (at C3):<br><br>
+          Ignore "di-" → alphabetise "ethyl" vs "methyl" → E before M<br>
+          ✅ Correct: <b>3-ethyl-2,4-dimethylhexane</b>
+        </div>
+        <div class="example-box" style="margin-top:10px;"><span>Example 3 — Halogens</span>
+          Bromo (B) comes before Chloro (C) comes before Methyl (M):<br>
+          ✅ Correct: <b>2-bromo-3-chloro-4-methylpentane</b>
+        </div>
+      </div>
+
+      <!-- TAB 5 -->
+      <div id="r5" class="tab-pane">
+        <h3>Final Assembly — Writing the Name</h3>
+        <p>You have all the pieces. Now assemble them in this exact format:</p>
+        <div class="iupac-format-box">
+          <span class="iupac-fmt-part" style="color:var(--alkyne)">[locant]</span><span class="iupac-fmt-dash">-</span><span class="iupac-fmt-part" style="color:var(--isomer)">[substituent]</span><span class="iupac-fmt-dash">-</span><span class="iupac-fmt-part" style="color:var(--accent)">[parent chain + suffix]</span>
+        </div>
+        <div class="iupac-rules-list" style="margin-top:16px;">
+          <div class="iupac-rule"><span class="iupac-rule-icon">📌</span><div>Use <b>commas</b> to separate two numbers: <code>2,3-</code> not <code>2 3-</code></div></div>
+          <div class="iupac-rule"><span class="iupac-rule-icon">📌</span><div>Use <b>hyphens</b> to separate numbers from words: <code>2-methyl</code> not <code>2 methyl</code></div></div>
+          <div class="iupac-rule"><span class="iupac-rule-icon">📌</span><div>For alkenes/alkynes, place the double bond locant <b>before the suffix</b>: <code>but-2-ene</code> or <code>pent-1-yne</code></div></div>
+          <div class="iupac-rule"><span class="iupac-rule-icon">📌</span><div>The entire name is written as <b>one word</b> — no spaces.</div></div>
+        </div>
+        <div class="example-box" style="margin-top:14px;"><span>Full Worked Example — Step by Step</span>
+          Molecule: CH₃–CH(C₂H₅)–CH(CH₃)–CH₂–CH₃<br><br>
+          <b>Step 1 — Longest chain:</b> 5 carbons → <span style="color:var(--accent)">pent-</span><br>
+          <b>Step 2 — Number:</b> branches at C2 (ethyl) and C3 (methyl) from left gives {2,3}; from right gives {3,4} → number from left<br>
+          <b>Step 3 — Substituents:</b> –C₂H₅ at C2 (ethyl), –CH₃ at C3 (methyl)<br>
+          <b>Step 4 — Alphabetical:</b> ethyl (E) before methyl (M)<br>
+          <b>Step 5 — Assemble:</b> <span style="color:var(--alkyne)">2</span>-<span style="color:var(--isomer)">ethyl</span>-<span style="color:var(--alkyne)">3</span>-<span style="color:var(--isomer)">methyl</span><span style="color:var(--accent)">pentane</span>
+        </div>
+        <div class="example-box" style="margin-top:10px;"><span>More Examples</span>
+          2,2-dimethylpentane &nbsp;·&nbsp; 3-ethyl-2-methylhexane &nbsp;·&nbsp; 2-bromo-but-1-ene &nbsp;·&nbsp; 4,4-dichloropentane
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE + COMMON MISTAKES -->
+  <div class="info-grid" style="margin-top:32px;">
+    <div class="info-box"><h3>📋 Suffix Quick Reference</h3>
+      <ul>
+        <li><b>-ane</b> → only single bonds (alkane)</li>
+        <li><b>-ene</b> → one C=C double bond (alkene)</li>
+        <li><b>-yne</b> → one C≡C triple bond (alkyne)</li>
+        <li><b>-diene</b> → two C=C bonds (e.g. buta-1,3-diene)</li>
+        <li><b>-ol</b> → alcohol (–OH group)</li>
+        <li><b>-al</b> → aldehyde (–CHO group)</li>
+        <li><b>-one</b> → ketone (C=O group)</li>
+        <li><b>-oic acid</b> → carboxylic acid (–COOH)</li>
+      </ul>
+    </div>
+    <div class="info-box blue"><h3>❌ Most Common Mistakes</h3>
+      <ul>
+        <li>Choosing the longest chain but missing the double bond</li>
+        <li>Numbering from the wrong end (giving high locants)</li>
+        <li>Writing "2-methyl-3-ethyl" instead of alphabetical "3-ethyl-2-methyl"</li>
+        <li>Forgetting commas between numbers: writing "23-dimethyl" instead of "2,3-dimethyl"</li>
+        <li>Including di-/tri- when alphabetising substituents</li>
+        <li>Putting a space in the name (it must be one continuous word)</li>
+      </ul>
+    </div>
+    <div class="info-box purple"><h3>🧠 Memory Trick for Root Names</h3>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--accent);line-height:2.2;letter-spacing:0.04em;">
+        <b>M</b>y &nbsp;<b>E</b>xcellent &nbsp;<b>P</b>uppy &nbsp;<b>B</b>ites &nbsp;<b>P</b>eople<br>
+        <b>H</b>appily &nbsp;<b>O</b>n &nbsp;<b>N</b>ice &nbsp;<b>D</b>ays
+      </p>
+      <p style="margin-top:8px;">Meth · Eth · Prop · But · Pent · Hex · Oct · Non · Dec</p>
     </div>
   </div>
 </section>
@@ -233,12 +455,120 @@
   <div class="progress-check"><input type="checkbox" id="chk2" onchange="updateProgress()"><label for="chk2">Studied ✓</label></div>
   <span class="badge">// Structure Logic</span>
   <h2 class="section-title">Isomerism: Same Formula, <span>Different Structure</span></h2>
-  <p class="section-lead">Isomers share the same molecular formula but differ in structural arrangement or 3D orientation — often producing dramatically different properties.</p>
+  <p class="section-lead">Isomers share the exact same molecular formula but differ in how their atoms are arranged — either in bonding order or in 3D space. The same atoms, rearranged, can produce dramatically different chemicals with different smells, melting points, and biological effects.</p>
+
   <div class="isomer-grid">
-    <div class="isomer-card orange"><span class="isomer-tag">Type I</span><h3>Structural Isomers</h3><p>Atoms bonded in a different order. Three sub-types:</p><ul><li><b>Chain:</b> Different skeleton branching (n-Butane vs Isobutane, both C₄H₁₀)</li><li><b>Position:</b> Same group, different location (1-Butene vs 2-Butene)</li><li><b>Functional group:</b> Different groups, same formula (Ethanol vs Dimethyl Ether, both C₂H₆O)</li></ul></div>
-    <div class="isomer-card blue"><span class="isomer-tag">Type II</span><h3>Stereoisomers (3D)</h3><p>Same connectivity, different spatial arrangement:</p><ul><li><b>Geometric (Cis/Trans):</b> Restricted rotation around C=C. Cis = same side, Trans = opposite sides.</li><li><b>Optical (Enantiomers):</b> Non-superimposable mirror images from a chiral carbon (4 different groups). Critical in drug design.</li></ul></div>
+    <div class="isomer-card orange">
+      <span class="isomer-tag">Type I</span>
+      <h3>Structural Isomers</h3>
+      <p>Atoms are bonded in a <b>different sequence</b>. They have the same molecular formula but different structural (displayed) formulas. Three sub-types:</p>
+      <ul>
+        <li><b>Chain isomers:</b> Same atoms, different carbon skeleton branching.<br>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--isomer)">n-Butane vs Isobutane — both C₄H₁₀</span><br>
+          <span style="font-size:0.78rem;color:var(--muted)">n-Butane: CH₃–CH₂–CH₂–CH₃ (straight chain)<br>Isobutane: CH₃–CH(CH₃)–CH₃ (branched)</span>
+        </li>
+        <li style="margin-top:10px;"><b>Position isomers:</b> Same functional group, different position on the chain.<br>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--isomer)">1-Butene vs 2-Butene — both C₄H₈</span><br>
+          <span style="font-size:0.78rem;color:var(--muted)">1-Butene: C=C at carbon 1 &nbsp;·&nbsp; 2-Butene: C=C at carbon 2</span>
+        </li>
+        <li style="margin-top:10px;"><b>Functional group isomers:</b> Different functional groups, same formula.<br>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--isomer)">Ethanol vs Dimethyl Ether — both C₂H₆O</span><br>
+          <span style="font-size:0.78rem;color:var(--muted)">CH₃CH₂OH (alcohol) vs CH₃–O–CH₃ (ether)</span>
+        </li>
+      </ul>
+    </div>
+    <div class="isomer-card blue">
+      <span class="isomer-tag">Type II</span>
+      <h3>Stereoisomers (3D)</h3>
+      <p>Same bonding sequence, but atoms are arranged <b>differently in 3D space</b>. They cannot be interconverted without breaking bonds. Two types:</p>
+      <ul>
+        <li><b>Geometric (Cis/Trans):</b> Only possible when there is a <b>C=C double bond</b> (no free rotation) and each carbon of the double bond has <b>two different groups</b> attached.<br>
+          <span style="font-size:0.78rem;color:var(--muted)">• <b>Cis:</b> the same groups are on the <u>same side</u> of the double bond<br>
+          • <b>Trans:</b> the same groups are on <u>opposite sides</u></span><br>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--alkene)">e.g. cis-but-2-ene vs trans-but-2-ene</span>
+        </li>
+        <li style="margin-top:10px;"><b>Optical Isomers (Enantiomers):</b> A carbon with <b>4 different groups</b> attached is called a <b>chiral centre</b>. It produces two non-superimposable mirror images — like your left and right hands.<br>
+          <span style="font-size:0.78rem;color:var(--muted)">• Both enantiomers have identical physical properties (bp, mp, density)<br>
+          • They differ in how they rotate plane-polarised light (+/−)<br>
+          • Critically different in biological systems — receptors are chiral!</span>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="info-box" style="margin-top:16px;border-left-color:var(--isomer);"><h3>💡 Why Isomerism Matters</h3><p>C₅H₁₂ alone has 3 structural isomers with different boiling points and reactivities. In pharmaceuticals, the wrong isomer can be the difference between a medicine and a poison — Thalidomide being the famous tragic example.</p></div>
+
+  <!-- GEOMETRIC ISOMERISM DEEP DIVE -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Geometric Isomerism <span style="color:var(--isomer)">— Cis &amp; Trans Explained</span></h3>
+  <div class="info-grid">
+    <div class="info-box orange">
+      <h3>🔒 Why double bonds don't rotate</h3>
+      <p>A C=C bond consists of a σ (sigma) bond AND a π (pi) bond. The π bond locks the two carbons in place — they <b>cannot rotate freely</b>. This is why groups on either side of a double bond are fixed in space, making cis/trans isomers stable and distinct compounds.</p>
+      <p style="margin-top:8px;"><b>Single bonds (C–C)</b> rotate freely → no geometric isomers possible.</p>
+    </div>
+    <div class="info-box" style="border-left-color:var(--isomer);">
+      <h3>✅ Conditions for cis/trans isomers</h3>
+      <p>Both conditions must be true:</p>
+      <ul>
+        <li>There must be a <b>C=C double bond</b> (restricted rotation)</li>
+        <li>Each carbon of the double bond must have <b>two different groups</b> — if either carbon has two identical groups, no geometric isomers exist</li>
+      </ul>
+      <p style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--isomer)">CH₂=CH₂ → NO (each C has 2×H)<br>CH₃–CH=CH–CH₃ → YES (each C has H and CH₃)</p>
+    </div>
+    <div class="info-box blue">
+      <h3>⚗️ Properties differ between cis &amp; trans</h3>
+      <p>Cis-but-2-ene and trans-but-2-ene are genuinely different compounds:</p>
+      <ul>
+        <li>Different boiling points (cis bp: 3.7°C · trans bp: 0.9°C)</li>
+        <li>Different dipole moments (cis is polar, trans may cancel)</li>
+        <li>Different reactivity with certain reagents</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- OPTICAL ISOMERISM DEEP DIVE -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Optical Isomerism <span style="color:var(--alkene)">— Chiral Centres</span></h3>
+  <div class="info-grid">
+    <div class="info-box blue">
+      <h3>🖐️ What is a chiral centre?</h3>
+      <p>A <b>chiral carbon (asymmetric carbon)</b> is a carbon atom bonded to <b>four completely different atoms or groups</b>. It is marked with an asterisk: C*.</p>
+      <p style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--alkene)">Example: CH₃–C*H(OH)–COOH<br>(Lactic acid — the C* has: H, OH, CH₃, COOH)</p>
+      <p style="margin-top:8px;">The two mirror-image arrangements cannot be superimposed on each other, just like a left and right hand look identical in a mirror but are not the same object.</p>
+    </div>
+    <div class="info-box purple">
+      <h3>💊 Why it matters in drugs</h3>
+      <p>Many drug molecules contain chiral centres. The two enantiomers can have very different effects in the body because biological receptors are also chiral and only fit one "hand" of the molecule.</p>
+      <ul>
+        <li><b>Thalidomide:</b> one enantiomer treated morning sickness, the other caused severe birth defects</li>
+        <li><b>Ibuprofen:</b> only the S-enantiomer is active; the body converts R→S</li>
+        <li><b>Amino acids:</b> only L-forms are used in living proteins</li>
+      </ul>
+    </div>
+    <div class="info-box" style="border-left-color:var(--alkene);">
+      <h3>💡 Counting optical isomers</h3>
+      <p>Maximum number of optical isomers = <b>2ⁿ</b> where n = number of chiral centres.</p>
+      <ul>
+        <li>1 chiral centre → 2 isomers (1 pair of enantiomers)</li>
+        <li>2 chiral centres → up to 4 isomers (2 pairs)</li>
+        <li>3 chiral centres → up to 8 isomers</li>
+      </ul>
+      <p style="margin-top:8px;font-size:0.82rem;color:var(--muted)">Note: sometimes internal symmetry reduces this number (meso compounds).</p>
+    </div>
+  </div>
+
+  <!-- COUNTING STRUCTURAL ISOMERS -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Counting <span style="color:var(--isomer)">Structural Isomers</span> — Worked Example</h3>
+  <div class="info-box" style="border-left-color:var(--isomer);">
+    <h3>🔢 How many structural isomers does C₄H₁₀ have?</h3>
+    <p><b>Step 1:</b> Start with the straight chain: CH₃–CH₂–CH₂–CH₃ → <b>n-Butane</b></p>
+    <p style="margin-top:6px;"><b>Step 2:</b> Try branching — take one CH₃ off the chain and attach it to C2: CH₃–CH(CH₃)–CH₃ → <b>2-Methylpropane (Isobutane)</b></p>
+    <p style="margin-top:6px;"><b>Step 3:</b> Any more unique structures? No — any other arrangement repeats one of the above.</p>
+    <p style="margin-top:10px;color:var(--isomer);font-weight:700;">✅ C₄H₁₀ has exactly 2 structural isomers.</p>
+    <p style="margin-top:8px;color:var(--muted);font-size:0.85rem;">C₅H₁₂ has 3 isomers · C₆H₁₄ has 5 isomers · C₇H₁₆ has 9 isomers — branching possibilities grow rapidly!</p>
+  </div>
+
+  <div class="info-box" style="margin-top:16px;border-left-color:var(--isomer);">
+    <h3>💡 Why Isomerism Matters</h3>
+    <p>C₅H₁₂ alone has 3 structural isomers with different boiling points and reactivities. In pharmaceuticals, the wrong isomer can be the difference between a medicine and a poison — Thalidomide being the famous tragic example. This is why modern drug synthesis must be <b>stereospecific</b> — producing only the correct enantiomer.</p>
+  </div>
 </section>
 
 <section id="table-section" class="card">
@@ -681,7 +1011,7 @@
   <div class="progress-check"><input type="checkbox" id="chk9" onchange="updateProgress()"><label for="chk9">Studied ✓</label></div>
   <span class="badge violet">// Bond Theory</span>
   <h2 class="section-title">Chemical <span class="violet">Bonding</span></h2>
-  <p class="section-lead">Chemical bonds hold atoms together. The type of bond depends on electronegativity differences between atoms.</p>
+  <p class="section-lead">Chemical bonds are the forces that hold atoms together to form molecules and compounds. The type of bond that forms depends on the <b>electronegativity difference</b> between the atoms involved. Understanding bonds explains why water is liquid at room temperature, why metals conduct electricity, and why NaCl dissolves in water but not in oil.</p>
   <div class="bond-compare"><div class="bond-card ionic"><span class="bond-icon">⊕⊖</span><div class="bond-name">Ionic Bond</div><p>Electron transfer metal → non-metal. ΔEN &gt; 1.7.</p><ul><li>Forms crystal lattice</li><li>High melting/boiling points</li><li>Conducts when dissolved</li><li>e.g. NaCl, MgO, CaCl₂</li></ul></div><div class="bond-card covalent"><span class="bond-icon">⬡⬡</span><div class="bond-name">Covalent Bond</div><p>Shared electrons between non-metals. ΔEN &lt; 1.7.</p><ul><li>Single, double, or triple bonds</li><li>Lower melting/boiling points</li><li>Poor conductors generally</li><li>e.g. H₂O, CO₂, CH₄, N₂</li></ul></div><div class="bond-card metallic"><span class="bond-icon">⚙️</span><div class="bond-name">Metallic Bond</div><p>Sea of delocalized electrons around positive ion lattice.</p><ul><li>Excellent conductors</li><li>Malleable &amp; ductile</li><li>High melting points</li><li>e.g. Cu, Fe, Al, Au</li></ul></div></div>
   <div class="info-grid" style="margin-top:18px;">
     <div class="info-box violet"><h3>Electronegativity Rules</h3><ul><li>ΔEN = 0 → Non-polar covalent (H₂, O₂)</li><li>ΔEN 0.1–1.7 → Polar covalent (H₂O, HCl)</li><li>ΔEN &gt; 1.7 → Ionic bond (NaCl)</li></ul></div>
