@@ -3,46 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LabAR.EDU — Chemistry Encyclopedia v11.0</title>
+<title>LabAR.EDU — Chemistry Encyclopedia v12.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="labar-v11.css">
+<link rel="stylesheet" href="labar-12.css">
 </head>
 <body>
+<div id="scrollBar"></div>
 <canvas id="bgCanvas"></canvas>
 <nav>
   <a href="#" class="nav-logo">LAB<span>AR</span>.EDU</a>
-  <div class="nav-links">
-    <span class="nav-group-label">⬡ Organic</span>
-    <a href="#calc-tool">Calc</a>
-    <a href="#iupac-section">IUPAC</a>
-    <a href="#isomerism-section">Isomers</a>
-    <a href="#table-section">Library</a>
-    <a href="#functional-section">Func. Groups</a>
-    <a href="#organic-reactions-section">Org. Reactions</a>
-    <a href="#synthesis-section">Synthesis</a>
-    <a href="#polymers-section">Polymers</a>
-    <span class="nav-sep"></span>
-    <span class="nav-group-label">⚗️ General</span>
-    <a href="#glossary-section">Glossary</a>
-    <a href="#ions-section">Ions</a>
-    <a href="#moles-section">Moles</a>
-    <a href="#thermo-section">Thermo</a>
-    <a href="#nuclear-section">Nuclear</a>
-    <a href="#bonding-section">Bonding</a>
-    <a href="#reactions-section">Reactions</a>
-    <a href="#reactivity-section">Reactivity</a>
-    <a href="#acids-section">Acids</a>
-    <a href="#electro-section">Redox</a>
-    <a href="#electrochem-series-section">E-Series</a>
-    <a href="#electro-calc-section">E-Calc</a>
-    <a href="#gaslaws-section">Gas Laws</a>
-    <a href="#equilibrium-section">Equilibrium</a>
-    <a href="#solutions-section">Solutions</a>
-    <span class="nav-sep"></span>
-    <a href="#tools-section" style="color:var(--accent)">⚡ Tools</a>
-    <a href="#blocks-section">Blocks</a>
-    <a href="#periodic-section">Periodic</a>
+  <div class="nav-links-wrap">
+    <div class="nav-links" id="navLinks">
+      <span class="nav-group-label">⬡ Organic</span>
+      <a href="#calc-tool">Calc</a>
+      <a href="#iupac-section">IUPAC</a>
+      <a href="#isomerism-section">Isomers</a>
+      <a href="#table-section">Library</a>
+      <a href="#functional-section">Func. Groups</a>
+      <a href="#organic-reactions-section">Org. Reactions</a>
+      <a href="#synthesis-section">Synthesis</a>
+      <a href="#polymers-section">Polymers</a>
+      <span class="nav-sep"></span>
+      <span class="nav-group-label">⚗️ General</span>
+      <a href="#glossary-section">Glossary</a>
+      <a href="#ions-section">Ions</a>
+      <a href="#moles-section">Moles</a>
+      <a href="#thermo-section">Thermo</a>
+      <a href="#nuclear-section">Nuclear</a>
+      <a href="#bonding-section">Bonding</a>
+      <a href="#reactions-section">Reactions</a>
+      <a href="#reactivity-section">Reactivity</a>
+      <a href="#acids-section">Acids</a>
+      <a href="#electro-section">Redox</a>
+      <a href="#electrochem-series-section">E-Series</a>
+      <a href="#electro-calc-section">E-Calc</a>
+      <a href="#gaslaws-section">Gas Laws</a>
+      <a href="#equilibrium-section">Equilibrium</a>
+      <a href="#solutions-section">Solutions</a>
+      <a href="#kinetics-section">Kinetics</a>
+      <a href="#lab-section">Lab Tech</a>
+      <a href="#spectroscopy-section">Spectroscopy</a>
+      <span class="nav-sep"></span>
+      <a href="#tools-section" style="color:var(--accent)">⚡ Tools</a>
+      <a href="#blocks-section">Blocks</a>
+      <a href="#periodic-section">Periodic</a>
+    </div>
   </div>
   <div class="nav-actions">
     <button class="nav-btn" onclick="openSearch()" title="Search (Ctrl+K)">🔍</button>
@@ -51,11 +57,15 @@
   </div>
 </nav>
 
-<div id="mobileNavOverlay" onclick="toggleMobileNav()" style="display:none;position:fixed;inset:0;background:rgba(7,9,15,0.7);z-index:9998;backdrop-filter:blur(4px);"></div>
-<div id="mobileNavDrawer" style="display:none;position:fixed;top:0;right:0;width:min(300px,85vw);height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:9999;overflow-y:auto;padding:20px 0;flex-direction:column;">
+<div id="mobileNavOverlay" onclick="toggleMobileNav()" class="mob-overlay"></div>
+<div id="mobileNavDrawer" class="mob-drawer">
   <div style="display:flex;align-items:center;justify-content:space-between;padding:0 22px 18px;border-bottom:1px solid var(--border);margin-bottom:10px;">
     <span style="font-family:'JetBrains Mono',monospace;font-size:0.95rem;font-weight:700;color:var(--text)">LAB<span style="color:var(--accent)">AR</span>.EDU</span>
     <button onclick="toggleMobileNav()" style="background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;">✕</button>
+  </div>
+  <div class="mob-progress-row">
+    <div class="mob-progress-track"><div class="mob-progress-fill" id="mobProgressFill"></div></div>
+    <span class="mob-progress-label" id="mobProgressLabel">0%</span>
   </div>
   <div style="padding:0 12px;">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;padding:8px 10px 4px;">⬡ Organic Chemistry</div>
@@ -84,6 +94,9 @@
     <a href="#gaslaws-section" onclick="toggleMobileNav()" class="mob-link">Gas Laws</a>
     <a href="#equilibrium-section" onclick="toggleMobileNav()" class="mob-link">Chemical Equilibrium</a>
     <a href="#solutions-section" onclick="toggleMobileNav()" class="mob-link">Solutions &amp; Concentration</a>
+    <a href="#kinetics-section" onclick="toggleMobileNav()" class="mob-link">Reaction Kinetics</a>
+    <a href="#lab-section" onclick="toggleMobileNav()" class="mob-link">Lab Techniques</a>
+    <a href="#spectroscopy-section" onclick="toggleMobileNav()" class="mob-link">Spectroscopy</a>
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;padding:14px 10px 4px;">🔧 Tools &amp; Reference</div>
     <a href="#tools-section" onclick="toggleMobileNav()" class="mob-link">⚡ Interactive Tools</a>
     <a href="#blocks-section" onclick="toggleMobileNav()" class="mob-link">Periodic Table Blocks</a>
@@ -130,11 +143,11 @@
 </div>
 
 <header>
-  <div class="hero-tag">v11.0 &nbsp;·&nbsp; Complete Chemistry Encyclopedia</div>
+  <div class="hero-tag">v12.0 &nbsp;·&nbsp; Complete Chemistry Encyclopedia</div>
   <h1>Master <em>Chemistry</em></h1>
   <p>The ultimate interactive encyclopedia — organic, functional groups, equilibrium, bonding, nuclear, electrochemistry, and 6 live calculation tools.</p>
   <div class="hero-stats">
-    <div class="hero-stat"><span class="num">27</span><span class="lbl">Topic Sections</span></div>
+    <div class="hero-stat"><span class="num">30</span><span class="lbl">Topic Sections</span></div>
     <div class="hero-stat"><span class="num">9</span><span class="lbl">Live Tools</span></div>
     <div class="hero-stat"><span class="num">118</span><span class="lbl">Elements</span></div>
     <div class="hero-stat"><span class="num">50+</span><span class="lbl">Ions &amp; Charges</span></div>
@@ -143,10 +156,43 @@
 
 <div class="wrapper">
 
-<div class="progress-bar-wrap">
-  <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);white-space:nowrap;">Study Progress</span>
-  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
-  <span class="progress-label" id="progressLabel">0 / 22</span>
+<!-- ===== PROGRESS DASHBOARD ===== -->
+<div class="progress-dashboard" id="progressDashboard">
+  <div class="pd-header" onclick="toggleDashboard()">
+    <div class="pd-header-left">
+      <span class="pd-icon">📊</span>
+      <span class="pd-title">Study Progress</span>
+      <span class="pd-badge" id="pdBadge">0%</span>
+    </div>
+    <div class="pd-header-right">
+      <div class="pd-mini-bar"><div class="pd-mini-fill" id="progressFill"></div></div>
+      <span class="progress-label" id="progressLabel">0 / 30</span>
+      <span class="pd-chevron" id="pdChevron">▾</span>
+    </div>
+  </div>
+  <div class="pd-body" id="pdBody">
+    <div class="pd-chapters">
+      <div class="pd-chapter">
+        <div class="pd-ch-label" style="color:var(--accent)">⬡ Organic Chemistry</div>
+        <div class="pd-ch-bar-wrap"><div class="pd-ch-bar" id="chBar0"></div></div>
+        <div class="pd-ch-count" id="chCount0">0 / 9</div>
+        <div class="pd-section-dots" id="chDots0"></div>
+      </div>
+      <div class="pd-chapter">
+        <div class="pd-ch-label" style="color:var(--alkene)">⚗️ General Chemistry</div>
+        <div class="pd-ch-bar-wrap"><div class="pd-ch-bar" id="chBar1" style="background:linear-gradient(90deg,var(--alkene),var(--accent))"></div></div>
+        <div class="pd-ch-count" id="chCount1">0 / 15</div>
+        <div class="pd-section-dots" id="chDots1"></div>
+      </div>
+      <div class="pd-chapter">
+        <div class="pd-ch-label" style="color:var(--isomer)">⚡ Tools &amp; Reference</div>
+        <div class="pd-ch-bar-wrap"><div class="pd-ch-bar" id="chBar2" style="background:linear-gradient(90deg,var(--isomer),var(--alkene))"></div></div>
+        <div class="pd-ch-count" id="chCount2">0 / 3</div>
+        <div class="pd-section-dots" id="chDots2"></div>
+      </div>
+    </div>
+    <div class="pd-message" id="pdMessage">Start checking off sections as you study! ✨</div>
+  </div>
 </div>
 
 <div class="chapter-divider">
@@ -242,6 +288,7 @@
 </section>
 
 <section id="calc-tool" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkCalc" onchange="updateProgress()"><label for="chkCalc">Studied ✓</label></div>
   <span class="badge">// Formula Engine</span>
   <h2 class="section-title">Hydrocarbon <span>Calculator</span></h2>
   <p class="section-lead">Enter any value of n to instantly see the molecular formula, compound name, and series rules for all three hydrocarbon families.</p>
@@ -1161,7 +1208,7 @@
     <div class="chapter-title">General Chemistry</div>
     <div class="chapter-desc">Ions, moles, thermochemistry, nuclear, bonding, reactions, acids, electrochemistry, gas laws, equilibrium, and solutions.</div>
   </div>
-  <div class="chapter-count" style="border-color:rgba(56,189,248,0.2);color:var(--accent2);">15 Sections</div>
+  <div class="chapter-count" style="border-color:rgba(56,189,248,0.2);color:var(--accent2);">18 Sections</div>
 </div>
 
 <!-- ===== CHEMISTRY GLOSSARY ===== -->
@@ -1432,8 +1479,106 @@
     <div class="tri-block"><div class="tri-shape"><svg viewBox="0 0 220 190" fill="none"><polygon points="110,10 10,180 210,180" fill="rgba(79,255,176,0.08)" stroke="rgba(79,255,176,0.35)" stroke-width="1.5"/><polygon points="110,90 60,180 160,180" fill="rgba(0,0,0,0.5)" stroke="rgba(79,255,176,0.2)" stroke-width="1"/></svg><div class="tri-cell-top">MASS<br>(g)</div><div class="tri-cell-bl">MOLES</div><div class="tri-cell-br" style="color:var(--accent)">MOLAR<br>MASS</div></div><div class="tri-label">Mass ↔ Moles</div></div>
     <div class="tri-block"><div class="tri-shape"><svg viewBox="0 0 220 190" fill="none"><polygon points="110,10 10,180 210,180" fill="rgba(255,179,71,0.08)" stroke="rgba(255,179,71,0.35)" stroke-width="1.5"/><polygon points="110,90 60,180 160,180" fill="rgba(0,0,0,0.5)" stroke="rgba(255,179,71,0.2)" stroke-width="1"/></svg><div class="tri-cell-top">VOLUME<br>(L)</div><div class="tri-cell-bl">MOLES</div><div class="tri-cell-br" style="color:var(--isomer)">22.4 L/mol</div></div><div class="tri-label">Volume ↔ Moles (STP)</div></div>
   </div>
-  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:44px;margin-bottom:8px;">Energy <span style="color:var(--accent)">Unit Conversions</span></h3>
+
+  <!-- STOICHIOMETRY -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:52px;margin-bottom:8px;">Stoichiometry — <span style="color:var(--accent)">Mole Ratios</span></h3>
+  <p class="section-lead" style="margin-bottom:20px;">The coefficients in a balanced equation give the mole ratio of each substance. Use them as a bridge to convert between moles of any reactant or product.</p>
+  <div class="nbe-steps">
+    <div class="nbe-step"><div class="step-num" style="background:rgba(79,255,176,0.12);border-color:rgba(79,255,176,0.3);color:var(--accent);">1</div><div class="step-content"><b>Write &amp; balance</b> the equation — e.g. <code>N₂ + 3H₂ → 2NH₃</code></div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(79,255,176,0.12);border-color:rgba(79,255,176,0.3);color:var(--accent);">2</div><div class="step-content"><b>Convert mass → moles:</b> <code>n = mass ÷ molar mass</code></div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(79,255,176,0.12);border-color:rgba(79,255,176,0.3);color:var(--accent);">3</div><div class="step-content"><b>Apply mole ratio</b> from the equation coefficients.</div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(79,255,176,0.12);border-color:rgba(79,255,176,0.3);color:var(--accent);">4</div><div class="step-content"><b>Convert moles → mass / volume / particles</b> as required.</div></div>
+  </div>
+  <div class="info-box blue" style="margin-top:20px;"><h3>📐 Example</h3><p>How many moles of NH₃ form from 6 mol H₂?<br><b>Ratio:</b> 3 mol H₂ : 2 mol NH₃ → 6 mol H₂ × (2/3) = <b style="color:var(--accent)">4 mol NH₃</b></p></div>
+
+  <!-- LIMITING REAGENT -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:52px;margin-bottom:8px;">Limiting &amp; Excess <span style="color:var(--accent)">Reagents</span></h3>
+  <p class="section-lead" style="margin-bottom:20px;">The <b>limiting reagent</b> is the reactant that runs out first and determines the maximum yield. The other reactant is in <b>excess</b>.</p>
+  <div class="nbe-steps">
+    <div class="nbe-step"><div class="step-num" style="background:rgba(79,255,176,0.12);border-color:rgba(79,255,176,0.3);color:var(--accent);">1</div><div class="step-content"><b>Convert all reactants to moles.</b></div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(79,255,176,0.12);border-color:rgba(79,255,176,0.3);color:var(--accent);">2</div><div class="step-content"><b>Divide each by its coefficient</b> in the balanced equation.</div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(79,255,176,0.12);border-color:rgba(79,255,176,0.3);color:var(--accent);">3</div><div class="step-content"><b>Smallest result = limiting reagent.</b> Use it to calculate theoretical yield.</div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(79,255,176,0.12);border-color:rgba(79,255,176,0.3);color:var(--accent);">4</div><div class="step-content"><b>% Yield = (Actual Yield ÷ Theoretical Yield) × 100</b></div></div>
+  </div>
+  <div class="info-grid" style="margin-top:20px;">
+    <div class="info-box"><h3>⚗️ Worked Example</h3><p>2H₂ + O₂ → 2H₂O. You have 5 mol H₂ and 2 mol O₂.<br>H₂: 5÷2 = 2.5 &nbsp;|&nbsp; O₂: 2÷1 = 2.0<br><b style="color:var(--accent)">O₂ is limiting</b> → 2 mol O₂ × 2 = 4 mol H₂O formed.</p></div>
+    <div class="info-box blue"><h3>📊 % Yield Formula</h3><p style="font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--accent);margin-bottom:8px;">% Yield = (Actual ÷ Theoretical) × 100</p><p>Always ≤ 100%. Losses occur from incomplete reactions, side reactions, or transfer losses.</p></div>
+  </div>
+
+  <!-- EMPIRICAL & MOLECULAR FORMULA -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:52px;margin-bottom:8px;">Empirical &amp; Molecular <span style="color:var(--accent)">Formulae</span></h3>
+  <div class="info-grid" style="margin-top:0;margin-bottom:20px;">
+    <div class="info-box"><h3>Empirical Formula</h3><p>Simplest whole-number ratio of atoms. e.g. CH₂O (glucose simplified). Found from % composition data.</p></div>
+    <div class="info-box blue"><h3>Molecular Formula</h3><p>Actual number of atoms. e.g. C₆H₁₂O₆ (glucose). = Empirical × n, where n = Molar Mass ÷ Empirical Mass.</p></div>
+  </div>
+  <div class="nbe-steps">
+    <div class="nbe-step"><div class="step-num" style="background:rgba(79,255,176,0.12);border-color:rgba(79,255,176,0.3);color:var(--accent);">1</div><div class="step-content"><b>Assume 100 g sample</b> → % values become grams directly.</div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(79,255,176,0.12);border-color:rgba(79,255,176,0.3);color:var(--accent);">2</div><div class="step-content"><b>Divide each mass by its molar mass</b> to get moles of each element.</div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(79,255,176,0.12);border-color:rgba(79,255,176,0.3);color:var(--accent);">3</div><div class="step-content"><b>Divide all by the smallest</b> mole value to get the simplest ratio.</div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(79,255,176,0.12);border-color:rgba(79,255,176,0.3);color:var(--accent);">4</div><div class="step-content"><b>Multiply by n</b> if given molar mass to get molecular formula: <code>n = Mᵣ ÷ Empirical Mass</code></div></div>
+  </div>
+
+  <!-- MOLARITY / CONCENTRATION -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:52px;margin-bottom:8px;">Concentration &amp; <span style="color:var(--accent)">Molarity</span></h3>
+  <div style="background:var(--surface2);border:1px solid rgba(79,255,176,0.2);border-radius:20px;padding:28px 32px;margin-bottom:20px;text-align:center;">
+    <div style="font-family:'DM Serif Display',serif;font-size:2rem;color:var(--text);margin-bottom:16px;">C = n ÷ V</div>
+    <div style="display:flex;justify-content:center;gap:40px;flex-wrap:wrap;">
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--accent);font-weight:700;">C</div><div style="font-size:0.78rem;color:var(--muted);margin-top:4px;">Concentration (mol/L)</div></div>
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--alkene);font-weight:700;">n</div><div style="font-size:0.78rem;color:var(--muted);margin-top:4px;">Moles (mol)</div></div>
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--isomer);font-weight:700;">V</div><div style="font-size:0.78rem;color:var(--muted);margin-top:4px;">Volume (L)</div></div>
+    </div>
+  </div>
+  <div class="info-grid">
+    <div class="info-box"><h3>🧪 Dilution Formula</h3><p style="font-family:'JetBrains Mono',monospace;font-size:0.95rem;color:var(--accent);margin-bottom:8px;">C₁V₁ = C₂V₂</p><p>Moles of solute stay constant when diluting. Multiply initial concentration × volume = final concentration × volume.</p></div>
+    <div class="info-box blue"><h3>💡 Key Units</h3><ul><li><b>mol/L = M = molarity</b></li><li>Volume must be in <b>litres</b></li><li>1 mL = 0.001 L</li><li>ppm = mg per litre (dilute aq.)</li></ul></div>
+    <div class="info-box"><h3>⚗️ Titration Link</h3><p>At equivalence point: moles acid = moles base (for 1:1 reactions). Use <b>C = n ÷ V</b> to find unknown concentration from titre volume.</p></div>
+  </div>
+
+  <!-- ENERGY UNIT CONVERSIONS (kept) -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:52px;margin-bottom:8px;">Energy <span style="color:var(--accent)">Unit Conversions</span></h3>
   <div class="conv-grid"><div><div class="conv-row"><div class="conv-from">CALORIE</div><div class="conv-op">× 4.18</div><div class="conv-to">JOULE</div></div><div class="conv-row"><div class="conv-from">JOULE</div><div class="conv-op">÷ 4.18</div><div class="conv-to">CALORIE</div></div></div><div class="info-box" style="margin:0;"><h3>🔥 Why 4.18?</h3><p>1 calorie = energy to raise 1g water by 1°C = 4.18 joules. Always check which unit is expected before solving.</p></div></div>
+
+  <!-- SI UNITS -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:52px;margin-bottom:8px;">SI <span style="color:var(--accent)">Units</span></h3>
+  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:20px;">The International System of Units (SI) defines 7 base units from which all other measurement units are derived.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:12px;">Base Units</div>
+      <div style="overflow-x:auto;border-radius:14px;border:1px solid var(--border);">
+        <table style="width:100%;border-collapse:collapse;font-size:0.83rem;">
+          <thead><tr style="background:var(--surface2);"><th style="padding:9px 14px;text-align:left;color:var(--muted);font-weight:600;">Quantity</th><th style="padding:9px 14px;color:var(--muted);font-weight:600;">SI Unit</th><th style="padding:9px 14px;color:var(--muted);font-weight:600;">Symbol</th></tr></thead>
+          <tbody>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:8px 14px;color:var(--text);">Length</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">metre</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;">m</td></tr>
+            <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:8px 14px;color:var(--text);">Mass</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">kilogram</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;">kg</td></tr>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:8px 14px;color:var(--text);">Time</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">second</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;">s</td></tr>
+            <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:8px 14px;color:var(--text);">Electric Current</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">ampere</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;">A</td></tr>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:8px 14px;color:var(--text);">Temperature</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">kelvin</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;">K</td></tr>
+            <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:8px 14px;color:var(--text);">Amount of Substance</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">mole</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;">mol</td></tr>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:8px 14px;color:var(--text);">Luminous Intensity</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">candela</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;">cd</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--alkene);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:12px;">Common Derived Units</div>
+      <div style="overflow-x:auto;border-radius:14px;border:1px solid var(--border);">
+        <table style="width:100%;border-collapse:collapse;font-size:0.83rem;">
+          <thead><tr style="background:var(--surface2);"><th style="padding:9px 14px;text-align:left;color:var(--muted);font-weight:600;">Quantity</th><th style="padding:9px 14px;color:var(--muted);font-weight:600;">Unit</th><th style="padding:9px 14px;color:var(--muted);font-weight:600;">Symbol</th></tr></thead>
+          <tbody>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:8px 14px;color:var(--text);">Force</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">newton</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--alkene);font-weight:700;">N</td></tr>
+            <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:8px 14px;color:var(--text);">Energy</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">joule</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--alkene);font-weight:700;">J</td></tr>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:8px 14px;color:var(--text);">Power</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">watt</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--alkene);font-weight:700;">W</td></tr>
+            <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:8px 14px;color:var(--text);">Pressure</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">pascal</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--alkene);font-weight:700;">Pa</td></tr>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:8px 14px;color:var(--text);">Frequency</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">hertz</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--alkene);font-weight:700;">Hz</td></tr>
+            <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:8px 14px;color:var(--text);">Electric Charge</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">coulomb</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--alkene);font-weight:700;">C</td></tr>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:8px 14px;color:var(--text);">Voltage</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">volt</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--alkene);font-weight:700;">V</td></tr>
+            <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:8px 14px;color:var(--text);">Speed / Velocity</td><td style="padding:8px 14px;text-align:center;color:var(--muted);">metre/second</td><td style="padding:8px 14px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--alkene);font-weight:700;">m/s</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="info-box blue"><h3>🌡️ Temperature Conversions</h3><p><b>K = °C + 273.15</b> &nbsp;|&nbsp; <b>°C = K − 273.15</b> &nbsp;|&nbsp; <b>°F = (°C × 9/5) + 32</b><br>Always use <b>Kelvin</b> in gas law and thermodynamic calculations — never Celsius.</p></div>
 </section>
 
 <section id="thermo-section" class="card">
@@ -1503,6 +1648,66 @@
     <div class="rxn-card"><div class="rxn-type">Type 05</div><h3>Combustion</h3><p>Substance + O₂ → energy. Hydrocarbons → CO₂ + H₂O.</p><div class="rxn-eq">CH₄ + 2O₂ → CO₂ + 2H₂O + energy</div></div>
     <div class="rxn-card"><div class="rxn-type">Type 06</div><h3>Neutralization</h3><p>Acid + Base → Salt + Water. H⁺ + OH⁻ → H₂O.</p><div class="rxn-eq">HCl + NaOH → NaCl + H₂O</div></div>
   </div>
+
+  <!-- ANATOMY OF A CHEMICAL EQUATION -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:52px;margin-bottom:16px;">Anatomy of a <span style="color:var(--reactions)">Chemical Equation</span></h3>
+  <div style="background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:32px 28px;margin-bottom:24px;text-align:center;">
+    <div style="font-family:'DM Serif Display',serif;font-size:clamp(1.4rem,3vw,2.2rem);color:var(--text);letter-spacing:0.04em;margin-bottom:28px;">
+      <span style="color:var(--alkene);font-weight:700;">2</span>H<sub>2</sub><span style="color:var(--muted);font-size:0.7em;">(g)</span> + O<sub>2</sub><span style="color:var(--muted);font-size:0.7em;">(g)</span> <span style="color:var(--ions-pos);">→</span> <span style="color:var(--alkene);font-weight:700;">2</span>H<sub>2</sub>O<span style="color:var(--muted);font-size:0.7em;">(l)</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;">
+      <div style="background:rgba(79,255,176,0.08);border:1px solid rgba(79,255,176,0.25);border-radius:10px;padding:10px 16px;text-align:center;min-width:120px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Coefficient</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Number before formula. Multiplies all atoms in that formula.</div>
+      </div>
+      <div style="background:rgba(59,158,255,0.08);border:1px solid rgba(59,158,255,0.25);border-radius:10px;padding:10px 16px;text-align:center;min-width:120px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--alkene);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Subscript</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Small number after symbol. Fixed — never change to balance.</div>
+      </div>
+      <div style="background:rgba(244,114,182,0.08);border:1px solid rgba(244,114,182,0.25);border-radius:10px;padding:10px 16px;text-align:center;min-width:120px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--ions-pos);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Reaction Arrow →</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Separates reactants (left) from products (right).</div>
+      </div>
+      <div style="background:rgba(251,146,60,0.08);border:1px solid rgba(251,146,60,0.25);border-radius:10px;padding:10px 16px;text-align:center;min-width:120px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--thermo);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">State Symbols</div>
+        <div style="font-size:0.82rem;color:var(--muted);">(s) solid &nbsp; (l) liquid &nbsp; (g) gas &nbsp; (aq) aqueous</div>
+      </div>
+      <div style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.25);border-radius:10px;padding:10px 16px;text-align:center;min-width:120px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--bonding);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Reactants</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Left side of arrow. Starting materials consumed.</div>
+      </div>
+      <div style="background:rgba(45,212,191,0.08);border:1px solid rgba(45,212,191,0.25);border-radius:10px;padding:10px 16px;text-align:center;min-width:120px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--equilibrium);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Products</div>
+        <div style="font-size:0.82rem;color:var(--muted);">Right side of arrow. Substances formed.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW TO BALANCE -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:44px;margin-bottom:16px;">How to <span style="color:var(--reactions)">Balance Equations</span></h3>
+  <div class="nbe-steps">
+    <div class="nbe-step"><div class="step-num" style="background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.3);color:var(--reactions);">1</div><div class="step-content"><b>Write the unbalanced equation.</b> Identify all reactants and products with correct formulas. <code style="margin-left:8px;">C₂H₆ + O₂ → H₂O + CO₂</code></div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.3);color:var(--reactions);">2</div><div class="step-content"><b>Count atoms on each side.</b> Count H and O last. Never change subscripts — only add coefficients.</div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.3);color:var(--reactions);">3</div><div class="step-content"><b>Add coefficients to balance.</b> Use fractions if needed. <code style="margin-left:8px;">C₂H₆ + 7/2 O₂ → 3H₂O + 2CO₂</code></div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.3);color:var(--reactions);">4</div><div class="step-content"><b>Clear fractions</b> by multiplying all coefficients by the denominator. <code style="margin-left:8px;">2C₂H₆ + 7O₂ → 6H₂O + 4CO₂</code></div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.3);color:var(--reactions);">5</div><div class="step-content"><b>Verify:</b> recount every atom on both sides. Atoms in = Atoms out. ✓</div></div>
+  </div>
+
+  <!-- BALANCING ORDER -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:44px;margin-bottom:16px;">Balancing <span style="color:var(--reactions)">Order Trick</span></h3>
+  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:16px;">Follow this order when balancing — it avoids backtracking. Always leave H and O until last.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;align-items:center;">
+    <div style="background:rgba(59,158,255,0.1);border:1px solid rgba(59,158,255,0.3);border-radius:12px;padding:12px 20px;text-align:center;min-width:100px;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--alkene);letter-spacing:0.1em;margin-bottom:4px;">STEP 1</div><div style="font-size:0.9rem;font-weight:700;color:var(--text);">Metals</div></div>
+    <div style="color:var(--muted);font-size:1.2rem;">→</div>
+    <div style="background:rgba(79,255,176,0.1);border:1px solid rgba(79,255,176,0.3);border-radius:12px;padding:12px 20px;text-align:center;min-width:100px;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--accent);letter-spacing:0.1em;margin-bottom:4px;">STEP 2</div><div style="font-size:0.9rem;font-weight:700;color:var(--text);">Non-Metals</div></div>
+    <div style="color:var(--muted);font-size:1.2rem;">→</div>
+    <div style="background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.3);border-radius:12px;padding:12px 20px;text-align:center;min-width:100px;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--thermo);letter-spacing:0.1em;margin-bottom:4px;">STEP 3</div><div style="font-size:0.9rem;font-weight:700;color:var(--text);">Carbon</div></div>
+    <div style="color:var(--muted);font-size:1.2rem;">→</div>
+    <div style="background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.3);border-radius:12px;padding:12px 20px;text-align:center;min-width:100px;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--ions-pos);letter-spacing:0.1em;margin-bottom:4px;">STEP 4</div><div style="font-size:0.9rem;font-weight:700;color:var(--text);">Hydrogen</div></div>
+    <div style="color:var(--muted);font-size:1.2rem;">→</div>
+    <div style="background:rgba(192,132,252,0.1);border:1px solid rgba(192,132,252,0.3);border-radius:12px;padding:12px 20px;text-align:center;min-width:100px;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--nuclear);letter-spacing:0.1em;margin-bottom:4px;">STEP 5</div><div style="font-size:0.9rem;font-weight:700;color:var(--text);">Oxygen</div></div>
+  </div>
+  <div class="info-box amber"><h3>📐 Worked Example — 2Al + 3H₂SO₄ → Al₂(SO₄)₃ + 3H₂</h3><p><b>Metals:</b> 1 Al left → 2 needed (×2). &nbsp;<b>Non-metals:</b> 1 S left → 3 needed (×3 H₂SO₄). &nbsp;<b>Hydrogen:</b> 6H left → 6H right (×3 H₂). &nbsp;<b>Oxygen:</b> 12O each side ✓ &nbsp;→ Balanced!</p></div>
 </section>
 
 <section id="acids-section" class="card">
@@ -1512,6 +1717,26 @@
   <p class="section-lead">Acids donate protons (H⁺); bases accept protons or donate OH⁻. The pH scale measures acidity logarithmically from 0–14.</p>
   <div class="ph-scale"><div class="ph-bar" id="phBar"></div><div class="ph-labels" id="phLabels"></div></div>
   <div style="display:flex;gap:14px;margin-top:7px;font-size:0.74rem;color:var(--muted);font-family:'JetBrains Mono',monospace;flex-wrap:wrap;"><span style="color:var(--acids)">◀ Acidic (pH &lt; 7)</span><span style="color:#4ade80">◆ Neutral (pH = 7)</span><span style="color:var(--alkane)">Basic (pH &gt; 7) ▶</span></div>
+
+  <!-- PH REAL-WORLD EXAMPLES -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--text);margin-top:28px;margin-bottom:12px;">Real-World <span style="color:var(--acids)">pH Examples</span></h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:28px;">
+    <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Battery Acid</span><span style="font-family:'JetBrains Mono',monospace;color:#ef4444;font-weight:700;">pH 0</span></div>
+    <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Conc. Sulfuric Acid</span><span style="font-family:'JetBrains Mono',monospace;color:#f87171;font-weight:700;">pH 1</span></div>
+    <div style="background:rgba(249,115,22,0.07);border:1px solid rgba(249,115,22,0.2);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Lemon Juice, Vinegar</span><span style="font-family:'JetBrains Mono',monospace;color:#fb923c;font-weight:700;">pH 2</span></div>
+    <div style="background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.18);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Orange Juice, Soda</span><span style="font-family:'JetBrains Mono',monospace;color:#fdba74;font-weight:700;">pH 3</span></div>
+    <div style="background:rgba(234,179,8,0.07);border:1px solid rgba(234,179,8,0.2);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Tomato Juice, Acid Rain</span><span style="font-family:'JetBrains Mono',monospace;color:#fbbf24;font-weight:700;">pH 4</span></div>
+    <div style="background:rgba(234,179,8,0.06);border:1px solid rgba(234,179,8,0.18);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Black Coffee, Bananas</span><span style="font-family:'JetBrains Mono',monospace;color:#fcd34d;font-weight:700;">pH 5</span></div>
+    <div style="background:rgba(234,179,8,0.05);border:1px solid rgba(234,179,8,0.15);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Urine, Milk</span><span style="font-family:'JetBrains Mono',monospace;color:#fde68a;font-weight:700;">pH 6</span></div>
+    <div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.35);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Pure Water</span><span style="font-family:'JetBrains Mono',monospace;color:#4ade80;font-weight:700;">pH 7</span></div>
+    <div style="background:rgba(79,255,176,0.06);border:1px solid rgba(79,255,176,0.18);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Sea Water, Eggs</span><span style="font-family:'JetBrains Mono',monospace;color:#6ee7b7;font-weight:700;">pH 8</span></div>
+    <div style="background:rgba(59,158,255,0.06);border:1px solid rgba(59,158,255,0.18);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Baking Soda</span><span style="font-family:'JetBrains Mono',monospace;color:#7dd3fc;font-weight:700;">pH 9</span></div>
+    <div style="background:rgba(59,158,255,0.07);border:1px solid rgba(59,158,255,0.2);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Milk of Magnesia</span><span style="font-family:'JetBrains Mono',monospace;color:#93c5fd;font-weight:700;">pH 10</span></div>
+    <div style="background:rgba(129,140,248,0.07);border:1px solid rgba(129,140,248,0.2);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Ammonia Solution</span><span style="font-family:'JetBrains Mono',monospace;color:#a5b4fc;font-weight:700;">pH 11</span></div>
+    <div style="background:rgba(167,139,250,0.07);border:1px solid rgba(167,139,250,0.2);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Soapy Water</span><span style="font-family:'JetBrains Mono',monospace;color:#c4b5fd;font-weight:700;">pH 12</span></div>
+    <div style="background:rgba(192,132,252,0.07);border:1px solid rgba(192,132,252,0.2);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Bleach, Oven Cleaner</span><span style="font-family:'JetBrains Mono',monospace;color:#d8b4fe;font-weight:700;">pH 13</span></div>
+    <div style="background:rgba(192,132,252,0.09);border:1px solid rgba(192,132,252,0.25);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;"><span style="color:var(--muted);font-size:0.83rem;">Liquid Drain Cleaner</span><span style="font-family:'JetBrains Mono',monospace;color:var(--nuclear);font-weight:700;">pH 14</span></div>
+  </div>
   <div class="acid-base-grid"><div class="ab-card acid"><div class="ab-title">Acids</div><p>Donate H⁺. pH &lt; 7. Taste sour.</p><ul><li><b>Strong:</b> HCl, H₂SO₄, HNO₃, HBr, HI</li><li><b>Weak:</b> CH₃COOH, H₂CO₃, H₃PO₄</li><li>pH = −log[H⁺] &nbsp; Turn blue litmus <b>red</b></li></ul></div><div class="ab-card base"><div class="ab-title">Bases</div><p>Accept H⁺ or donate OH⁻. pH &gt; 7. Feel slippery.</p><ul><li><b>Strong:</b> NaOH, KOH, Ca(OH)₂, Ba(OH)₂</li><li><b>Weak:</b> NH₃, Mg(OH)₂</li><li>pOH = −log[OH⁻] &nbsp; pH + pOH = 14</li></ul></div></div>
   <div class="info-grid" style="margin-top:16px;">
     <div class="info-box red"><h3>Neutralization</h3><p>H⁺ + OH⁻ → H₂O. Resulting salt may be acidic, basic, or neutral depending on the relative strengths of original acid and base.</p></div>
@@ -1607,6 +1832,26 @@
       <div class="cmpd-row"><span>Copper Sulphate (Blue Vitriol)</span><span class="cmpd-formula">CuSO₄·5H₂O</span></div>
       <div class="cmpd-row"><span>Ferrous Sulphate (Green Vitriol)</span><span class="cmpd-formula">FeSO₄·7H₂O</span></div>
     </div>
+    <div class="compounds-panel">
+      <div class="compounds-panel-title" style="color:var(--thermo)">🏭 Acids & Their Uses</div>
+      <div class="cmpd-row"><span>Cleaning bathrooms / steel pickling</span><span class="cmpd-formula">HCl</span></div>
+      <div class="cmpd-row"><span>Fertiliser manufacture (NH₄NO₃)</span><span class="cmpd-formula">HNO₃</span></div>
+      <div class="cmpd-row"><span>Dye, paint &amp; explosives industries</span><span class="cmpd-formula">H₂SO₄</span></div>
+      <div class="cmpd-row"><span>Removing rust stains</span><span class="cmpd-formula">Oxalic acid</span></div>
+      <div class="cmpd-row"><span>Food preservative / descaling</span><span class="cmpd-formula">CH₃COOH</span></div>
+      <div class="cmpd-row"><span>Softening hard water</span><span class="cmpd-formula">Na₂CO₃</span></div>
+    </div>
+    <div class="compounds-panel">
+      <div class="compounds-panel-title" style="color:var(--nuclear)">🌍 Key Science Facts</div>
+      <div class="cmpd-row"><span>Bleaching powder</span><span class="cmpd-formula">CaOCl₂</span></div>
+      <div class="cmpd-row"><span>Quicklime</span><span class="cmpd-formula">CaO</span></div>
+      <div class="cmpd-row"><span>Slaked lime</span><span class="cmpd-formula">Ca(OH)₂</span></div>
+      <div class="cmpd-row"><span>Epsom salt</span><span class="cmpd-formula">MgSO₄·7H₂O</span></div>
+      <div class="cmpd-row"><span>Gas for fruit ripening</span><span class="cmpd-formula">C₂H₄ (ethylene)</span></div>
+      <div class="cmpd-row"><span>Main greenhouse gas</span><span class="cmpd-formula">CO₂</span></div>
+      <div class="cmpd-row"><span>Most abundant metal in crust</span><span class="cmpd-formula">Al</span></div>
+      <div class="cmpd-row"><span>Metal that ignites in air</span><span class="cmpd-formula">Na</span></div>
+    </div>
   </div>
 </section>
 
@@ -1621,6 +1866,35 @@
     <div class="info-box cyan"><h3>Galvanic Cell</h3><p>Chemical energy → electricity spontaneously (ΔG &lt; 0). Salt bridge maintains neutrality. e.g. Zn-Cu Daniell cell.</p></div>
     <div class="info-box blue"><h3>Electrolytic Cell</h3><p>Uses electricity to drive non-spontaneous reactions (ΔG &gt; 0). Used in electroplating, refining copper, producing aluminium.</p></div>
     <div class="info-box"><h3>Oxidation Numbers</h3><ul><li>Pure elements = 0</li><li>Monoatomic ions = their charge</li><li>O = −2 (peroxides = −1)</li><li>H = +1 (hydrides = −1)</li><li>Neutral compound sum = 0</li></ul></div>
+  </div>
+
+  <!-- REDOX FULL COMPARISON TABLE -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:40px;margin-bottom:14px;">Oxidation vs. Reduction — <span style="color:var(--electro)">Full Comparison</span></h3>
+  <div style="overflow-x:auto;border-radius:16px;border:1px solid var(--border);margin-bottom:28px;">
+    <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+      <thead><tr style="background:var(--surface2);">
+        <th style="padding:11px 16px;text-align:left;color:var(--muted);font-weight:600;">Property</th>
+        <th style="padding:11px 16px;text-align:center;color:var(--thermo);font-weight:600;">Oxidation</th>
+        <th style="padding:11px 16px;text-align:center;color:var(--alkene);font-weight:600;">Reduction</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-top:1px solid var(--border);"><td style="padding:10px 16px;color:var(--muted);">Electrons</td><td style="padding:10px 16px;text-align:center;color:var(--thermo);font-weight:600;">Loss</td><td style="padding:10px 16px;text-align:center;color:var(--alkene);font-weight:600;">Gain</td></tr>
+        <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:10px 16px;color:var(--muted);">Oxygen</td><td style="padding:10px 16px;text-align:center;color:var(--thermo);font-weight:600;">Gain</td><td style="padding:10px 16px;text-align:center;color:var(--alkene);font-weight:600;">Loss</td></tr>
+        <tr style="border-top:1px solid var(--border);"><td style="padding:10px 16px;color:var(--muted);">Hydrogen</td><td style="padding:10px 16px;text-align:center;color:var(--thermo);font-weight:600;">Loss</td><td style="padding:10px 16px;text-align:center;color:var(--alkene);font-weight:600;">Gain</td></tr>
+        <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:10px 16px;color:var(--muted);">Oxidation Number</td><td style="padding:10px 16px;text-align:center;color:var(--thermo);font-weight:600;">Increases ↑</td><td style="padding:10px 16px;text-align:center;color:var(--alkene);font-weight:600;">Decreases ↓</td></tr>
+        <tr style="border-top:1px solid var(--border);"><td style="padding:10px 16px;color:var(--muted);">Electrode</td><td style="padding:10px 16px;text-align:center;color:var(--thermo);">Anode (−)</td><td style="padding:10px 16px;text-align:center;color:var(--alkene);">Cathode (+)</td></tr>
+        <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:10px 16px;color:var(--muted);">Agent</td><td style="padding:10px 16px;text-align:center;color:var(--muted);font-size:0.8rem;">Reducing agent (gives e⁻)</td><td style="padding:10px 16px;text-align:center;color:var(--muted);font-size:0.8rem;">Oxidising agent (takes e⁻)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- REAL-WORLD REDOX EXAMPLES -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">Real-World <span style="color:var(--electro)">Redox Reactions</span></h3>
+  <div class="info-grid">
+    <div class="info-box cyan"><h3>🔩 Rusting of Iron</h3><p>Fe → Fe²⁺ + 2e⁻ (oxidation). O₂ + 4H⁺ + 4e⁻ → 2H₂O (reduction). Overall: 4Fe + 3O₂ → 2Fe₂O₃. Requires both O₂ and H₂O.</p></div>
+    <div class="info-box orange"><h3>🔥 Combustion</h3><p>Carbon in fuel is oxidised (gains O₂). CH₄ + 2O₂ → CO₂ + H₂O. Carbon oxidation state goes from −4 to +4 — maximum oxidation.</p></div>
+    <div class="info-box blue"><h3>🌿 Respiration</h3><p>C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP. Glucose (C) is oxidised; oxygen is reduced. Biological redox chain in mitochondria.</p></div>
+    <div class="info-box"><h3>🔋 Batteries</h3><p>Spontaneous redox reactions generate electrical current. Zn anode oxidises (Zn → Zn²⁺ + 2e⁻); MnO₂ cathode is reduced. e⁻ flow through circuit = current.</p></div>
   </div>
 </section>
 
@@ -2010,6 +2284,130 @@
   <div class="chapter-count" style="border-color:rgba(245,158,11,0.2);color:var(--reactions);">3 Sections</div>
 </div>
 
+<!-- ===== NEW v12: REACTION KINETICS ===== -->
+<section id="kinetics-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkKinetics" onchange="updateProgress()"><label for="chkKinetics">Studied ✓</label></div>
+  <span class="badge amber">// Rate of Reaction</span>
+  <h2 class="section-title">Reaction <span class="amber">Kinetics</span></h2>
+  <p class="section-lead">Kinetics studies how fast reactions occur and what factors control that speed. Understanding rate is essential for industrial chemistry, drug design, and predicting reaction feasibility.</p>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">Collision <span style="color:var(--reactions)">Theory</span></h3>
+  <p style="color:var(--muted);font-size:0.9rem;margin-bottom:20px;">For a reaction to occur, particles must <b style="color:var(--text)">collide</b> with sufficient energy (≥ activation energy) and with the correct orientation. Increasing either factor increases the rate.</p>
+  <div class="info-grid" style="margin-top:0;margin-bottom:32px;">
+    <div class="info-box amber"><h3>⚡ Activation Energy (Eₐ)</h3><p>Minimum energy needed for a collision to result in reaction. Lower Eₐ = faster reaction. Catalysts work by providing an alternative pathway with lower Eₐ.</p></div>
+    <div class="info-box blue"><h3>📐 Effective Collision</h3><p>Must have: (1) energy ≥ Eₐ and (2) correct geometric orientation. Even high-energy collisions fail if molecules approach at the wrong angle.</p></div>
+    <div class="info-box"><h3>📊 Maxwell-Boltzmann</h3><p>Not all particles have the same energy. The distribution curve shows most particles cluster around average energy — only the tail exceeds Eₐ and reacts.</p></div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">Factors Affecting <span style="color:var(--reactions)">Rate</span></h3>
+  <div class="rxn-grid" style="margin-bottom:32px;">
+    <div class="rxn-card"><div class="rxn-type" style="color:var(--thermo)">🌡️ Temperature</div><h3>Increases rate</h3><p>Higher T → particles move faster → more collisions, more exceed Eₐ. A 10°C rise roughly doubles the rate for many reactions.</p></div>
+    <div class="rxn-card"><div class="rxn-type" style="color:var(--alkene)">💧 Concentration</div><h3>Increases rate</h3><p>More particles per unit volume → more frequent collisions → higher rate. Doubles concentration can more than double rate depending on order.</p></div>
+    <div class="rxn-card"><div class="rxn-type" style="color:var(--isomer)">🪨 Surface Area</div><h3>Increases rate</h3><p>Smaller particle size → greater surface area exposed → more collision sites. Powder reacts faster than a lump of the same mass.</p></div>
+    <div class="rxn-card"><div class="rxn-type" style="color:var(--accent)">⚗️ Catalyst</div><h3>Increases rate</h3><p>Provides an alternative reaction pathway with lower Eₐ. Not consumed in the reaction. Homogeneous (same phase) or heterogeneous (different phase).</p></div>
+    <div class="rxn-card"><div class="rxn-type" style="color:var(--nuclear)">🔴 Pressure</div><h3>Gases only</h3><p>Increased pressure = particles closer together = more collisions per second. Equivalent to increasing concentration for gas-phase reactions.</p></div>
+    <div class="rxn-card"><div class="rxn-type" style="color:var(--ions-pos)">💡 Light</div><h3>Photochemical</h3><p>UV/visible light can provide activation energy for photochemical reactions. e.g. halogen + alkane reactions initiated by UV light.</p></div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">Rate <span style="color:var(--reactions)">Expression</span></h3>
+  <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.2);border-radius:20px;padding:28px 32px;margin-bottom:20px;text-align:center;">
+    <div style="font-family:'DM Serif Display',serif;font-size:2rem;color:var(--text);margin-bottom:16px;">Rate = k[A]ᵐ[B]ⁿ</div>
+    <div style="display:flex;justify-content:center;gap:32px;flex-wrap:wrap;">
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--reactions);font-weight:700;">k</div><div style="font-size:0.78rem;color:var(--muted);margin-top:4px;">Rate constant (temp. dependent)</div></div>
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--alkene);font-weight:700;">[A],[B]</div><div style="font-size:0.78rem;color:var(--muted);margin-top:4px;">Concentrations of reactants</div></div>
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--accent);font-weight:700;">m, n</div><div style="font-size:0.78rem;color:var(--muted);margin-top:4px;">Orders (found experimentally, not from equation)</div></div>
+    </div>
+  </div>
+  <div class="info-grid">
+    <div class="info-box amber"><h3>Overall Order</h3><p>Sum of all individual orders: m + n. Zero order: rate independent of [A]. First order: rate ∝ [A]. Second order: rate ∝ [A]².</p></div>
+    <div class="info-box blue"><h3>Arrhenius Equation</h3><p style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--alkene);margin-bottom:6px;">k = Ae^(−Eₐ/RT)</p><p>Links rate constant to temperature. A = frequency factor. R = 8.314 J/(mol·K). As T↑, k↑, rate↑.</p></div>
+    <div class="info-box"><h3>Half-Life (t½)</h3><p>Time for [reactant] to halve. First order: t½ = ln2/k (constant). Second order: t½ = 1/(k[A]₀) — depends on initial concentration.</p></div>
+  </div>
+</section>
+
+<!-- ===== NEW v12: LAB TECHNIQUES ===== -->
+<section id="lab-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkLab" onchange="updateProgress()"><label for="chkLab">Studied ✓</label></div>
+  <span class="badge teal">// Practical Chemistry</span>
+  <h2 class="section-title">Lab <span class="teal">Techniques</span></h2>
+  <p class="section-lead">Core practical skills used to separate, purify, and identify substances. These techniques underpin every branch of chemistry and are essential exam content.</p>
+
+  <div class="info-grid" style="margin-bottom:32px;">
+    <div class="info-box teal"><h3>🔽 Filtration</h3><p>Separates an insoluble solid from a liquid. Mixture poured through filter paper in a funnel. The solid (residue) stays on the filter; the liquid (filtrate) passes through.</p></div>
+    <div class="info-box blue"><h3>💧 Evaporation & Crystallisation</h3><p>Dissolve solid in hot solvent. Evaporate slowly to form pure crystals. Filter, wash with cold solvent, dry. Used to purify salts.</p></div>
+    <div class="info-box"><h3>🌀 Distillation</h3><p>Separates liquids by boiling point. Heat mixture → vapour rises → condenses in condenser → collected as distillate. Fractional distillation uses a fractionating column for close boiling points.</p></div>
+    <div class="info-box amber"><h3>⚗️ Chromatography</h3><p>Separates mixtures based on how far components travel through a stationary phase carried by a mobile phase. Rf = distance moved by spot ÷ distance moved by solvent.</p></div>
+    <div class="info-box orange"><h3>🧲 Solvent Extraction</h3><p>Separates compounds using two immiscible solvents (e.g. water + ethyl acetate). The compound partitions into the solvent it's more soluble in. Used in a separating funnel.</p></div>
+    <div class="info-box"><h3>🔥 Reflux</h3><p>Heats a reaction mixture at its boiling point without losing solvent. Vapour condenses in a vertical condenser and falls back. Used for slow reactions needing prolonged heating.</p></div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">Titration <span style="color:var(--solutions)">Setup & Method</span></h3>
+  <div class="nbe-steps" style="margin-bottom:28px;">
+    <div class="nbe-step"><div class="step-num" style="background:rgba(52,211,153,0.12);border-color:rgba(52,211,153,0.3);color:var(--solutions);">1</div><div class="step-content"><b>Rinse burette</b> with the solution it will contain. Fill with standard solution (known concentration). Record initial reading.</div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(52,211,153,0.12);border-color:rgba(52,211,153,0.3);color:var(--solutions);">2</div><div class="step-content"><b>Pipette</b> a known volume of the other solution into a conical flask. Add 2–3 drops of indicator.</div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(52,211,153,0.12);border-color:rgba(52,211,153,0.3);color:var(--solutions);">3</div><div class="step-content"><b>Add from burette</b> slowly, swirling constantly. Near the endpoint, add dropwise. Stop at the <b>permanent colour change</b>.</div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(52,211,153,0.12);border-color:rgba(52,211,153,0.3);color:var(--solutions);">4</div><div class="step-content"><b>Record final reading.</b> Titre = final − initial. Repeat until concordant results (within 0.10 cm³). Average the concordant titres.</div></div>
+    <div class="nbe-step"><div class="step-num" style="background:rgba(52,211,153,0.12);border-color:rgba(52,211,153,0.3);color:var(--solutions);">5</div><div class="step-content"><b>Calculate:</b> n = C × V. Use mole ratio from balanced equation to find unknown concentration.</div></div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">Chromatography <span style="color:var(--solutions)">Types</span></h3>
+  <div style="overflow-x:auto;border-radius:16px;border:1px solid var(--border);">
+    <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+      <thead><tr style="background:var(--surface2);"><th style="padding:11px 16px;text-align:left;color:var(--muted);">Type</th><th style="padding:11px 16px;color:var(--muted);">Mobile Phase</th><th style="padding:11px 16px;color:var(--muted);">Stationary Phase</th><th style="padding:11px 16px;color:var(--muted);">Use</th></tr></thead>
+      <tbody>
+        <tr style="border-top:1px solid var(--border);"><td style="padding:10px 16px;color:var(--text);font-weight:600;">TLC</td><td style="padding:10px 16px;color:var(--muted);">Solvent (liquid)</td><td style="padding:10px 16px;color:var(--muted);">Silica on plate</td><td style="padding:10px 16px;color:var(--muted);">Purity check, identify compounds</td></tr>
+        <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:10px 16px;color:var(--text);font-weight:600;">Paper</td><td style="padding:10px 16px;color:var(--muted);">Solvent (liquid)</td><td style="padding:10px 16px;color:var(--muted);">Water on paper</td><td style="padding:10px 16px;color:var(--muted);">Separate coloured mixtures, amino acids</td></tr>
+        <tr style="border-top:1px solid var(--border);"><td style="padding:10px 16px;color:var(--text);font-weight:600;">GC</td><td style="padding:10px 16px;color:var(--muted);">Inert gas (N₂, He)</td><td style="padding:10px 16px;color:var(--muted);">Liquid on solid</td><td style="padding:10px 16px;color:var(--muted);">Separate volatile compounds, food/forensics</td></tr>
+        <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:10px 16px;color:var(--text);font-weight:600;">HPLC</td><td style="padding:10px 16px;color:var(--muted);">Solvent (high pressure)</td><td style="padding:10px 16px;color:var(--muted);">Solid column</td><td style="padding:10px 16px;color:var(--muted);">Pharmaceuticals, large biomolecules</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="info-box blue" style="margin-top:18px;"><h3>📐 Rf Value</h3><p style="font-family:'JetBrains Mono',monospace;font-size:0.95rem;color:var(--alkene);margin-bottom:6px;">Rf = distance travelled by spot ÷ distance travelled by solvent front</p><p>Always between 0 and 1. Same compound always gives the same Rf under the same conditions. Used to identify unknowns by comparison.</p></div>
+</section>
+
+<!-- ===== NEW v12: SPECTROSCOPY ===== -->
+<section id="spectroscopy-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkSpec" onchange="updateProgress()"><label for="chkSpec">Studied ✓</label></div>
+  <span class="badge purple">// Analytical Chemistry</span>
+  <h2 class="section-title">Spectro<span class="purple">scopy</span></h2>
+  <p class="section-lead">Spectroscopy uses the interaction of electromagnetic radiation with matter to identify substances and determine structure. Three techniques dominate chemistry: IR, Mass Spec, and NMR.</p>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">Mass <span style="color:var(--nuclear)">Spectrometry</span></h3>
+  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:16px;">Molecules are ionised and fragmented. The detector records mass-to-charge ratio (m/z) of each fragment. Used to find molecular mass and deduce structure.</p>
+  <div class="info-grid" style="margin-bottom:28px;">
+    <div class="info-box purple"><h3>Molecular Ion Peak (M⁺)</h3><p>The rightmost peak = molecular mass of the compound. The M+1 peak indicates presence of ¹³C isotopes. M+2 indicates Cl or Br (characteristic isotope pattern).</p></div>
+    <div class="info-box"><h3>Fragmentation</h3><p>Molecule breaks at weakest bonds. Each fragment gives a peak at its m/z. Common fragments: m/z 15 (CH₃⁺), 29 (C₂H₅⁺), 45 (OC₂H₅⁺), 77 (C₆H₅⁺ phenyl).</p></div>
+    <div class="info-box blue"><h3>Base Peak</h3><p>The tallest peak — most stable/abundant fragment. Used as reference (set to 100%). Does not have to be the molecular ion peak.</p></div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">Infrared <span style="color:var(--nuclear)">Spectroscopy (IR)</span></h3>
+  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:16px;">Bonds absorb IR at characteristic frequencies (wavenumbers, cm⁻¹). Identifying absorption peaks reveals which functional groups are present.</p>
+  <div style="overflow-x:auto;border-radius:16px;border:1px solid var(--border);margin-bottom:24px;">
+    <table style="width:100%;border-collapse:collapse;font-size:0.84rem;">
+      <thead><tr style="background:var(--surface2);"><th style="padding:10px 16px;text-align:left;color:var(--muted);">Bond</th><th style="padding:10px 16px;color:var(--muted);">Wavenumber (cm⁻¹)</th><th style="padding:10px 16px;color:var(--muted);">Functional Group</th><th style="padding:10px 16px;color:var(--muted);">Notes</th></tr></thead>
+      <tbody>
+        <tr style="border-top:1px solid var(--border);"><td style="padding:9px 16px;color:var(--text);">O–H (alcohol)</td><td style="padding:9px 16px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--nuclear);">3200–3550</td><td style="padding:9px 16px;color:var(--muted);">Alcohol</td><td style="padding:9px 16px;color:var(--muted);">Broad, strong</td></tr>
+        <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:9px 16px;color:var(--text);">O–H (acid)</td><td style="padding:9px 16px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--nuclear);">2500–3300</td><td style="padding:9px 16px;color:var(--muted);">Carboxylic acid</td><td style="padding:9px 16px;color:var(--muted);">Very broad</td></tr>
+        <tr style="border-top:1px solid var(--border);"><td style="padding:9px 16px;color:var(--text);">N–H</td><td style="padding:9px 16px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--nuclear);">3300–3500</td><td style="padding:9px 16px;color:var(--muted);">Amine / Amide</td><td style="padding:9px 16px;color:var(--muted);">Medium, 1 or 2 peaks</td></tr>
+        <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:9px 16px;color:var(--text);">C–H</td><td style="padding:9px 16px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--nuclear);">2850–3100</td><td style="padding:9px 16px;color:var(--muted);">Alkane/Alkene</td><td style="padding:9px 16px;color:var(--muted);">Medium</td></tr>
+        <tr style="border-top:1px solid var(--border);"><td style="padding:9px 16px;color:var(--text);">C≡N</td><td style="padding:9px 16px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--nuclear);">2200–2260</td><td style="padding:9px 16px;color:var(--muted);">Nitrile</td><td style="padding:9px 16px;color:var(--muted);">Strong, sharp</td></tr>
+        <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:9px 16px;color:var(--text);">C=O</td><td style="padding:9px 16px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--nuclear);">1630–1820</td><td style="padding:9px 16px;color:var(--muted);">Aldehyde/Ketone/Ester/Acid</td><td style="padding:9px 16px;color:var(--muted);">Strong, sharp</td></tr>
+        <tr style="border-top:1px solid var(--border);"><td style="padding:9px 16px;color:var(--text);">C=C</td><td style="padding:9px 16px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--nuclear);">1620–1680</td><td style="padding:9px 16px;color:var(--muted);">Alkene</td><td style="padding:9px 16px;color:var(--muted);">Medium</td></tr>
+        <tr style="border-top:1px solid var(--border);background:rgba(255,255,255,0.02);"><td style="padding:9px 16px;color:var(--text);">C–O</td><td style="padding:9px 16px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--nuclear);">1000–1300</td><td style="padding:9px 16px;color:var(--muted);">Alcohol / Ester / Ether</td><td style="padding:9px 16px;color:var(--muted);">Strong</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">NMR <span style="color:var(--nuclear)">Spectroscopy</span></h3>
+  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:16px;">¹H NMR detects hydrogen environments in a molecule. Each unique H environment gives a signal. Chemical shift (δ, ppm) indicates the electronic environment of each H.</p>
+  <div class="info-grid" style="margin-bottom:20px;">
+    <div class="info-box purple"><h3>Chemical Shift (δ)</h3><p>TMS (tetramethylsilane) = 0 ppm reference. Electron-withdrawing groups shift signals downfield (higher δ). e.g. –CHO ≈ 9–10 ppm, –COOH ≈ 10–12 ppm, –CH₃ ≈ 0.9 ppm.</p></div>
+    <div class="info-box blue"><h3>Splitting (n+1 rule)</h3><p>A signal is split into n+1 peaks by n adjacent H atoms. Doublet = 1 neighbour. Triplet = 2 neighbours. Quartet = 3 neighbours. Singlet = no neighbours.</p></div>
+    <div class="info-box"><h3>Integration</h3><p>Area under each peak ∝ number of H atoms in that environment. Ratios identify how many H each signal represents. Combined with splitting → full structure.</p></div>
+  </div>
+  <div class="info-box blue"><h3>🔑 Approach to Solving NMR Problems</h3><p>① Find molecular formula (from mass spec M⁺) → calculate degrees of unsaturation. ② Count distinct signals = number of unique H environments. ③ Use integration for ratios. ④ Use splitting pattern (n+1) to find neighbours. ⑤ Match δ values to functional group table to confirm structure.</p></div>
+</section>
+
 <section id="tools-section" class="card">
   <div class="progress-check"><input type="checkbox" id="chkTools" onchange="updateProgress()"><label for="chkTools">Studied ✓</label></div>
   <span class="badge">// Live Chemistry Tools</span>
@@ -2352,11 +2750,12 @@
   <div class="footer-divider"></div>
   <div class="footer-meta">
     <span><span class="dot"></span> Version 11.0</span>
-    <span><span class="dot"></span> 27 Sections · 9 Live Tools</span>
+    <span><span class="dot"></span> 30 Sections · 9 Live Tools</span>
     <span><span class="dot"></span> 118 Elements · Click for Details</span>
     <span><span class="dot"></span> Educational Level: Pro</span>
   </div>
 </footer>
-<script src="labar-v11.js"></script>
+<button id="backToTop" title="Back to top" aria-label="Back to top">↑</button>
+<script src="labar-12.js"></script>
 </body>
 </html>
