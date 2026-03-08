@@ -481,12 +481,12 @@ tr:hover td{background:rgba(255,255,255,0.03);}
 .mob-link{display:block;color:var(--muted);text-decoration:none;font-size:0.88rem;font-weight:500;padding:10px 10px;border-radius:10px;transition:all var(--transition);margin-bottom:2px;}
 .mob-link:hover,.mob-link:active{color:var(--accent);background:rgba(79,255,176,0.07);}
 .nav-hamburger{display:none;}
-.chapter-divider{background:linear-gradient(135deg,rgba(79,255,176,0.05),rgba(56,189,248,0.05));border:1px solid rgba(79,255,176,0.12);border-radius:22px;padding:28px 36px;margin:12px 0 28px;display:flex;align-items:center;gap:18px;position:relative;z-index:1;}
-.chapter-icon{font-size:2.2rem;line-height:1;flex-shrink:0;}
+.chapter-divider{background:linear-gradient(135deg,rgba(79,255,176,0.05),rgba(56,189,248,0.05));border:1px solid rgba(79,255,176,0.12);border-radius:22px;padding:28px 36px;margin:12px 0 28px;display:flex;align-items:flex-start;gap:18px;position:relative;z-index:1;}
+.chapter-icon{font-size:2.2rem;line-height:1;flex-shrink:0;margin-top:4px;}
 .chapter-label{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--accent);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:4px;}
 .chapter-title{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--text);}
 .chapter-desc{font-size:0.82rem;color:var(--muted);margin-top:4px;line-height:1.6;}
-.chapter-count{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:6px 14px;white-space:nowrap;flex-shrink:0;}
+.chapter-count{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:6px 14px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
 [data-theme="light"]{
   --bg:#f4f6ff;--surface:#ffffff;--surface2:#eaedff;--border:rgba(79,70,229,0.13);
   --accent:#059669;--accent2:#2563eb;--alkane:#059669;--alkene:#2563eb;--alkyne:#dc2626;
@@ -565,7 +565,10 @@ footer p{color:var(--muted);font-size:0.85rem;margin-bottom:6px;}
   /* Layout */
   .wrapper{padding:0 4% 60px;}
   .card{padding:20px 14px;border-radius:16px;}
-  .chapter-divider{padding:16px;gap:10px;}
+  .chapter-divider{padding:18px 16px;gap:12px;align-items:flex-start;margin:8px 0 20px;}
+  .chapter-icon{font-size:1.6rem;margin-top:2px;}
+  .chapter-title{font-size:1.25rem;}
+  .chapter-desc{font-size:0.78rem;line-height:1.5;}
   .chapter-count{display:none;}
 
   /* Hydrocarbon Calculator — stays horizontal, shrinks gracefully */
