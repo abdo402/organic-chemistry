@@ -1,4 +1,4 @@
-/* ========== LabAR.EDU v10.0 — Main Script ========== */
+/* ========== LabAR.EDU v11.0 — Main Script ========== */
 
 /* ---------- 1. CANVAS BACKGROUND ---------- */
 (function(){
@@ -619,9 +619,14 @@ function toggleMobileNav(){
 
 /* ---------- 17. PROGRESS ---------- */
 const PROGRESS_IDS=[
-  'chk0','chk1','chk2','chk3','chk4b','chkOR','chkPoly',
-  'chk4','chk5','chk6','chk7','chk9','chk10','chk11','chk12','chkES',
-  'chk13','chkEq','chkSol','chkTools','chkBlocks','chkPT'
+  /* Ch01 — Organic (9 sections) */
+  'chk0','chk1','chk2','chk3','chk4b','chkOR','chkSynth','chkPoly',
+  /* Ch02 — General (15 sections) */
+  'chkGlossary','chkReactivity','chk4','chk5','chk6','chk7',
+  'chk9','chk10','chk11','chk12','chkES','chkECalc',
+  'chk13','chkEq','chkSol',
+  /* Ch03 — Tools & Reference (3 sections) */
+  'chkTools','chkBlocks','chkPT'
 ];
 
 function updateProgress(){
@@ -636,25 +641,38 @@ function updateProgress(){
 
 /* ---------- 18. GLOBAL SEARCH ---------- */
 const SEARCH_INDEX=[
-  {title:'Hydrocarbon Calculator',ctx:'Calculate alkane, alkene, alkyne formulas by carbon count',anchor:'calc-tool'},
-  {title:'What are Hydrocarbons',ctx:'Alkanes (saturated), alkenes and alkynes (unsaturated), C–H compounds, fossil fuels',anchor:'hydrocarbons'},
-  {title:'IUPAC Nomenclature',ctx:'Systematic naming, longest chain rule, substituents, alphabetical order, locant',anchor:'iupac-section'},
-  {title:'Isomerism',ctx:'Structural isomers, stereoisomers, geometric cis/trans, optical enantiomers, chiral carbon',anchor:'isomerism-section'},
-  {title:'Compound Library',ctx:'Methane ethane propane butane pentane hexane heptane octane nonane decane full series C1–C10',anchor:'table-section'},
-  {title:'Organic Functional Groups',ctx:'Alcohol aldehyde ketone carboxylic acid ester amine ether amide OH CHO COOH COO NH2 Tollens test',anchor:'functional-section'},
-  {title:'Ions & Charges',ctx:'Cations anions Li Na K Mg Ca Al Fe Cu Cl SO4 NO3 OH CO3 PO4 ionic charges positive negative',anchor:'ions-section'},
-  {title:'Mole Concept',ctx:'Avogadro number 6.02×10^23 moles molarity molar mass particles volume 22.4L STP',anchor:'moles-section'},
-  {title:'Thermochemistry',ctx:'Exothermic endothermic enthalpy ΔH heat Q=mcΔT specific heat capacity open closed isolated system',anchor:'thermo-section'},
-  {title:'Nuclear Chemistry',ctx:'Radioactivity alpha beta gamma half-life decay E=mc2 binding energy protons neutrons fission fusion',anchor:'nuclear-section'},
-  {title:'Chemical Equilibrium',ctx:'Kc Kp equilibrium constant Le Chatelier ICE table dynamic reversible reaction concentration pressure temperature catalyst',anchor:'equilibrium-section'},
-  {title:'Solutions & Concentration',ctx:'Molarity molality percentage mass/volume freezing point depression metric prefixes milli micro nano',anchor:'solutions-section'},
-  {title:'Chemical Bonding',ctx:'Ionic covalent metallic bond electronegativity polar nonpolar Lewis dot structure octet rule',anchor:'bonding-section'},
-  {title:'Reaction Types',ctx:'Synthesis decomposition single double displacement combustion neutralisation balanced equations',anchor:'reactions-section'},
-  {title:'Acids & Bases',ctx:'pH pOH indicators litmus phenolphthalein strong weak acid base buffer neutralization Bronsted Lowry',anchor:'acids-section'},
-  {title:'Electrochemistry',ctx:'OIL RIG oxidation reduction redox half reactions galvanic electrolytic cell anode cathode electroplating',anchor:'electro-section'},
-  {title:'Gas Laws',ctx:'Boyle Charles Gay-Lussac combined ideal PV=nRT Avogadro pressure volume temperature kelvin STP',anchor:'gaslaws-section'},
-  {title:'Interactive Tools',ctx:'Molar mass calculator ion compound builder nuclear decay simulator unit converter stoichiometry pH pOH',anchor:'tools-section'},
-  {title:'Periodic Table',ctx:'118 elements click for details electron configuration atomic number mass period group state uses',anchor:'periodic-section'},
+  /* === Ch01: Organic Chemistry === */
+  {title:'Hydrocarbon Calculator',ctx:'Calculate alkane alkene alkyne molecular formulas CnH2n+2 carbon count empirical formula',anchor:'calc-tool'},
+  {title:'What are Hydrocarbons',ctx:'Alkanes saturated alkenes alkynes unsaturated C–H compounds fossil fuels combustion hydrocarbon types',anchor:'hydrocarbons'},
+  {title:'IUPAC Nomenclature',ctx:'Systematic naming longest chain rule substituents alphabetical order locant prefix suffix alkan alken alkyne',anchor:'iupac-section'},
+  {title:'Isomerism',ctx:'Structural isomers stereoisomers geometric cis trans optical enantiomers chiral carbon R S configuration',anchor:'isomerism-section'},
+  {title:'Compound Library',ctx:'Methane ethane propane butane pentane hexane heptane octane nonane decane full series C1 C10 homologous',anchor:'table-section'},
+  {title:'Organic Functional Groups',ctx:'Alcohol aldehyde ketone carboxylic acid ester amine ether amide alkyl halide thiol nitrile aromatic OH CHO COOH COO NH2 Tollens Fehling test benzene',anchor:'functional-section'},
+  {title:'Organic Reactions & Mechanisms',ctx:'Oxidation energy profile exothermic endothermic activation energy reaction pathway combustion substitution addition elimination polymerisation',anchor:'organic-reactions-section'},
+  {title:'Organic Synthesis',ctx:'Grignard Friedel-Crafts Aldol Diels-Alder Wittig Williamson esterification SN1 SN2 E1 E2 Markovnikov retrosynthesis named reactions protecting groups carbocation',anchor:'synthesis-section'},
+  {title:'Polymers',ctx:'Addition condensation polymer monomer polyethylene nylon PVC natural synthetic rubber proteins DNA cellulose starch',anchor:'polymers-section'},
+
+  /* === Ch02: General Chemistry === */
+  {title:'Chemistry Glossary',ctx:'Atom molecule element compound mixture ion cation anion acid base salt solution solute solvent reaction pH catalyst electrolyte vocabulary definitions',anchor:'glossary-section'},
+  {title:'Reactivity Series',ctx:'Metal activity potassium sodium calcium magnesium aluminium zinc iron tin lead copper silver gold platinum displacement reduction extraction electrolysis',anchor:'reactivity-section'},
+  {title:'Ions & Charges',ctx:'Cations anions Li Na K Mg Ca Al Fe Cu Cl SO4 NO3 OH CO3 PO4 ionic charges positive negative polyatomic acetate permanganate chromate dichromate',anchor:'ions-section'},
+  {title:'Mole Concept',ctx:'Avogadro number 6.02 ten 23 moles molarity molar mass particles volume 22.4 STP stoichiometry counting matter',anchor:'moles-section'},
+  {title:'Thermochemistry',ctx:'Exothermic endothermic enthalpy ΔH heat Q mcΔT specific heat capacity calorimetry Hess law bond energy',anchor:'thermo-section'},
+  {title:'Nuclear Chemistry',ctx:'Radioactivity alpha beta gamma half-life decay E mc2 binding energy protons neutrons fission fusion nuclear reactor',anchor:'nuclear-section'},
+  {title:'Chemical Bonding',ctx:'Ionic covalent metallic bond electronegativity polar nonpolar Lewis dot structure octet rule dipole intermolecular forces hydrogen bond',anchor:'bonding-section'},
+  {title:'Reaction Types',ctx:'Synthesis combination decomposition single double displacement combustion neutralisation balanced equations redox precipitation',anchor:'reactions-section'},
+  {title:'Acids & Bases',ctx:'pH pOH indicators litmus phenolphthalein strong weak acid base buffer neutralization Bronsted Lowry conjugate pair Ka Kb HCl H2SO4 NaOH KOH',anchor:'acids-section'},
+  {title:'Electrochemistry',ctx:'OIL RIG oxidation reduction redox half reactions galvanic electrolytic cell anode cathode electroplating oxidation number balancing',anchor:'electro-section'},
+  {title:'Electrochemical Series',ctx:'Standard electrode potential reduction potential SHE half-cell EMF cell notation reduction oxidation reactivity ranking',anchor:'electrochem-series-section'},
+  {title:'Electrochemistry Calculations',ctx:'Nernst equation cell potential E standard Gibbs free energy delta G nFE Faraday law electrolysis mass deposited current charge coulombs Q Kc equilibrium',anchor:'electro-calc-section'},
+  {title:'Gas Laws',ctx:'Boyle Charles Gay-Lussac combined ideal PV nRT Avogadro pressure volume temperature kelvin STP moles gas constant',anchor:'gaslaws-section'},
+  {title:'Chemical Equilibrium',ctx:'Kc Kp equilibrium constant Le Chatelier ICE table dynamic reversible reaction concentration pressure temperature catalyst Q reaction quotient',anchor:'equilibrium-section'},
+  {title:'Solutions & Concentration',ctx:'Molarity molality normality formality mole fraction ppm percentage mass volume freezing point depression metric concentration terms',anchor:'solutions-section'},
+
+  /* === Ch03: Tools & Reference === */
+  {title:'Interactive Chemistry Tools',ctx:'Molar mass calculator ion compound builder nuclear decay simulator unit converter stoichiometry pH pOH equation balancer titration empirical formula',anchor:'tools-section'},
+  {title:'Periodic Table Blocks',ctx:'s-block p-block d-block f-block electron configuration Aufbau Hund Pauli transition metal properties coloured compounds variable oxidation states',anchor:'blocks-section'},
+  {title:'Periodic Table (All 118 Elements)',ctx:'118 elements click details electron configuration atomic number mass period group state uses lanthanide actinide',anchor:'periodic-section'},
 ];
 
 function openSearch(){
@@ -856,17 +874,4 @@ function calcEmpiricalFormula(){
     </div>`;
 }
 
-/* ---------- UPDATE: SEARCH INDEX ---------- */
-// Append new entries
-(function(){
-  const newEntries=[
-    {title:'Organic Reactions',ctx:'Addition substitution elimination esterification combustion oxidation Markovnikov energy profile',anchor:'organic-reactions-section'},
-    {title:'Polymers',ctx:'Addition condensation polymerisation polyethylene nylon polyester PET thermoplastic thermoset biopolymer',anchor:'polymers-section'},
-    {title:'Electrochemical Series',ctx:'Standard electrode potential E° cell EMF activity series reducing agent oxidising agent displacement',anchor:'electrochem-series-section'},
-    {title:'Periodic Table Blocks',ctx:'s-block p-block d-block f-block orbital diagram Aufbau Hund Pauli transition metal colour complex ion',anchor:'blocks-section'},
-    {title:'Equation Balancer',ctx:'Balance chemical equation coefficients stoichiometry',anchor:'tools-section'},
-    {title:'Titration Calculator',ctx:'C1V1=C2V2 moles concentration volume acid base neutralisation',anchor:'tools-section'},
-    {title:'Empirical Formula',ctx:'Empirical molecular formula percent composition molar mass',anchor:'tools-section'},
-  ];
-  if(typeof SEARCH_INDEX!=='undefined')SEARCH_INDEX.push(...newEntries);
-})();
+/* v11 — Search index fully updated above, no patch needed */
