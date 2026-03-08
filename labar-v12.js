@@ -1,4 +1,4 @@
-/* ========== LabAR.EDU v11.0 — Main Script ========== */
+/* ========== LabAR.EDU v12.0 — Main Script ========== */
 
 /* ---------- 1. CANVAS BACKGROUND ---------- */
 (function(){
@@ -26,10 +26,19 @@
   init();draw();
 })();
 
-/* ---------- 2. SCROLL REVEAL ---------- */
+/* ---------- 2. SCROLL REVEAL — staggered ---------- */
 const revealObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
-},{threshold:.07});
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      // stagger siblings inside the same parent
+      const siblings=[...e.target.parentElement.querySelectorAll('.card')];
+      const i=siblings.indexOf(e.target);
+      e.target.style.transitionDelay=Math.min(i*60,300)+'ms';
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+},{threshold:.06});
 document.querySelectorAll('.card').forEach(c=>revealObs.observe(c));
 
 /* ---------- 3. HYDROCARBON CALCULATOR ---------- */
@@ -601,43 +610,146 @@ function closeElemModal(){
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeElemModal();});
 
 /* ---------- 15. THEME ---------- */
-function toggleTheme(){
-  const isDark=!document.documentElement.hasAttribute('data-theme');
-  document.documentElement.setAttribute('data-theme',isDark?'light':'');
-  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
-  if(!isDark)document.documentElement.removeAttribute('data-theme');
-}
+// (handled in section 16b below)
 
 /* ---------- 16. MOBILE NAV ---------- */
 function toggleMobileNav(){
   const drawer=document.getElementById('mobileNavDrawer');
   const overlay=document.getElementById('mobileNavOverlay');
-  const open=drawer.style.display==='flex';
-  drawer.style.display=open?'none':'flex';
-  overlay.style.display=open?'none':'block';
+  const isOpen=drawer.classList.contains('mob-open');
+  drawer.classList.toggle('mob-open',!isOpen);
+  overlay.classList.toggle('mob-open',!isOpen);
+  document.body.style.overflow=isOpen?'':'hidden';
 }
 
-/* ---------- 17. PROGRESS ---------- */
-const PROGRESS_IDS=[
-  /* Ch01 — Organic (9 sections) */
-  'chk0','chk1','chk2','chk3','chk4b','chkOR','chkSynth','chkPoly',
-  /* Ch02 — General (15 sections) */
-  'chkGlossary','chkReactivity','chk4','chk5','chk6','chk7',
-  'chk9','chk10','chk11','chk12','chkES','chkECalc',
-  'chk13','chkEq','chkSol',
-  /* Ch03 — Tools & Reference (3 sections) */
-  'chkTools','chkBlocks','chkPT'
+/* ---------- 16b. THEME PERSISTENCE ---------- */
+function toggleTheme(){
+  const isDark=!document.documentElement.hasAttribute('data-theme');
+  document.documentElement.setAttribute('data-theme',isDark?'light':'');
+  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
+  if(!isDark)document.documentElement.removeAttribute('data-theme');
+  try{localStorage.setItem('labar_theme',isDark?'light':'dark');}catch(e){}
+}
+function restoreTheme(){
+  try{
+    const t=localStorage.getItem('labar_theme');
+    if(t==='light'){document.documentElement.setAttribute('data-theme','light');const b=document.getElementById('themeBtn');if(b)b.textContent='🌙';}
+  }catch(e){}
+}
+
+/* ---------- 17. PROGRESS DASHBOARD ---------- */
+const CHAPTERS=[
+  {
+    label:'Organic',
+    ids:['chkCalc','chk0','chk1','chk2','chk3','chk4b','chkOR','chkSynth','chkPoly'],
+    names:['Calc','Hydrocarbons','IUPAC','Isomers','Library','Func. Groups','Org. Reactions','Synthesis','Polymers']
+  },
+  {
+    label:'General',
+    ids:['chkGlossary','chkReactivity','chk4','chk5','chk6','chk7','chk9','chk10','chk11','chk12','chkES','chkECalc','chk13','chkEq','chkSol','chkKinetics','chkLab','chkSpec'],
+    names:['Glossary','Reactivity','Ions','Moles','Thermo','Nuclear','Bonding','Reactions','Acids','Redox','E-Series','E-Calc','Gas Laws','Equilibrium','Solutions','Kinetics','Lab Tech','Spectroscopy']
+  },
+  {
+    label:'Tools',
+    ids:['chkTools','chkBlocks','chkPT'],
+    names:['Tools','Blocks','Periodic Table']
+  }
 ];
 
+const MESSAGES=[
+  [0,   "Start checking off sections as you study! ✨"],
+  [10,  "Great start — keep going! 🚀"],
+  [25,  "You're 25% through — solid progress! 💪"],
+  [50,  "Halfway there! You're on a roll 🔥"],
+  [75,  "75% done — almost a chemistry expert! ⚗️"],
+  [90,  "So close! Just a few sections left 🏁"],
+  [100, "🎉 Encyclopedia complete! You've mastered LabAR.EDU!"]
+];
+
+function getMsg(pct){
+  let msg=MESSAGES[0][1];
+  for(const[t,m] of MESSAGES){if(pct>=t)msg=m;}
+  return msg;
+}
+
 function updateProgress(){
-  const total=PROGRESS_IDS.length;
-  const done=PROGRESS_IDS.filter(id=>document.getElementById(id)?.checked).length;
+  const allIds=CHAPTERS.flatMap(c=>c.ids);
+  const total=allIds.length;
+  const done=allIds.filter(id=>document.getElementById(id)?.checked).length;
   const pct=Math.round(done/total*100);
+
+  // Mini bar + label + badge
   const fill=document.getElementById('progressFill');
   const label=document.getElementById('progressLabel');
+  const badge=document.getElementById('pdBadge');
   if(fill)fill.style.width=pct+'%';
   if(label)label.textContent=`${done} / ${total}`;
+  if(badge)badge.textContent=pct+'%';
+  // Mobile mini bar
+  const mf=document.getElementById('mobProgressFill');
+  const ml=document.getElementById('mobProgressLabel');
+  if(mf)mf.style.width=pct+'%';
+  if(ml)ml.textContent=pct+'%';
+
+  // Message
+  const msg=document.getElementById('pdMessage');
+  if(msg)msg.textContent=getMsg(pct);
+
+  // Chapter bars + dots
+  CHAPTERS.forEach((ch,i)=>{
+    const chDone=ch.ids.filter(id=>document.getElementById(id)?.checked).length;
+    const chTotal=ch.ids.length;
+    const chPct=Math.round(chDone/chTotal*100);
+    const bar=document.getElementById('chBar'+i);
+    const count=document.getElementById('chCount'+i);
+    const dots=document.getElementById('chDots'+i);
+    if(bar)bar.style.width=chPct+'%';
+    if(count)count.textContent=`${chDone} / ${chTotal}`;
+    if(dots){
+      dots.innerHTML='';
+      ch.ids.forEach((id,j)=>{
+        const checked=document.getElementById(id)?.checked;
+        const dot=document.createElement('div');
+        dot.className='pd-dot'+(checked?' done':'');
+        dot.title=ch.names[j];
+        dots.appendChild(dot);
+      });
+    }
+  });
+
+  // Save to localStorage
+  try{localStorage.setItem('labar_progress',JSON.stringify(allIds.map(id=>document.getElementById(id)?.checked||false)));}catch(e){}
 }
+
+function toggleDashboard(){
+  const body=document.getElementById('pdBody');
+  const chev=document.getElementById('pdChevron');
+  if(!body||!chev)return;
+  const open=body.classList.toggle('open');
+  chev.classList.toggle('open',open);
+  try{localStorage.setItem('labar_dash_open',open);}catch(e){}
+}
+
+// Restore saved progress
+function restoreProgress(){
+  try{
+    const saved=JSON.parse(localStorage.getItem('labar_progress')||'[]');
+    const allIds=CHAPTERS.flatMap(c=>c.ids);
+    allIds.forEach((id,i)=>{const el=document.getElementById(id);if(el&&saved[i])el.checked=true;});
+    const dashOpen=localStorage.getItem('labar_dash_open')==='true';
+    if(dashOpen){const b=document.getElementById('pdBody');const c=document.getElementById('pdChevron');if(b)b.classList.add('open');if(c)c.classList.add('open');}
+  }catch(e){}
+  updateProgress();
+}
+
+/* ---------- SCROLL PROGRESS BAR ---------- */
+window.addEventListener('scroll',()=>{
+  const el=document.getElementById('scrollBar');
+  if(!el)return;
+  const h=document.documentElement;
+  const pct=(h.scrollTop||document.body.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+  el.style.width=Math.min(pct,100)+'%';
+},{ passive:true });
 
 /* ---------- 18. GLOBAL SEARCH ---------- */
 const SEARCH_INDEX=[
@@ -668,6 +780,9 @@ const SEARCH_INDEX=[
   {title:'Gas Laws',ctx:'Boyle Charles Gay-Lussac combined ideal PV nRT Avogadro pressure volume temperature kelvin STP moles gas constant',anchor:'gaslaws-section'},
   {title:'Chemical Equilibrium',ctx:'Kc Kp equilibrium constant Le Chatelier ICE table dynamic reversible reaction concentration pressure temperature catalyst Q reaction quotient',anchor:'equilibrium-section'},
   {title:'Solutions & Concentration',ctx:'Molarity molality normality formality mole fraction ppm percentage mass volume freezing point depression metric concentration terms',anchor:'solutions-section'},
+  {title:'Reaction Kinetics',ctx:'Rate of reaction collision theory activation energy Arrhenius rate constant rate law order first second zero half-life Maxwell-Boltzmann temperature concentration surface area catalyst',anchor:'kinetics-section'},
+  {title:'Lab Techniques',ctx:'Filtration distillation chromatography titration reflux crystallisation Rf value TLC GC HPLC paper chromatography practical separation purification',anchor:'lab-section'},
+  {title:'Spectroscopy',ctx:'IR infrared NMR mass spectrometry chemical shift ppm splitting pattern integration wavenumber molecular ion fragmentation base peak carbonyl OH C=O functional group identification',anchor:'spectroscopy-section'},
 
   /* === Ch03: Tools & Reference === */
   {title:'Interactive Chemistry Tools',ctx:'Molar mass calculator ion compound builder nuclear decay simulator unit converter stoichiometry pH pOH equation balancer titration empirical formula',anchor:'tools-section'},
@@ -721,10 +836,74 @@ window.addEventListener('load',()=>{
   renderGasFields();
   initConverter();
   buildCompound();
-  updateProgress();
+  restoreProgress();
+  restoreTheme();
+  initScrollSpy();
+  initBackToTop();
+  initHeroCounters();
 });
 
-/* ===== v10.0 NEW FUNCTIONS ===== */
+/* ---------- HERO COUNTERS ---------- */
+function initHeroCounters(){
+  document.querySelectorAll('.hero-stat .num').forEach(el=>{
+    const raw=el.textContent.trim();
+    const num=parseInt(raw);
+    const suffix=raw.replace(/[0-9]/g,'');
+    if(isNaN(num))return;
+    el.textContent='0'+suffix;
+    const dur=1200;
+    const start=performance.now();
+    function tick(now){
+      const p=Math.min((now-start)/dur,1);
+      const ease=1-Math.pow(1-p,3); // ease-out cubic
+      el.textContent=Math.round(ease*num)+suffix;
+      if(p<1)requestAnimationFrame(tick);
+    }
+    // delay slightly so it fires after page paint
+    setTimeout(()=>requestAnimationFrame(tick),400);
+  });
+}
+});
+
+/* ---------- SCROLL SPY — active nav highlight ---------- */
+function initScrollSpy(){
+  const sections=document.querySelectorAll('section[id]');
+  const navLinks=document.querySelectorAll('.nav-links a[href^="#"]');
+  const navScroll=document.getElementById('navLinks');
+  if(!sections.length||!navLinks.length)return;
+  const spy=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id=e.target.id;
+        navLinks.forEach(a=>{
+          const active=a.getAttribute('href')==='#'+id;
+          a.classList.toggle('nav-active',active);
+          // auto-scroll active link into view in the nav bar
+          if(active&&navScroll){
+            const lRect=a.getBoundingClientRect();
+            const wRect=navScroll.getBoundingClientRect();
+            if(lRect.left<wRect.left||lRect.right>wRect.right){
+              a.scrollIntoView({inline:'center',behavior:'smooth',block:'nearest'});
+            }
+          }
+        });
+      }
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(s=>spy.observe(s));
+}
+
+/* ---------- BACK TO TOP ---------- */
+function initBackToTop(){
+  const btn=document.getElementById('backToTop');
+  if(!btn)return;
+  window.addEventListener('scroll',()=>{
+    btn.classList.toggle('btt-show',window.scrollY>600);
+  },{passive:true});
+  btn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+}
+
+/* ===== v12.0 NEW FUNCTIONS ===== */
 
 /* ---------- 20. EQUATION BALANCER ---------- */
 function balanceEquation(){
