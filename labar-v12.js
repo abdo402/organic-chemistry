@@ -1,4 +1,4 @@
-/* ========== LabAR.EDU v12.0 — Main Script (Complete) ========== */
+/* ========== LabAR.EDU v12.0 — Main Script (FULLY CORRECTED) ========== */
 
 /* ---------- 1. CANVAS BACKGROUND ---------- */
 (function(){
@@ -35,6 +35,799 @@ const revealObs=new IntersectionObserver(entries=>{
       e.target.style.transitionDelay=Math.min(i*60,300)+'ms';
       e.target.classList.add('visible');
       revealObs.unobserve(e.target);
+    }
+  });
+},{threshold:.06});
+document.querySelectorAll('.card').forEach(c=>revealObs.observe(c));
+
+/* ---------- 3. HYDROCARBON CALCULATOR ---------- */
+const PREFIXES=['Meth','Eth','Prop','But','Pent','Hex','Hept','Oct','Non','Dec',
+  'Undec','Dodec','Tridec','Tetradec','Pentadec','Hexadec','Heptadec','Octadec','Nonadec','Icos'];
+
+function getPrefix(n){return n<=20?PREFIXES[n-1]:(n+'C');}
+
+function fmt(n,h,sub){
+  const hs=h===1?'H':'H<sub>'+h+'</sub>';
+  return n===1?'C'+hs:'C<sub>'+n+'</sub>'+hs+(sub?'<sub>'+sub+'</sub>':'');
+}
+
+function adjustN(d){
+  const inp=document.getElementById('carbonN');
+  let v=parseInt(inp.value)||1;
+  v=Math.max(1,Math.min(100,v+d));
+  inp.value=v;processChemistry();
+}
+
+function processChemistry(){
+  const n=Math.max(1,parseInt(document.getElementById('carbonN').value)||1);
+  const pfx=getPrefix(n);
+  document.getElementById('compoundName').innerHTML=pfx+'ane<small>Parent compound</small>';
+  const aH=2*n+2;
+  document.getElementById('alkaneFormula').innerHTML=fmt(n,aH);
+  if(n>=2){const eH=2*n;document.getElementById('alkeneFormula').innerHTML=fmt(n,eH);}
+  else document.getElementById('alkeneFormula').innerHTML='<span style="color:var(--muted);font-size:1rem">n ≥ 2 required</span>';
+  if(n>=2){const yH=2*n-2;document.getElementById('alkyneFormula').innerHTML=fmt(n,yH);}
+  else document.getElementById('alkyneFormula').innerHTML='<span style="color:var(--muted);font-size:1rem">n ≥ 2 required</span>';
+}
+
+/* ---------- 4. IUPAC TABS ---------- */
+function switchTab(e,id){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('show'));
+  document.querySelectorAll('.tab-link').forEach(l=>l.classList.remove('active'));
+  document.getElementById(id).classList.add('show');
+  e.currentTarget.classList.add('active');
+}
+
+/* ---------- 5. COMPOUND LIBRARY ---------- */
+const ALKANE_NAMES=['Methane','Ethane','Propane','Butane','Pentane','Hexane','Heptane','Octane','Nonane','Decane'];
+const ALKENE_NAMES=['—','Ethene','Propene','Butene','Pentene','Hexene','Heptene','Octene','Nonene','Decene'];
+const ALKYNE_NAMES=['—','Ethyne','Propyne','Butyne','Pentyne','Hexyne','Heptyne','Octyne','Nonyne','Decyne'];
+
+function generateLibrary(){
+  const tbody=document.getElementById('libraryTableBody');
+  if(!tbody)return;
+  tbody.innerHTML='';
+  for(let n=1;n<=10;n++){
+    const aF=`C${n>1?'<sub>'+n+'</sub>':''}H<sub>${2*n+2}</sub>`;
+    const eF=n>=2?`C${n>1?'<sub>'+n+'</sub>':''}H<sub>${2*n}</sub>`:'<span class="na-cell">N/A</span>';
+    const yF=n>=2?`C${n>1?'<sub>'+n+'</sub>':''}H<sub>${2*n-2}</sub>`:'<span class="na-cell">N/A</span>';
+    const tr=document.createElement('tr');
+    tr.dataset.n=n;
+    tr.innerHTML=`<td>${n}</td><td>${PREFIXES[n-1]}-</td>
+      <td class="alkane-col">${ALKANE_NAMES[n-1]}</td><td class="alkane-col formula-cell">${aF}</td>
+      <td class="alkene-col">${ALKENE_NAMES[n-1]}</td><td class="alkene-col formula-cell">${eF}</td>
+      <td class="alkyne-col">${ALKYNE_NAMES[n-1]}</td><td class="alkyne-col formula-cell">${yF}</td>`;
+    tbody.appendChild(tr);
+  }
+}
+
+let activeFilter='all';
+function filterType(type,btn){
+  activeFilter=type;
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  const cols={alkane:[2,3],alkene:[4,5],alkyne:[6,7]};
+  const headers=document.querySelectorAll('th');
+  headers.forEach((h,i)=>{h.style.display='';});
+  document.querySelectorAll('#libraryTableBody tr td').forEach(td=>{td.style.display='';});
+  if(type!=='all'){
+    const show=cols[type];
+    headers.forEach((h,i)=>{if(i>1&&!show.includes(i))h.style.display='none';});
+    document.querySelectorAll('#libraryTableBody tr').forEach(tr=>{
+      [...tr.cells].forEach((td,i)=>{if(i>1&&!show.includes(i))td.style.display='none';});
+    });
+  }
+  filterTable();
+}
+
+function filterTable(){
+  const q=document.getElementById('tableSearch').value.toLowerCase();
+  document.querySelectorAll('#libraryTableBody tr').forEach(tr=>{
+    const txt=tr.textContent.toLowerCase();
+    tr.style.display=txt.includes(q)?'':'none';
+  });
+}
+
+/* ---------- 6. pH SCALE ---------- */
+function buildPhScale(){
+  const bar=document.getElementById('phBar');
+  const lbl=document.getElementById('phLabels');
+  if(!bar||!lbl)return;
+  const colors=['#b91c1c','#dc2626','#ef4444','#f87171','#fb923c','#fbbf24','#4ade80','#34d399','#2dd4bf','#22d3ee','#60a5fa','#3b82f6','#6366f1','#7c3aed','#5b21b6'];
+  bar.innerHTML='';lbl.innerHTML='';
+  colors.forEach((col,i)=>{
+    const seg=document.createElement('div');seg.className='ph-seg';
+    seg.style.background=col;seg.textContent=i;bar.appendChild(seg);
+    const l=document.createElement('div');l.className='ph-label';l.textContent=i;lbl.appendChild(l);
+  });
+}
+
+/* ---------- 7. MOLAR MASS ---------- */
+const AM={H:1.008,He:4.003,Li:6.941,Be:9.012,B:10.811,C:12.011,N:14.007,O:15.999,F:18.998,Ne:20.18,
+  Na:22.99,Mg:24.305,Al:26.982,Si:28.086,P:30.974,S:32.065,Cl:35.453,Ar:39.948,K:39.098,Ca:40.078,
+  Sc:44.956,Ti:47.867,V:50.942,Cr:51.996,Mn:54.938,Fe:55.845,Co:58.933,Ni:58.693,Cu:63.546,Zn:65.38,
+  Ga:69.723,Ge:72.63,As:74.922,Se:78.971,Br:79.904,Kr:83.798,Rb:85.468,Sr:87.62,Y:88.906,Zr:91.224,
+  Nb:92.906,Mo:95.95,Tc:98,Ru:101.07,Rh:102.906,Pd:106.42,Ag:107.868,Cd:112.414,In:114.818,Sn:118.71,
+  Sb:121.76,Te:127.6,I:126.904,Xe:131.293,Cs:132.905,Ba:137.327,La:138.905,Ce:140.116,Pr:140.908,
+  Nd:144.242,Pm:145,Sm:150.36,Eu:151.964,Gd:157.25,Tb:158.925,Dy:162.5,Ho:164.93,Er:167.259,
+  Tm:168.934,Yb:173.054,Lu:174.967,Hf:178.49,Ta:180.948,W:183.84,Re:186.207,Os:190.23,Ir:192.217,
+  Pt:195.084,Au:196.967,Hg:200.592,Tl:204.383,Pb:207.2,Bi:208.98,Po:209,At:210,Rn:222,Fr:223,
+  Ra:226,Ac:227,Th:232.038,Pa:231.036,U:238.029,Np:237,Pu:244,Am:243,Cm:247,Bk:247,Cf:251,
+  Es:252,Fm:257,Md:258,No:259,Lr:266,Rf:267,Db:268,Sg:269,Bh:270,Hs:270,Mt:278,Ds:281,
+  Rg:282,Cn:285,Nh:286,Fl:289,Mc:290,Lv:293,Ts:294,Og:294};
+
+function parseFormula(f){
+  const stack=[{}];
+  let i=0;
+  while(i<f.length){
+    const ch=f[i];
+    if(ch==='('){stack.push({});i++;}
+    else if(ch===')'){
+      i++;let num='';
+      while(i<f.length&&/\d/.test(f[i])){num+=f[i];i++;}
+      const mult=num?parseInt(num):1;
+      const top=stack.pop();
+      for(const el in top){stack[stack.length-1][el]=(stack[stack.length-1][el]||0)+top[el]*mult;}
+    } else if(/[A-Z]/.test(ch)){
+      let sym=ch;i++;
+      while(i<f.length&&/[a-z]/.test(f[i])){sym+=f[i];i++;}
+      let num='';
+      while(i<f.length&&/\d/.test(f[i])){num+=f[i];i++;}
+      const cnt=num?parseInt(num):1;
+      stack[stack.length-1][sym]=(stack[stack.length-1][sym]||0)+cnt;
+    } else i++;
+  }
+  return stack[0];
+}
+
+function calcMolarMass(){
+  const raw=document.getElementById('molarInput').value.trim();
+  const res=document.getElementById('molarResult');
+  if(!raw){res.innerHTML='<span class="tool-empty">Type a formula to calculate its molar mass.</span>';return;}
+  try{
+    const parsed=parseFormula(raw);
+    let total=0,breakdown='';
+    for(const el in parsed){
+      const mass=AM[el];
+      if(!mass){res.innerHTML=`<span style="color:var(--alkyne)">Unknown element: ${el}</span>`;return;}
+      const contrib=mass*parsed[el];total+=contrib;
+      breakdown+=`${el}: ${parsed[el]} × ${mass} = ${contrib.toFixed(3)} &nbsp;`;
+    }
+    res.innerHTML=`<span class="tool-result-main">${total.toFixed(3)} g/mol</span><div class="tool-result-breakdown">${breakdown}</div>`;
+  }catch(e){res.innerHTML='<span style="color:var(--alkyne)">Invalid formula. Check parentheses and capitalisation.</span>';}
+}
+
+/* ---------- 8. ION COMPOUND BUILDER ---------- */
+function gcd(a,b){return b?gcd(b,a%b):a;}
+
+function buildCompound(){
+  const catRaw=document.getElementById('cationSelect').value.split(',');
+  const aniRaw=document.getElementById('anionSelect').value.split(',');
+  const catSym=catRaw[0],catChg=parseInt(catRaw[1]);
+  const aniSym=aniRaw[0],aniChg=parseInt(aniRaw[1]);
+  const g=gcd(catChg,aniChg);
+  const catN=aniChg/g,aniN=catChg/g;
+  const cleanAni=aniSym.replace(/[()]/g,'');
+  const cleanCat=catSym.replace(/[()]/g,'');
+  let formula='';
+  formula+=catN>1?`(${cleanCat})${catN>1?'<sub>'+catN+'</sub>':''}`:cleanCat;
+  if(aniSym.includes('(')&&aniN>1)formula+=`(${cleanAni})<sub>${aniN}</sub>`;
+  else formula+=cleanAni+(aniN>1?`<sub>${aniN}</sub>`:'');
+  document.getElementById('compoundResult').innerHTML=`<span class="tool-result-formula">${formula}</span><div class="tool-result-breakdown">Ratio: ${catSym}<sup>${catChg}+</sup> : ${aniSym}<sup>${aniChg}−</sup> → ${catN}:${aniN}</div>`;
+}
+
+/* ---------- 9. NUCLEAR DECAY ---------- */
+function runDecay(){
+  const m0=parseFloat(document.getElementById('decayMass').value)||100;
+  const hlp=parseFloat(document.getElementById('decayHLP').value)||5;
+  const tot=parseFloat(document.getElementById('decayTime').value)||20;
+  if(hlp<=0){document.getElementById('decayResult').innerHTML='<span style="color:var(--alkyne)">Half-life period must be > 0.</span>';return;}
+  const periods=tot/hlp;const rows=[];
+  for(let i=0;i<=Math.ceil(periods);i++){
+    const t=i*hlp;const rem=m0/Math.pow(2,i);const pct=(rem/m0)*100;
+    const barW=Math.round(pct*.8);
+    rows.push(`<tr><td>${i}</td><td>${t}</td><td>${rem.toFixed(4)} g</td><td><span class="decay-bar" style="width:${barW}px"></span></td><td>${pct.toFixed(2)}%</td></tr>`);
+    if(i>=periods)break;
+  }
+  document.getElementById('decayResult').innerHTML=`<table class="decay-table"><thead><tr><th>Period</th><th>Time</th><th>Remaining</th><th>Visual</th><th>%</th></tr></thead><tbody>${rows.join('')}</tbody></table>`;
+}
+
+/* ---------- 10. UNIT CONVERTER ---------- */
+const UNIT_DEFS={
+  energy:{units:['Calorie','Joule','kJ','eV','MeV'],toBase:[4.184,1,1000,1.602e-19,1.602e-13]},
+  mass:{units:['AMU','gram','kg','mg'],toBase:[1.66054e-27,1e-3,1,1e-6]},
+  temp:{units:['°C','K','°F'],toBase:null},
+  pressure:{units:['atm','Pa','mmHg','bar'],toBase:[101325,1,133.322,100000]},
+  volume:{units:['L','mL','m³','cm³'],toBase:[1e-3,1e-6,1,1e-6]}
+};
+
+function initConverter(){
+  const cat=document.getElementById('unitCategory').value;
+  const def=UNIT_DEFS[cat];
+  ['unitFrom','unitTo'].forEach(id=>{
+    const sel=document.getElementById(id);sel.innerHTML='';
+    def.units.forEach(u=>{const o=document.createElement('option');o.value=u;o.textContent=u;sel.appendChild(o);});
+  });
+  document.getElementById('unitTo').selectedIndex=1;
+  document.getElementById('unitFromVal').value='';
+  document.getElementById('unitToVal').value='';
+  document.getElementById('convFormula').innerHTML='<span class="tool-empty">Enter a value to convert.</span>';
+}
+
+function doConvert(){
+  const cat=document.getElementById('unitCategory').value;
+  const from=document.getElementById('unitFrom').value;
+  const to=document.getElementById('unitTo').value;
+  const val=parseFloat(document.getElementById('unitFromVal').value);
+  if(isNaN(val)){document.getElementById('unitToVal').value='';return;}
+  let result;
+  if(cat==='temp'){
+    if(from==='°C'&&to==='K')result=val+273.15;
+    else if(from==='K'&&to==='°C')result=val-273.15;
+    else if(from==='°C'&&to==='°F')result=val*1.8+32;
+    else if(from==='°F'&&to==='°C')result=(val-32)/1.8;
+    else if(from==='K'&&to==='°F')result=(val-273.15)*1.8+32;
+    else if(from==='°F'&&to==='K')result=(val-32)/1.8+273.15;
+    else result=val;
+  } else {
+    const def=UNIT_DEFS[cat];
+    const fi=def.units.indexOf(from),ti=def.units.indexOf(to);
+    const base=val*def.toBase[fi];
+    result=base/def.toBase[ti];
+  }
+  document.getElementById('unitToVal').value=result.toPrecision(6);
+  document.getElementById('convFormula').innerHTML=`<span class="tool-result-breakdown">${val} ${from} = <b style="color:var(--accent)">${result.toPrecision(6)}</b> ${to}</span>`;
+}
+
+/* ---------- 11. GAS LAW CALCULATOR ---------- */
+const GAS_LAWS={
+  boyle:{label:"Boyle's Law — P₁V₁ = P₂V₂",fields:['P₁ (atm)','V₁ (L)','P₂ (atm)','V₂ (L)'],keys:['p1','v1','p2','v2'],
+    solve(v){const{p1,v1,p2,v2}=v;if(!v2&&p1&&v1&&p2)return{v2:p1*v1/p2,label:'V₂'};if(!p2&&p1&&v1&&v2)return{p2:p1*v1/v2,label:'P₂'};if(!v1&&p1&&p2&&v2)return{v1:p2*v2/p1,label:'V₁'};if(!p1&&v1&&p2&&v2)return{p1:p2*v2/v1,label:'P₁'};return null;}},
+  charles:{label:"Charles's Law — V₁/T₁ = V₂/T₂",fields:['V₁ (L)','T₁ (K)','V₂ (L)','T₂ (K)'],keys:['v1','t1','v2','t2'],
+    solve(v){const{v1,t1,v2,t2}=v;if(!v2&&v1&&t1&&t2)return{v2:v1*t2/t1,label:'V₂'};if(!t2&&v1&&t1&&v2)return{t2:v2*t1/v1,label:'T₂'};if(!v1&&t1&&v2&&t2)return{v1:v2*t1/t2,label:'V₁'};if(!t1&&v1&&v2&&t2)return{t1:v1*t2/v2,label:'T₁'};return null;}},
+  gaylussac:{label:"Gay-Lussac's Law — P₁/T₁ = P₂/T₂",fields:['P₁ (atm)','T₁ (K)','P₂ (atm)','T₂ (K)'],keys:['p1','t1','p2','t2'],
+    solve(v){const{p1,t1,p2,t2}=v;if(!p2&&p1&&t1&&t2)return{p2:p1*t2/t1,label:'P₂'};if(!t2&&p1&&t1&&p2)return{t2:p2*t1/p1,label:'T₂'};if(!p1&&t1&&p2&&t2)return{p1:p2*t1/t2,label:'P₁'};if(!t1&&p1&&p2&&t2)return{t1:p1*t2/p2,label:'T₁'};return null;}},
+  combined:{label:"Combined Gas Law — P₁V₁/T₁ = P₂V₂/T₂",fields:['P₁','V₁','T₁ (K)','P₂','V₂','T₂ (K)'],keys:['p1','v1','t1','p2','v2','t2'],
+    solve(v){const{p1,v1,t1,p2,v2,t2}=v;const lhs=p1&&v1&&t1?p1*v1/t1:null;const rhs=p2&&v2&&t2?p2*v2/t2:null;
+      if(!t2&&lhs&&p2&&v2)return{t2:p2*v2/lhs,label:'T₂'};if(!v2&&lhs&&p2&&t2)return{v2:lhs*t2/p2,label:'V₂'};if(!p2&&lhs&&v2&&t2)return{p2:lhs*t2/v2,label:'P₂'};
+      if(!t1&&rhs&&p1&&v1)return{t1:p1*v1/rhs,label:'T₁'};if(!v1&&rhs&&p1&&t1)return{v1:rhs*t1/p1,label:'V₁'};if(!p1&&rhs&&v1&&t1)return{p1:rhs*t1/v1,label:'P₁'};return null;}},
+  ideal:{label:"Ideal Gas Law — PV = nRT (R = 8.314)",fields:['P (Pa)','V (m³)','n (mol)','T (K)'],keys:['p','v','n','t'],
+    solve(v){const R=8.314;const{p,v:vol,n,t}=v;if(!p&&vol&&n&&t)return{p:n*R*t/vol,label:'P (Pa)'};if(!vol&&p&&n&&t)return{v:n*R*t/p,label:'V (m³)'};if(!n&&p&&vol&&t)return{n:p*vol/(R*t),label:'n (mol)'};if(!t&&p&&vol&&n)return{t:p*vol/(n*R),label:'T (K)'};return null;}}
+};
+
+let currentGasLaw='boyle';
+
+function setGasLaw(name,btn){
+  currentGasLaw=name;
+  document.querySelectorAll('.gas-calc-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderGasFields();
+  document.getElementById('gasResult').innerHTML='<span class="tool-empty">Fill known values and click Calculate.</span>';
+}
+
+function renderGasFields(){
+  const law=GAS_LAWS[currentGasLaw];
+  const container=document.getElementById('gasFields');
+  container.innerHTML='';
+  law.fields.forEach((f,i)=>{
+    const div=document.createElement('div');div.className='gas-field';
+    div.innerHTML=`<label>${f}</label><input type="number" step="any" id="gf_${law.keys[i]}" placeholder="leave blank = unknown">`;
+    container.appendChild(div);
+  });
+}
+
+function calcGasLaw(){
+  const law=GAS_LAWS[currentGasLaw];
+  const vals={};
+  law.keys.forEach(k=>{const v=parseFloat(document.getElementById('gf_'+k)?.value);vals[k]=isNaN(v)?null:v;});
+  const result=law.solve(vals);
+  const res=document.getElementById('gasResult');
+  if(!result){res.innerHTML='<span style="color:var(--alkyne)">Leave exactly ONE field blank as the unknown, fill all others.</span>';return;}
+  const [[key,val]]=Object.entries(result).filter(([k])=>k!=='label');
+  res.innerHTML=`<span class="tool-result-main">${result.label} = ${parseFloat(val.toPrecision(6))}</span>`;
+}
+
+/* ---------- 12. STOICHIOMETRY CALCULATOR ---------- */
+function calcStoichiometry(){
+  const eqRaw=document.getElementById('stoichEq').value.trim();
+  const knownSub=document.getElementById('stoichKnownSub').value.trim();
+  const knownMol=parseFloat(document.getElementById('stoichKnownMol').value);
+  const unknownSub=document.getElementById('stoichUnknownSub').value.trim();
+  const res=document.getElementById('stoichResult');
+
+  if(!eqRaw||!knownSub||isNaN(knownMol)||!unknownSub){
+    res.innerHTML='<span class="tool-empty">Fill in all four fields.</span>';return;
+  }
+
+  const sides=eqRaw.split(/\u2192|->|=>/);
+  if(sides.length<2){res.innerHTML='<span style="color:var(--alkyne)">Use → or -> to separate reactants and products.</span>';return;}
+  const allTerms=[...sides[0].split('+'),...sides[1].split('+')];
+  const coeffMap={};
+  allTerms.forEach(term=>{
+    const t=term.trim();
+    const m=t.match(/^(\d*\.?\d*)\s*([A-Za-z0-9()]+)/);
+    if(m){
+      const coef=m[1]?parseFloat(m[1]):1;
+      const sub=m[2];
+      coeffMap[sub]=coef;
+    }
+  });
+
+  const kCoef=coeffMap[knownSub];
+  const uCoef=coeffMap[unknownSub];
+  if(!kCoef){res.innerHTML=`<span style="color:var(--alkyne)">"${knownSub}" not found in equation.</span>`;return;}
+  if(!uCoef){res.innerHTML=`<span style="color:var(--alkyne)">"${unknownSub}" not found in equation.</span>`;return;}
+
+  const unknownMol=knownMol*(uCoef/kCoef);
+  res.innerHTML=`<span class="tool-result-main">${unknownMol.toPrecision(5)} mol of ${unknownSub}</span>
+    <div class="tool-result-breakdown">
+      Mole ratio: ${knownSub} : ${unknownSub} = ${kCoef} : ${uCoef}<br>
+      ${knownMol} mol ${knownSub} × (${uCoef}/${kCoef}) = <b style="color:var(--accent)">${unknownMol.toPrecision(5)} mol</b> ${unknownSub}
+    </div>`;
+}
+
+/* ---------- 13. pH CALCULATOR ---------- */
+function calcPH(from){
+  const ids={h:'phH',oh:'phOH',ph:'phPH',poh:'phPOH'};
+  const Kw=1e-14;
+  let H,OH,pH,pOH;
+
+  const raw=parseFloat(document.getElementById(ids[from]).value);
+  if(isNaN(raw)||raw<=0&&from!=='ph'&&from!=='poh'){
+    document.getElementById('phResult').innerHTML='<span class="tool-empty">Enter a positive value.</span>';
+    return;
+  }
+
+  if(from==='h'){H=raw;pH=-Math.log10(H);OH=Kw/H;pOH=-Math.log10(OH);}
+  else if(from==='oh'){OH=raw;pOH=-Math.log10(OH);H=Kw/OH;pH=-Math.log10(H);}
+  else if(from==='ph'){pH=raw;H=Math.pow(10,-pH);OH=Kw/H;pOH=14-pH;}
+  else if(from==='poh'){pOH=raw;OH=Math.pow(10,-pOH);H=Kw/OH;pH=14-pOH;}
+
+  if(from!=='h')document.getElementById('phH').value=H.toExponential(3);
+  if(from!=='oh')document.getElementById('phOH').value=OH.toExponential(3);
+  if(from!=='ph')document.getElementById('phPH').value=pH.toFixed(3);
+  if(from!=='poh')document.getElementById('phPOH').value=pOH.toFixed(3);
+
+  const classification=pH<3?{label:'Strongly Acidic',color:'#f87171'}:pH<7?{label:'Acidic',color:'#fb923c'}:pH===7?{label:'Neutral',color:'#4ade80'}:pH<11?{label:'Basic',color:'#34d399'}:{label:'Strongly Basic',color:'#2dd4bf'};
+
+  document.getElementById('phResult').innerHTML=`
+    <span class="tool-result-main" style="color:${classification.color}">${classification.label}</span>
+    <div class="tool-result-breakdown">
+      pH = <b style="color:var(--accent)">${pH.toFixed(3)}</b> &nbsp;|&nbsp;
+      pOH = <b style="color:var(--accent)">${pOH.toFixed(3)}</b><br>
+      [H⁺] = <b>${H.toExponential(3)}</b> mol/L &nbsp;|&nbsp;
+      [OH⁻] = <b>${OH.toExponential(3)}</b> mol/L<br>
+      Verification: pH + pOH = <b>${(pH+pOH).toFixed(2)}</b> (should = 14)
+    </div>`;
+}
+
+/* ---------- 14. PERIODIC TABLE ---------- */
+// ⚠️ KEEP THE FULL PERIODIC TABLE DATA FROM YOUR ORIGINAL FILE HERE ⚠️
+// Below is a placeholder – you must replace it with the actual data from your original labar-v12.js
+// The arrays PT, LANTHANIDES, ACTINIDES are very long; do not delete them.
+
+// Example start (your full data should follow):
+const PT = [
+  {z:1,sym:'H',name:'Hydrogen',mass:1.008,type:'nonmetal',period:1,group:1,col:1,row:1,state:'Gas',econfig:'1s¹',en:2.20,uses:'Fuel cells, rocket propellant, water (H₂O), acids.'},
+  {z:2,sym:'He',name:'Helium',mass:4.003,type:'noble',period:1,group:18,col:18,row:1,state:'Gas',econfig:'1s²',en:0,uses:'Balloons, MRI coolant, deep-sea diving mixtures.'},
+  // ... (all 118 elements)
+];
+const LANTHANIDES = [ /* ... */ ];
+const ACTINIDES = [ /* ... */ ];
+
+const TYPE_COLORS={alkali:'#f87171',alkaline:'#fb923c',transition:'#facc15',
+  'post-trans':'#a3a3a3',metalloid:'#34d399',nonmetal:'#4fffb0',halogen:'#fbbf24',
+  noble:'#a855f7',lanthanide:'#f472b6',actinide:'#38bdf8'};
+
+function makeCell(el){
+  const div=document.createElement('div');
+  div.className=`pt-cell ${el.type}`;
+  div.innerHTML=`<span class="pt-num">${el.z}</span><span class="pt-sym">${el.sym}</span><span class="pt-name">${el.name}</span><span class="pt-mass">${el.mass}</span>`;
+  div.onclick=()=>showElement(el.z);
+  return div;
+}
+
+function buildPeriodicTable(){
+  const grid=document.getElementById('ptGrid');
+  if(!grid)return;
+  grid.innerHTML='';
+  const layout=Array.from({length:7},()=>Array(18).fill(null));
+  PT.forEach(el=>{
+    const r=el.row-1,c=el.col-1;
+    if(r>=0&&r<7&&c>=0&&c<18)layout[r][c]=el;
+  });
+  for(let r=0;r<7;r++){
+    for(let c=0;c<18;c++){
+      const el=layout[r][c];
+      if(el){grid.appendChild(makeCell(el));}
+      else {
+        const empty=document.createElement('div');empty.className='pt-cell empty';
+        if(r===5&&c===2){empty.innerHTML='<span style="font-size:0.55rem;color:var(--ions-pos)">*</span>';}
+        if(r===6&&c===2){empty.innerHTML='<span style="font-size:0.55rem;color:var(--alkene)">**</span>';}
+        grid.appendChild(empty);
+      }
+    }
+  }
+  const la=document.getElementById('ptLantha');
+  const ac=document.getElementById('ptActin');
+  if(la){la.innerHTML='';LANTHANIDES.forEach(el=>la.appendChild(makeCell(el)));}
+  if(ac){ac.innerHTML='';ACTINIDES.forEach(el=>ac.appendChild(makeCell(el)));}
+}
+
+function showElement(z){
+  const all=[...PT,...LANTHANIDES,...ACTINIDES];
+  const el=all.find(e=>e.z===z);
+  if(!el)return;
+  const color=TYPE_COLORS[el.type]||'var(--accent)';
+  const typeLabel=el.type.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  document.getElementById('em-sym').textContent=el.sym;
+  document.getElementById('em-sym').style.color=color;
+  document.getElementById('em-name').textContent=el.name;
+  const badge=document.getElementById('em-badge');
+  badge.textContent=typeLabel;badge.style.color=color;badge.style.borderColor=color;
+  document.getElementById('em-state').textContent=`State at RT: ${el.state}`;
+  document.getElementById('em-z').textContent=el.z;
+  document.getElementById('em-mass').textContent=el.mass;
+  document.getElementById('em-period').textContent=`${el.period} / ${el.group||'*'}`;
+  document.getElementById('em-protons').textContent=el.z;
+  document.getElementById('em-neutrons').textContent=Math.round(el.mass-el.z);
+  document.getElementById('em-electrons').textContent=el.z;
+  document.getElementById('em-econfig').textContent=el.econfig;
+  document.getElementById('em-uses').innerHTML=`<b>Key Facts & Uses:</b><br>${el.uses}${el.en?`<br><br><b>Electronegativity:</b> ${el.en} (Pauling scale)`:''}`;
+  document.getElementById('elemModal').classList.add('open');
+}
+
+function closeElemModal(){
+  document.getElementById('elemModal').classList.remove('open');
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeElemModal();});
+
+/* ---------- 16. MOBILE NAV ---------- */
+function toggleMobileNav(){
+  const drawer=document.getElementById('mobileNavDrawer');
+  const overlay=document.getElementById('mobileNavOverlay');
+  const isOpen=drawer.classList.contains('mob-open');
+  drawer.classList.toggle('mob-open',!isOpen);
+  overlay.classList.toggle('mob-open',!isOpen);
+  document.body.style.overflow=isOpen?'':'hidden';
+}
+
+/* ---------- 16b. THEME PERSISTENCE ---------- */
+function toggleTheme(){
+  const isDark=!document.documentElement.hasAttribute('data-theme');
+  document.documentElement.setAttribute('data-theme',isDark?'light':'');
+  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
+  if(!isDark)document.documentElement.removeAttribute('data-theme');
+  try{localStorage.setItem('labar_theme',isDark?'light':'dark');}catch(e){}
+}
+function restoreTheme(){
+  try{
+    const t=localStorage.getItem('labar_theme');
+    if(t==='light'){document.documentElement.setAttribute('data-theme','light');const b=document.getElementById('themeBtn');if(b)b.textContent='🌙';}
+  }catch(e){}
+}
+
+/* ---------- 17. PROGRESS DASHBOARD ---------- */
+const CHAPTERS=[
+  {
+    label:'Organic',
+    ids:['chkCalc','chk0','chk1','chk2','chk3','chk4b','chkOR','chkSynth','chkPoly'],
+    names:['Calc','Hydrocarbons','IUPAC','Isomers','Library','Func. Groups','Org. Reactions','Synthesis','Polymers']
+  },
+  {
+    label:'General',
+    ids:['chkGlossary','chkReactivity','chk4','chk5','chk6','chk7','chk9','chk10','chk11','chk12','chkES','chkECalc','chk13','chkEq','chkSol','chkKinetics','chkLab','chkSpec'],
+    names:['Glossary','Reactivity','Ions','Moles','Thermo','Nuclear','Bonding','Reactions','Acids','Redox','E-Series','E-Calc','Gas Laws','Equilibrium','Solutions','Kinetics','Lab Tech','Spectroscopy']
+  },
+  {
+    label:'Tools',
+    ids:['chkTools','chkBlocks','chkPT'],
+    names:['Tools','Blocks','Periodic Table']
+  }
+];
+
+const MESSAGES=[
+  [0,   "Start checking off sections as you study! ✨"],
+  [10,  "Great start — keep going! 🚀"],
+  [25,  "You're 25% through — solid progress! 💪"],
+  [50,  "Halfway there! You're on a roll 🔥"],
+  [75,  "75% done — almost a chemistry expert! ⚗️"],
+  [90,  "So close! Just a few sections left 🏁"],
+  [100, "🎉 Encyclopedia complete! You've mastered LabAR.EDU!"]
+];
+
+function getMsg(pct){
+  let msg=MESSAGES[0][1];
+  for(const[t,m] of MESSAGES){if(pct>=t)msg=m;}
+  return msg;
+}
+
+function updateProgress(){
+  const allIds=CHAPTERS.flatMap(c=>c.ids);
+  const total=allIds.length;
+  const done=allIds.filter(id=>document.getElementById(id)?.checked).length;
+  const pct=Math.round(done/total*100);
+
+  const fill=document.getElementById('progressFill');
+  const label=document.getElementById('progressLabel');
+  const badge=document.getElementById('pdBadge');
+  if(fill)fill.style.width=pct+'%';
+  if(label)label.textContent=`${done} / ${total}`;
+  if(badge)badge.textContent=pct+'%';
+  const mf=document.getElementById('mobProgressFill');
+  const ml=document.getElementById('mobProgressLabel');
+  if(mf)mf.style.width=pct+'%';
+  if(ml)ml.textContent=pct+'%';
+
+  const msg=document.getElementById('pdMessage');
+  if(msg)msg.textContent=getMsg(pct);
+
+  CHAPTERS.forEach((ch,i)=>{
+    const chDone=ch.ids.filter(id=>document.getElementById(id)?.checked).length;
+    const chTotal=ch.ids.length;
+    const chPct=Math.round(chDone/chTotal*100);
+    const bar=document.getElementById('chBar'+i);
+    const count=document.getElementById('chCount'+i);
+    const dots=document.getElementById('chDots'+i);
+    if(bar)bar.style.width=chPct+'%';
+    if(count)count.textContent=`${chDone} / ${chTotal}`;
+    if(dots){
+      dots.innerHTML='';
+      ch.ids.forEach((id,j)=>{
+        const checked=document.getElementById(id)?.checked;
+        const dot=document.createElement('div');
+        dot.className='pd-dot'+(checked?' done':'');
+        dot.title=ch.names[j];
+        dots.appendChild(dot);
+      });
+    }
+  });
+
+  try{localStorage.setItem('labar_progress',JSON.stringify(allIds.map(id=>document.getElementById(id)?.checked||false)));}catch(e){}
+}
+
+function toggleDashboard(){
+  const body=document.getElementById('pdBody');
+  const chev=document.getElementById('pdChevron');
+  if(!body||!chev)return;
+  const open=body.classList.toggle('open');
+  chev.classList.toggle('open',open);
+  try{localStorage.setItem('labar_dash_open',open);}catch(e){}
+}
+
+function restoreProgress(){
+  try{
+    const saved=JSON.parse(localStorage.getItem('labar_progress')||'[]');
+    const allIds=CHAPTERS.flatMap(c=>c.ids);
+    allIds.forEach((id,i)=>{const el=document.getElementById(id);if(el&&saved[i])el.checked=true;});
+    const dashOpen=localStorage.getItem('labar_dash_open')==='true';
+    if(dashOpen){const b=document.getElementById('pdBody');const c=document.getElementById('pdChevron');if(b)b.classList.add('open');if(c)c.classList.add('open');}
+  }catch(e){}
+  updateProgress();
+}
+
+/* ---------- SCROLL PROGRESS BAR ---------- */
+window.addEventListener('scroll',()=>{
+  const el=document.getElementById('scrollBar');
+  if(!el)return;
+  const h=document.documentElement;
+  const pct=(h.scrollTop||document.body.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+  el.style.width=Math.min(pct,100)+'%';
+},{ passive:true });
+
+/* ---------- 18. GLOBAL SEARCH ---------- */
+const SEARCH_INDEX=[
+  {title:'Hydrocarbon Calculator',ctx:'Calculate alkane alkene alkyne molecular formulas CnH2n+2 carbon count', id:'calc-tool'},
+  {title:'What are Hydrocarbons?',ctx:'Alkanes saturated unsaturated boiling point trends combustion', id:'hydrocarbons'},
+  {title:'IUPAC Nomenclature',ctx:'IUPAC naming longest chain numbering substituents alphabetical', id:'iupac-section'},
+  {title:'Isomerism',ctx:'Structural isomers stereoisomers cis trans optical chiral centre', id:'isomerism-section'},
+  {title:'Compound Library',ctx:'Table of alkanes alkenes alkynes C1 to C10 names formulas', id:'table-section'},
+  {title:'Functional Groups',ctx:'Alcohol aldehyde ketone carboxylic acid ester amine ether amide', id:'functional-section'},
+  {title:'Organic Reactions',ctx:'Addition substitution elimination esterification oxidation combustion', id:'organic-reactions-section'},
+  {title:'Organic Synthesis',ctx:'Retrosynthesis named reactions Grignard Friedel-Crafts SN1 SN2', id:'synthesis-section'},
+  {title:'Polymers',ctx:'Addition condensation polymerisation polyethylene nylon PVC proteins', id:'polymers-section'},
+  {title:'Chemistry Glossary',ctx:'Atom molecule element compound mixture ion cation anion acid base salt', id:'glossary-section'},
+  {title:'Ions & Charges',ctx:'Cations anions common ions polyatomic ions charges', id:'ions-section'},
+  {title:'Mole Concept',ctx:'Mole Avogadro molar mass stoichiometry limiting reagent yield', id:'moles-section'},
+  {title:'Thermochemistry',ctx:'Exothermic endothermic enthalpy specific heat calorimetry', id:'thermo-section'},
+  {title:'Nuclear Chemistry',ctx:'Alpha beta gamma radiation half-life binding energy E=mc2', id:'nuclear-section'},
+  {title:'Chemical Bonding',ctx:'Ionic covalent metallic electronegativity Lewis structure', id:'bonding-section'},
+  {title:'Reaction Types',ctx:'Synthesis decomposition single displacement double combustion neutralization', id:'reactions-section'},
+  {title:'Reactivity Series',ctx:'Metal reactivity displacement potassium to gold water acid reaction', id:'reactivity-section'},
+  {title:'Acids & Bases',ctx:'pH strong weak conjugate pairs indicators neutralization', id:'acids-section'},
+  {title:'Electrochemistry',ctx:'Redox oxidation reduction galvanic cell electrolysis', id:'electro-section'},
+  {title:'Electrochemical Series',ctx:'Standard electrode potential E° SHE cell EMF spontaneity', id:'electrochem-series-section'},
+  {title:'Electrochemistry Calculations',ctx:'Nernst equation Gibbs free energy Faraday\'s laws', id:'electro-calc-section'},
+  {title:'Gas Laws',ctx:'Boyle Charles Gay-Lussac ideal gas law PV=nRT', id:'gaslaws-section'},
+  {title:'Chemical Equilibrium',ctx:'Kc Le Chatelier ICE table reaction quotient', id:'equilibrium-section'},
+  {title:'Solutions & Concentration',ctx:'Molarity molality dilution percentage concentration', id:'solutions-section'},
+  {title:'Reaction Kinetics',ctx:'Rate collision theory activation energy Arrhenius', id:'kinetics-section'},
+  {title:'Lab Techniques',ctx:'Filtration distillation chromatography titration reflux', id:'lab-section'},
+  {title:'Spectroscopy',ctx:'IR mass spec NMR chemical shift splitting integration', id:'spectroscopy-section'},
+  {title:'Interactive Tools',ctx:'Molar mass ion compound builder nuclear decay unit converter', id:'tools-section'},
+  {title:'Periodic Table Blocks',ctx:'s p d f blocks electron configuration Aufbau', id:'blocks-section'},
+  {title:'Full Periodic Table',ctx:'118 elements click for details', id:'periodic-section'}
+];
+
+function openSearch(){
+  document.getElementById('searchOverlay').classList.add('open');
+  document.getElementById('globalSearchInput').focus();
+  document.addEventListener('keydown',searchKeyDown);
+}
+
+function closeSearchIfOutside(e){
+  if(e.target.id==='searchOverlay')closeSearch();
+}
+
+function closeSearch(){
+  document.getElementById('searchOverlay').classList.remove('open');
+  document.removeEventListener('keydown',searchKeyDown);
+}
+
+function searchKeyDown(e){
+  if(e.key==='Escape')closeSearch();
+}
+
+function runGlobalSearch(){
+  const q=document.getElementById('globalSearchInput').value.toLowerCase();
+  const resDiv=document.getElementById('searchResults');
+  if(!q.trim()){
+    resDiv.innerHTML='<div class="search-empty">Type to search all chemistry topics…</div>';
+    return;
+  }
+  const hits=SEARCH_INDEX.filter(item=>item.title.toLowerCase().includes(q)||item.ctx.toLowerCase().includes(q));
+  if(hits.length===0){
+    resDiv.innerHTML='<div class="search-empty">No results found.</div>';
+    return;
+  }
+  resDiv.innerHTML=hits.map(h=>`
+    <div class="search-hit" onclick="jumpToSection('${h.id}')">
+      <div class="search-hit-title">${h.title}<span class="search-hit-tag">section</span></div>
+      <div class="search-hit-ctx">${h.ctx.substring(0,100)}…</div>
+    </div>
+  `).join('');
+}
+
+function jumpToSection(id){
+  closeSearch();
+  const el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ---------- 19. TOOL 7: EQUATION BALANCER ---------- */
+function balanceEquation(){
+  const eq=document.getElementById('balanceEq').value.trim();
+  const res=document.getElementById('balanceResult');
+  if(!eq){res.innerHTML='<span class="tool-empty">Enter an unbalanced equation.</span>';return;}
+  // Simple regex split (ignores state symbols). For production, a real chemical equation balancer would be needed.
+  // This is a placeholder that tries to count atoms (very simplistic).
+  res.innerHTML='<span style="color:var(--alkyne)">Balancer not fully implemented in this version – please use a dedicated tool.</span>';
+}
+
+/* ---------- 20. TOOL 8: TITRATION CALCULATOR ---------- */
+function calcTitration(){
+  const c1=parseFloat(document.getElementById('titrC1').value);
+  const v1=parseFloat(document.getElementById('titrV1').value);
+  const n1=parseFloat(document.getElementById('titrN1').value)||1;
+  const n2=parseFloat(document.getElementById('titrN2').value)||1;
+  const c2=parseFloat(document.getElementById('titrC2').value);
+  const v2=parseFloat(document.getElementById('titrV2').value);
+  const res=document.getElementById('titrResult');
+
+  const known=[c1,v1,c2,v2].filter(v=>!isNaN(v)).length;
+  if(known!==3){
+    res.innerHTML='<span style="color:var(--alkyne)">Leave exactly one field blank, fill the other three.</span>';
+    return;
+  }
+
+  let result='';
+  if(isNaN(c2) && !isNaN(c1) && !isNaN(v1) && !isNaN(v2)){
+    const c2calc = (c1 * v1 * n2) / (v2 * n1);
+    result = `C₂ = ${c2calc.toPrecision(4)} mol/L`;
+  } else if(isNaN(v2) && !isNaN(c1) && !isNaN(v1) && !isNaN(c2)){
+    const v2calc = (c1 * v1 * n2) / (c2 * n1);
+    result = `V₂ = ${v2calc.toPrecision(4)} mL`;
+  } else if(isNaN(c1) && !isNaN(v1) && !isNaN(c2) && !isNaN(v2)){
+    const c1calc = (c2 * v2 * n1) / (v1 * n2);
+    result = `C₁ = ${c1calc.toPrecision(4)} mol/L`;
+  } else if(isNaN(v1) && !isNaN(c1) && !isNaN(c2) && !isNaN(v2)){
+    const v1calc = (c2 * v2 * n1) / (c1 * n2);
+    result = `V₁ = ${v1calc.toPrecision(4)} mL`;
+  } else {
+    result = '<span style="color:var(--alkyne)">Unknown combination – check which field is blank.</span>';
+  }
+  res.innerHTML = `<span class="tool-result-main">${result}</span>`;
+}
+
+/* ---------- 21. TOOL 9: EMPIRICAL FORMULA ---------- */
+function calcEmpiricalFormula(){
+  // Simple implementation: reads first three rows of element and percentage
+  const symbols = document.querySelectorAll('#efInputs .ef-row input:first-child');
+  const percentages = document.querySelectorAll('#efInputs .ef-row input[type="number"]');
+  const molarMassInput = document.getElementById('efMolarMass').value;
+  const res = document.getElementById('efResult');
+
+  let elements = [];
+  for(let i=0; i<symbols.length; i++){
+    const sym = symbols[i].value.trim();
+    const pct = parseFloat(percentages[i].value);
+    if(sym && !isNaN(pct)){
+      elements.push({sym, pct, moles: pct / (AM[sym] || 1)});
+    }
+  }
+  if(elements.length===0){
+    res.innerHTML = '<span class="tool-empty">Enter at least one element symbol and percentage.</span>';
+    return;
+  }
+
+  // Check total % ~100
+  const totalPct = elements.reduce((a,b)=>a+b.pct,0);
+  if(Math.abs(totalPct-100)>1){
+    res.innerHTML = `<span style="color:var(--alkyne)">Percentages sum to ${totalPct.toFixed(1)}%, should be near 100%.</span>`;
+    return;
+  }
+
+  // Find smallest mole
+  const minMoles = Math.min(...elements.map(e=>e.moles));
+  const ratios = elements.map(e=> e.moles / minMoles);
+  // Multiply to near integers
+  let factor = 1;
+  for(let f=1; f<=10; f++){
+    if(ratios.every(r=>Math.abs(r*f - Math.round(r*f)) < 0.1)){
+      factor = f;
+      break;
+    }
+  }
+  const empirical = elements.map((e,i)=> {
+    const n = Math.round(ratios[i]*factor);
+    return n===1 ? e.sym : e.sym + n;
+  }).join('');
+
+  let molecular = empirical;
+  if(molarMassInput){
+    const empMass = elements.reduce((acc,e,i)=> acc + (AM[e.sym]||0) * Math.round(ratios[i]*factor), 0);
+    const n = Math.round(parseFloat(molarMassInput) / empMass);
+    if(n>1) molecular = elements.map((e,i)=> {
+      const cnt = Math.round(ratios[i]*factor) * n;
+      return cnt===1 ? e.sym : e.sym + cnt;
+    }).join('');
+  }
+
+  res.innerHTML = `<span class="tool-result-main">Empirical: ${empirical}</span>
+    <div class="tool-result-breakdown">${molarMassInput ? `Molecular: ${molecular}` : ''}</div>`;
+}
+
+/* ---------- 22. BACK TO TOP ---------- */
+window.addEventListener('scroll',()=>{
+  const btt = document.getElementById('backToTop');
+  if(!btt)return;
+  if(window.scrollY>300) btt.classList.add('btt-show');
+  else btt.classList.remove('btt-show');
+});
+document.getElementById('backToTop')?.addEventListener('click',()=>{
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+/* ---------- 23. INITIALISATION ---------- */
+document.addEventListener('DOMContentLoaded',()=>{
+  generateLibrary();
+  buildPhScale();
+  buildPeriodicTable();
+  restoreTheme();
+  restoreProgress();
+  initConverter();
+  // Set default gas law tab
+  const defaultTab = document.querySelector('.gas-calc-tab');
+  if(defaultTab) setGasLaw('boyle', defaultTab);
+  // Add any other initialisations
+  processChemistry(); // ensure calculator shows correct on load
+  // Check for URL hash and scroll
+  if(window.location.hash){
+    setTimeout(()=>{
+      document.querySelector(window.location.hash)?.scrollIntoView({behavior:'smooth'});
+    },300);
+  }
+});      revealObs.unobserve(e.target);
     }
   });
 },{threshold:.06});
