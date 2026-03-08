@@ -75,7 +75,9 @@ header p{font-size:clamp(0.95rem,2vw,1.2rem);color:var(--muted);max-width:680px;
 .info-box p,.info-box ul{color:var(--muted);font-size:0.88rem;}
 .info-box ul{padding-left:16px;}.info-box li{margin-bottom:5px;}
 #calc-tool{margin-top:-100px;position:relative;z-index:100;margin-bottom:72px;}
-.calc-box{background:var(--surface);border:1px solid rgba(79,255,176,0.25);border-radius:28px;padding:36px 44px;display:flex;align-items:center;gap:36px;box-shadow:var(--glow-green),0 40px 80px rgba(0,0,0,0.5);flex-wrap:wrap;}
+.calc-box{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:22px 28px;display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin-bottom:4px;}
+.calc-divider{width:1px;height:52px;background:var(--border);flex-shrink:0;}
+@media(max-width:600px){.calc-divider{display:none;}}
 .calc-left{flex:0 0 auto;}
 .calc-left label{display:block;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--accent);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:12px;}
 .input-row{display:flex;align-items:center;gap:14px;}
@@ -86,7 +88,7 @@ input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-ou
 .calc-name{font-family:'DM Serif Display',serif;font-size:1.7rem;color:var(--text);padding:10px 0;border-left:3px solid var(--accent);padding-left:18px;min-width:160px;}
 .calc-name small{display:block;font-family:'Outfit',sans-serif;font-size:0.72rem;color:var(--muted);font-weight:400;margin-top:2px;text-transform:uppercase;letter-spacing:0.1em;}
 .result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px;}
-.res-card{border-radius:22px;padding:28px;border:1px solid transparent;cursor:pointer;position:relative;overflow:hidden;transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition);}
+.res-card{border-radius:22px;padding:28px;border:1px solid transparent;cursor:pointer;position:relative;overflow:hidden;transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition);min-width:0;}
 .res-card::before{content:'';position:absolute;inset:0;opacity:0.07;transition:opacity var(--transition);}
 .res-card:hover{transform:translateY(-7px);}
 .res-card:hover::before{opacity:0.13;}
@@ -508,9 +510,126 @@ footer p{color:var(--muted);font-size:0.85rem;margin-bottom:6px;}
 [data-tip]{position:relative;cursor:help;}
 [data-tip]::after{content:attr(data-tip);position:absolute;bottom:130%;left:50%;transform:translateX(-50%);background:var(--surface2);color:var(--text);border:1px solid var(--border);font-size:0.75rem;padding:6px 12px;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.2s ease;}
 [data-tip]:hover::after{opacity:1;}
-@media print{#bgCanvas,nav,.nav-actions,#searchOverlay,.progress-bar-wrap,.elem-modal-overlay{display:none!important;}.card{opacity:1!important;transform:none!important;page-break-inside:avoid;box-shadow:none!important;}body{background:#fff!important;color:#000!important;}}
-@media(max-width:1000px){.result-grid,.bond-compare,.gas-laws-grid,.kc-split{grid-template-columns:1fr;}.tab-wrapper,.ions-split,.systems-grid,.pct-grid,.halflife-steps,.isomer-grid,.conv-grid,.unit-conv-grid,.rxn-grid,.acid-base-grid,.redox-split,.tools-grid,.gas-fields{grid-template-columns:1fr;}}
-@media(max-width:768px){nav .nav-links{display:none;}.nav-hamburger{display:flex!important;}nav{padding:0 5%;}.nav-logo{font-size:1rem;}header{padding:80px 5% 60px;}header h1{font-size:clamp(2rem,9vw,3.5rem);}.wrapper{padding:0 5% 60px;}.card{padding:22px 18px;border-radius:16px;}.chapter-divider{padding:20px;gap:12px;}.chapter-count{display:none;}.fg-grid,.bond-compare,.gas-laws-grid,.rxn-grid,.acid-base-grid,.redox-split,.tools-grid,.gas-fields{grid-template-columns:1fr;}.elem-modal-stats{grid-template-columns:1fr 1fr;}.tab-wrapper{grid-template-columns:1fr;}.tab-sidebar{flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:6px;}.tab-link{white-space:nowrap;padding:8px 14px;border-radius:8px;}.tab-step{display:none;}.result-grid{grid-template-columns:1fr;}}
+/* ========== RESPONSIVE SYSTEM ========== */
+
+/* --- Print --- */
+@media print{
+  #bgCanvas,nav,.nav-actions,#searchOverlay,.progress-bar-wrap,.elem-modal-overlay{display:none!important;}
+  .card{opacity:1!important;transform:none!important;page-break-inside:avoid;box-shadow:none!important;}
+  body{background:#fff!important;color:#000!important;}
+}
+
+/* --- Tablet landscape / small desktop (≤1100px) --- */
+@media(max-width:1100px){
+  .ecs-layout{grid-template-columns:1fr;}
+}
+
+/* --- Tablet (≤900px) --- */
+@media(max-width:900px){
+  .tab-wrapper{grid-template-columns:1fr;}
+  .tab-sidebar{flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:8px;scrollbar-width:none;}
+  .tab-sidebar::-webkit-scrollbar{display:none;}
+  .tab-link{white-space:nowrap;padding:9px 14px;border-radius:9px;font-size:0.8rem;}
+  .tab-step{display:none;}
+  .bond-compare{grid-template-columns:1fr 1fr;}
+  .gas-laws-grid{grid-template-columns:1fr 1fr;}
+  .kc-split{grid-template-columns:1fr 1fr 1fr;}
+  .ions-split{grid-template-columns:1fr;}
+  .rxn-grid{grid-template-columns:1fr 1fr;}
+  .acid-base-grid{grid-template-columns:1fr 1fr;}
+  .redox-split{grid-template-columns:1fr 1fr;}
+  .systems-grid{grid-template-columns:1fr 1fr 1fr;}
+  .pct-grid{grid-template-columns:1fr 1fr;}
+  .halflife-steps{grid-template-columns:1fr 1fr;}
+  .isomer-grid{grid-template-columns:1fr 1fr;}
+  .conv-grid{grid-template-columns:1fr;}
+  .unit-conv-grid{grid-template-columns:1fr 1fr;}
+  .tools-grid{grid-template-columns:1fr 1fr;}
+  .gas-fields{grid-template-columns:1fr 1fr;}
+  .energy-profile-grid{grid-template-columns:1fr 1fr;}
+  .polymer-split{grid-template-columns:1fr 1fr;}
+}
+
+/* --- Mobile (≤768px) --- */
+@media(max-width:768px){
+  /* Nav */
+  nav .nav-links{display:none;}
+  .nav-hamburger{display:flex!important;}
+  nav{padding:0 5%;}
+  .nav-logo{font-size:1rem;}
+
+  /* Header */
+  header{padding:70px 5% 50px;}
+  header h1{font-size:clamp(1.8rem,8vw,3rem);}
+
+  /* Layout */
+  .wrapper{padding:0 4% 60px;}
+  .card{padding:20px 14px;border-radius:16px;}
+  .chapter-divider{padding:16px;gap:10px;}
+  .chapter-count{display:none;}
+
+  /* Hydrocarbon Calculator — stays horizontal, shrinks gracefully */
+  .calc-box{padding:18px 16px;gap:14px;border-radius:18px;}
+  .calc-left label{font-size:0.6rem;margin-bottom:8px;}
+  input[type="number"]#carbonN{font-size:2rem;width:70px;}
+  .calc-btn{width:36px;height:36px;font-size:1.1rem;border-radius:9px;}
+  .calc-name{font-size:1.2rem;min-width:100px;padding-left:12px;}
+  .calc-name small{font-size:0.64rem;}
+  .input-row{gap:10px;}
+
+  /* Result grid — ALWAYS 3 columns, just compact */
+  .result-grid{grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;}
+  .res-card{padding:14px 10px;border-radius:14px;}
+  .chem-formula{font-size:1.3rem;margin:8px 0 12px;}
+  .res-type{font-size:0.52rem;letter-spacing:0.12em;}
+  .res-card h3{font-size:0.76rem;margin-bottom:10px;}
+  .res-meta{font-size:0.68rem;gap:2px;padding-top:10px;}
+
+  /* All major two/three-column grids → single column */
+  .info-grid,
+  .fg-grid,
+  .bond-compare,
+  .gas-laws-grid,
+  .rxn-grid,
+  .acid-base-grid,
+  .redox-split,
+  .tools-grid,
+  .gas-fields,
+  .ions-split,
+  .systems-grid,
+  .pct-grid,
+  .halflife-steps,
+  .isomer-grid,
+  .conv-grid,
+  .unit-conv-grid,
+  .kc-split,
+  .energy-profile-grid,
+  .polymer-split,
+  .ecs-layout,
+  .blocks-visual{grid-template-columns:1fr;}
+
+  /* Exceptions — preserve multi-col where it makes sense */
+  .elem-modal-stats{grid-template-columns:1fr 1fr;}
+  .iupac-root-grid{grid-template-columns:repeat(5,1fr);}
+  .iupac-sub-grid{grid-template-columns:repeat(2,1fr);}
+  .ions-columns{grid-template-columns:repeat(3,1fr);}
+
+  /* Block cards */
+  .block-card{flex-direction:column;}
+
+  /* Tab system */
+  .tab-wrapper{grid-template-columns:1fr;}
+  .tab-sidebar{flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:6px;scrollbar-width:none;}
+  .tab-sidebar::-webkit-scrollbar{display:none;}
+  .tab-link{white-space:nowrap;padding:8px 12px;border-radius:8px;font-size:0.76rem;}
+  .tab-step{display:none;}
+  .tab-pane{padding:20px 16px;}
+
+  /* Element modal */
+  .elem-modal{padding:22px 16px;}
+  .elem-modal-symbol{font-size:3rem;}
+  .elem-modal-name{font-size:1.4rem;}
+}
 
 /* ===== v10.0 NEW STYLES ===== */
 
@@ -520,7 +639,7 @@ footer p{color:var(--muted);font-size:0.85rem;margin-bottom:6px;}
 .ep-label{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:12px;}
 .ep-svg{width:100%;height:auto;display:block;border-radius:10px;background:var(--bg);}
 .ep-note{font-size:0.82rem;color:var(--muted);margin-top:10px;line-height:1.5;}
-@media(max-width:768px){.energy-profile-grid{grid-template-columns:1fr;}}
+
 
 /* Organic Reactions Grid */
 .org-rxn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:16px;}
@@ -559,7 +678,7 @@ footer p{color:var(--muted);font-size:0.85rem;margin-bottom:6px;}
 .poly-row:last-child{border-bottom:none;}
 .poly-header{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;background:var(--surface2);}
 .poly-row span{color:var(--muted);} .poly-row span:first-child{color:var(--text);}
-@media(max-width:768px){.polymer-split{grid-template-columns:1fr;}}
+
 
 /* Electrochemical Series */
 .ecs-layout{display:grid;grid-template-columns:1fr 340px;gap:22px;margin-top:24px;}
@@ -584,7 +703,7 @@ footer p{color:var(--muted);font-size:0.85rem;margin-bottom:6px;}
 .ecs-formula{font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--electro);background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:10px 14px;margin-bottom:10px;text-align:center;}
 .ecs-rule-card p{font-size:0.83rem;color:var(--muted);}
 .ecs-example{font-family:'JetBrains Mono',monospace;font-size:0.79rem;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-top:9px;line-height:2;}
-@media(max-width:1000px){.ecs-layout{grid-template-columns:1fr;}}
+
 
 /* Periodic Blocks */
 .blocks-visual{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:24px;}
@@ -623,7 +742,7 @@ footer p{color:var(--muted);font-size:0.85rem;margin-bottom:6px;}
 .tp-icon{font-size:1.4rem;margin-bottom:6px;}
 .tp-title{font-weight:700;font-size:0.9rem;color:var(--text);margin-bottom:6px;}
 .trans-prop-card p{font-size:0.8rem;color:var(--muted);line-height:1.5;}
-@media(max-width:768px){.blocks-visual{grid-template-columns:1fr;}.block-card{flex-direction:column;}}
+
 
 /* Light theme for new elements */
 [data-theme="light"] .ep-svg{background:rgba(244,246,255,0.8);}
@@ -646,4 +765,21 @@ footer p{color:var(--muted);font-size:0.85rem;margin-bottom:6px;}
 .iupac-format-box{background:var(--surface2);border:1px solid rgba(79,255,176,0.2);border-radius:14px;padding:20px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:700;letter-spacing:0.03em;margin-top:18px;}
 .iupac-fmt-part{font-size:1.1rem;}
 .iupac-fmt-dash{color:var(--muted);margin:0 2px;}
-@media(max-width:768px){.iupac-root-grid{grid-template-columns:repeat(5,1fr);}.iupac-sub-grid{grid-template-columns:repeat(2,1fr);}}
+
+
+/* ===== Missing class definitions (audit fix) ===== */
+
+/* Library table column headers */
+.alkane-col{color:var(--alkane)!important;}
+.alkene-col{color:var(--alkene)!important;}
+.alkyne-col{color:var(--alkyne)!important;}
+
+/* Block card content wrapper */
+.block-info{flex:1;min-width:0;}
+
+/* Empirical formula tool row */
+.ef-row{display:grid;grid-template-columns:60px 1fr;gap:8px;align-items:center;}
+
+/* Energy profile SVG path animation */
+.ep-path{stroke-dasharray:400;stroke-dashoffset:400;animation:drawPath 1.4s ease forwards;}
+@keyframes drawPath{to{stroke-dashoffset:0;}}
