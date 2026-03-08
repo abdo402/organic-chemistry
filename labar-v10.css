@@ -788,3 +788,516 @@ footer p{color:var(--muted);font-size:0.85rem;margin-bottom:6px;}
 /* Energy profile SVG path animation */
 .ep-path{stroke-dasharray:400;stroke-dashoffset:400;animation:drawPath 1.4s ease forwards;}
 @keyframes drawPath{to{stroke-dashoffset:0;}}
+
+/* ===== v11 NEW STYLES ===== */
+
+/* -- GLOSSARY -- */
+.glossary-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; margin-top:20px; }
+.gloss-card { background:var(--surface2); border:1px solid var(--border); border-radius:14px; padding:16px 18px; display:flex; gap:14px; align-items:flex-start; transition:border-color 0.2s; }
+.gloss-card:hover { border-color:var(--accent); }
+.gloss-num { font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--accent); letter-spacing:0.12em; min-width:22px; padding-top:3px; }
+.gloss-content h3 { font-family:'DM Serif Display',serif; font-size:1rem; color:var(--text); margin-bottom:4px; }
+.gloss-content p { font-size:0.84rem; color:var(--muted); line-height:1.55; }
+.gloss-ex { color:var(--accent); font-family:'JetBrains Mono',monospace; font-size:0.78rem; display:block; margin-top:4px; }
+
+/* -- ABBREVIATIONS -- */
+.abbrev-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:6px; margin-top:10px; }
+.abbrev-row { display:flex; gap:12px; align-items:baseline; padding:6px 12px; border-radius:8px; background:var(--surface2); }
+.abbrev-key { font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--accent2); font-weight:700; min-width:110px; }
+.abbrev-val { font-size:0.82rem; color:var(--muted); }
+
+/* -- REACTIVITY SERIES -- */
+.reactivity-layout { display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:start; margin-top:20px; }
+@media(max-width:768px){ .reactivity-layout { grid-template-columns:1fr; } }
+.reactivity-scale { display:flex; flex-direction:column; gap:6px; min-width:320px; }
+.react-header, .react-arrow-label { font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; padding:4px 0; }
+.react-most { color:#ef4444; } .react-least { color:#4fffb0; margin-top:4px; }
+.react-item { display:flex; align-items:center; gap:10px; }
+.react-rank { font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--muted); min-width:22px; text-align:right; }
+.react-elem-box { width:44px; height:44px; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; flex-shrink:0; }
+.react-z { font-family:'JetBrains Mono',monospace; font-size:0.52rem; color:rgba(255,255,255,0.6); }
+.react-sym { font-family:'DM Serif Display',serif; font-size:1.15rem; color:#fff; font-weight:700; line-height:1; }
+.react-name { font-size:0.85rem; color:var(--text); min-width:90px; }
+.react-note { font-size:0.73rem; color:var(--muted); }
+.react-special { opacity:0.85; margin:4px 0; }
+.reactivity-rules { display:flex; flex-direction:column; gap:14px; }
+.react-rule-card { border-radius:14px; padding:16px 18px; border:1px solid var(--border); }
+.react-rule-green { background:rgba(74,222,128,0.06); border-color:rgba(74,222,128,0.2); }
+.react-rule-blue  { background:rgba(56,189,248,0.06); border-color:rgba(56,189,248,0.2); }
+.react-rule-orange{ background:rgba(249,115,22,0.06); border-color:rgba(249,115,22,0.2); }
+.react-rule-purple{ background:rgba(167,139,250,0.06); border-color:rgba(167,139,250,0.2); }
+.react-rule-title { font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text); margin-bottom:8px; font-weight:700; }
+.react-eq { font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--accent); background:var(--surface2); padding:5px 10px; border-radius:6px; margin-top:6px; }
+.react-extract-row { display:flex; justify-content:space-between; font-size:0.82rem; padding:4px 0; border-bottom:1px solid var(--border); }
+.react-extract-row:last-child { border-bottom:none; }
+
+/* -- POLYATOMIC IONS -- */
+.polyion-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-top:16px; }
+.polyion-panel { background:var(--surface2); border:1px solid var(--border); border-radius:14px; padding:14px 16px; }
+.polyion-header { font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:10px; font-weight:700; }
+.polyion-row { display:flex; justify-content:space-between; align-items:baseline; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.82rem; }
+.polyion-row:last-child { border-bottom:none; }
+.polyion-name { color:var(--muted); }
+.polyion-formula { font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--ions-neg,#f472b6); }
+
+/* -- CONJUGATE ACID-BASE PAIRS -- */
+.conjpairs-wrap { display:flex; gap:0; border-radius:16px; overflow:hidden; border:1px solid var(--border); margin-top:14px; }
+.conjpairs-col { flex:1; }
+.conjpairs-header { font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; padding:10px 14px; background:var(--surface2); font-weight:700; color:var(--muted); }
+.conjpairs-acid .conjpairs-header { color:var(--acids,#f87171); border-right:1px solid var(--border); }
+.conjpairs-base .conjpairs-header { color:#4fffb0; }
+.conjpairs-group { padding:8px 14px; }
+.conjpairs-group + .conjpairs-group { border-top:1px solid var(--border); }
+.cp-group-label { font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; display:block; margin-bottom:4px; }
+.cp-row { font-family:'JetBrains Mono',monospace; font-size:0.8rem; padding:3px 0; color:var(--text); }
+.cp-strong .cp-row { color:#f87171; } .cp-negligible .cp-row { color:#94a3b8; }
+.cp-strong-base .cp-row { color:#4fffb0; } .cp-negligible-base .cp-row { color:#94a3b8; }
+.conjpairs-arrow-col { display:flex; flex-direction:column; justify-content:center; align-items:center; padding:0 10px; gap:8px; background:var(--surface); border-left:1px solid var(--border); border-right:1px solid var(--border); min-width:36px; }
+.cp-arrow-acid, .cp-arrow-base { writing-mode:vertical-rl; font-family:'JetBrains Mono',monospace; font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; }
+.cp-arrow-acid { color:var(--acids,#f87171); transform:rotate(180deg); }
+.cp-arrow-base { color:#4fffb0; }
+
+/* -- COMPOUNDS MEGA GRID -- */
+.compounds-mega-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; margin-top:16px; }
+.compounds-panel { background:var(--surface2); border:1px solid var(--border); border-radius:14px; padding:14px 16px; }
+.compounds-panel-title { font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:10px; font-weight:700; }
+.cmpd-row { display:flex; justify-content:space-between; align-items:baseline; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.82rem; }
+.cmpd-row:last-child { border-bottom:none; }
+.cmpd-formula { font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--accent); }
+
+/* -- CONCENTRATION TERMS -- */
+.conc-terms-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; margin-top:14px; }
+.conc-term-card { background:var(--surface2); border:1px solid var(--border); border-radius:14px; padding:16px 18px; }
+.conc-term-label { font-family:'JetBrains Mono',monospace; font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:6px; }
+.conc-term-def { font-size:0.88rem; color:var(--text); margin-bottom:8px; }
+.conc-term-formula { font-family:'JetBrains Mono',monospace; font-size:0.82rem; background:var(--surface); padding:8px 12px; border-radius:8px; color:var(--accent2); margin-bottom:8px; }
+.conc-term-note { font-size:0.78rem; color:var(--muted); }
+
+/* -- CHEMICAL FORMULAS LIST -- */
+.chem-formulas-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:6px; margin-top:14px; }
+.cfrow { display:flex; justify-content:space-between; align-items:baseline; background:var(--surface2); padding:6px 12px; border-radius:8px; font-size:0.82rem; }
+.cfname { color:var(--muted); }
+.cff { font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--solutions,#34d399); }
+
+/* -- NEW FUNCTIONAL GROUP CARDS -- */
+.fg-card.fg-halide { border-top-color:#a78bfa; } .fg-card.fg-halide .fg-symbol { color:#a78bfa; }
+.fg-card.fg-thiol { border-top-color:#fb923c; } .fg-card.fg-thiol .fg-symbol { color:#fb923c; }
+.fg-card.fg-nitrile { border-top-color:#38bdf8; } .fg-card.fg-nitrile .fg-symbol { color:#38bdf8; }
+.fg-card.fg-aromatic { border-top-color:#facc15; } .fg-card.fg-aromatic .fg-symbol { color:#facc15; }
+
+/* -- ELECTRON CONFIG TABLE -- */
+.econfig-table-wrap { overflow-x:auto; border-radius:14px; border:1px solid var(--border); margin-top:10px; }
+.econfig-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+.econfig-table thead tr { background:var(--surface2); }
+.econfig-table th { font-family:'JetBrains Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); padding:10px 14px; text-align:left; }
+.econfig-table td { padding:8px 14px; border-top:1px solid rgba(255,255,255,0.05); color:var(--text); }
+.econfig-table tbody tr:hover { background:var(--surface2); }
+.ecfg { font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--accent); }
+.ecfg-except { color:#facc15 !important; }
+.ecfg-note { font-size:0.65rem; color:#facc15; font-family:'Outfit',sans-serif; margin-left:6px; }
+.info-box.orange { border-left-color:#f97316; background:rgba(249,115,22,0.06); }
+
+/* -- TRANSITION METAL CATION CONFIGS -- */
+.tm-cation-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; margin-top:14px; }
+.tm-cation-card { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:14px 16px; }
+.tm-cation-atom { font-family:'DM Serif Display',serif; font-size:1rem; color:var(--text); margin-bottom:8px; }
+.tm-cation-before, .tm-cation-after { font-family:'JetBrains Mono',monospace; font-size:0.8rem; padding:4px 8px; border-radius:6px; }
+.tm-cation-before { background:rgba(255,255,255,0.05); color:var(--text); margin-bottom:4px; }
+.tm-cation-after { background:rgba(79,255,176,0.08); color:var(--accent); margin-top:4px; }
+.tm-cation-arrow { font-size:0.72rem; color:var(--muted); text-align:center; margin:4px 0; }
+.tc-s { color:#f87171; } .tc-d { color:#60a5fa; }
+
+/* -- BADGE COLORS (teal, amber) -- */
+.badge.teal { background:rgba(20,184,166,0.12); color:#2dd4bf; border-color:rgba(20,184,166,0.25); }
+.badge.amber { background:rgba(245,158,11,0.12); color:#fbbf24; border-color:rgba(245,158,11,0.25); }
+span.teal { color:#2dd4bf; } span.amber { color:#fbbf24; }
+
+/* ef-row fix */
+.ef-row { display:grid; grid-template-columns:60px 1fr; gap:8px; align-items:center; }
+
+/* ===================================================
+   v11 ORGANIC SYNTHESIS STYLES
+   =================================================== */
+
+/* Retrosynthetic Analysis Box */
+.retro-box {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px 28px;
+  margin-top: 14px;
+  align-items: center;
+}
+@media(max-width:600px){ .retro-box { grid-template-columns:1fr; } }
+
+.retro-concept {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 200px;
+}
+.retro-arrow-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.retro-molecule {
+  background: var(--surface);
+  border: 1px solid rgba(79,255,176,0.2);
+  border-radius: 10px;
+  padding: 8px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--text);
+  text-align: center;
+}
+.retro-arrow {
+  font-size: 1.1rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+.retro-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.retro-rule {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.retro-rule b { color: var(--text); }
+.rr-num {
+  background: rgba(79,255,176,0.12);
+  color: var(--accent);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Named Reaction Cards */
+.named-rxn-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 10px;
+}
+.named-rxn-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.named-rxn-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.nrxn-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.nrxn-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.nrxn-type {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.nrxn-eq {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--accent);
+  background: var(--surface);
+  padding: 9px 14px;
+  border-radius: 9px;
+  margin-bottom: 12px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.nrxn-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.nrxn-reagents, .nrxn-product, .nrxn-condition {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.nrxn-reagents b, .nrxn-product b, .nrxn-condition b { color: var(--text); }
+
+/* Synthesis Comparison Table */
+.synth-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+}
+.synth-compare-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px 16px;
+  background: var(--surface2);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.synth-compare-table td {
+  padding: 9px 16px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  color: var(--muted);
+}
+.synth-compare-table td:first-child {
+  color: var(--text);
+  font-weight: 600;
+}
+.synth-compare-table tbody tr:hover { background: var(--surface2); }
+
+/* ===================================================
+   v11 ELECTROCHEMISTRY CALCULATIONS STYLES
+   =================================================== */
+
+/* Cell Potential Cards */
+.ecalc-formula-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+.ecalc-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 22px;
+}
+.ecalc-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.ecalc-eq {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: var(--electro, #22d3ee);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+.ecalc-eq-small {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.ecalc-desc {
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+.ecalc-rule {
+  font-size: 0.82rem;
+  padding: 4px 0;
+}
+.ecalc-rule-pos { color: #4ade80; font-family: 'JetBrains Mono', monospace; }
+.ecalc-rule-neg { color: #f87171; font-family: 'JetBrains Mono', monospace; }
+
+/* Gibbs Trio Cards */
+.ecalc-trio {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+.ecalc-trio-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+}
+.ecalc-trio-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.05rem;
+  color: var(--electro, #22d3ee);
+  margin-bottom: 14px;
+  text-align: center;
+}
+.ecalc-trio-vars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.etv-sym {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--text);
+  margin-right: 8px;
+}
+.etv-desc {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* Nernst Equation Box */
+.nernst-box {
+  background: linear-gradient(135deg, rgba(34,211,238,0.06), rgba(79,255,176,0.04));
+  border: 1px solid rgba(34,211,238,0.25);
+  border-radius: 18px;
+  padding: 28px 32px;
+  margin-top: 14px;
+}
+.nernst-formula {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.8rem;
+  color: var(--electro, #22d3ee);
+  text-align: center;
+  margin-bottom: 8px;
+}
+.nernst-at25 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 22px;
+}
+.nernst-vars {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+.nv-row {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+.nv-sym {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 700;
+  min-width: 30px;
+}
+.nv-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+/* Faraday's Laws */
+.faraday-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 14px;
+}
+@media(max-width:700px){ .faraday-grid { grid-template-columns: 1fr; } }
+
+.faraday-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 22px;
+}
+.faraday-card[style*="span 2"] { grid-column: span 2; }
+@media(max-width:700px){ .faraday-card[style*="span 2"] { grid-column: span 1; } }
+
+.faraday-law-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--electro, #22d3ee);
+  margin-bottom: 10px;
+}
+.faraday-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.05rem;
+  color: var(--text);
+  background: var(--surface);
+  padding: 10px 16px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.faraday-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+.faraday-vars {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.faraday-vars div {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.faraday-vars b { color: var(--electro, #22d3ee); }
+
+.faraday-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.fstep {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.fstep-n {
+  background: rgba(34,211,238,0.12);
+  color: var(--electro, #22d3ee);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Missing functional group card colors */
+.fg-card.fg-sulfide    { border-top-color:#f59e0b; } .fg-card.fg-sulfide    .fg-symbol { color:#f59e0b; }
+.fg-card.fg-anhydride  { border-top-color:#10b981; } .fg-card.fg-anhydride  .fg-symbol { color:#10b981; }
+.fg-card.fg-acylhalide { border-top-color:#e879f9; } .fg-card.fg-acylhalide .fg-symbol { color:#e879f9; }
