@@ -1,4 +1,4 @@
-/* ========== LabAR.EDU v9.0 — Main Script ========== */
+/* ========== LabAR.EDU v10.0 — Main Script ========== */
 
 /* ---------- 1. CANVAS BACKGROUND ---------- */
 (function(){
@@ -618,15 +618,20 @@ function toggleMobileNav(){
 }
 
 /* ---------- 17. PROGRESS ---------- */
-const PROGRESS_IDS=['chk0','chk1','chk2','chk3','chk4b','chk4','chk5','chk6','chk7','chk8',
-  'chk9','chk10','chk11','chk12','chk13','chk14','chkTools','chkPT'];
+const PROGRESS_IDS=[
+  'chk0','chk1','chk2','chk3','chk4b','chkOR','chkPoly',
+  'chk4','chk5','chk6','chk7','chk9','chk10','chk11','chk12','chkES',
+  'chk13','chkEq','chkSol','chkTools','chkBlocks','chkPT'
+];
 
 function updateProgress(){
   const total=PROGRESS_IDS.length;
   const done=PROGRESS_IDS.filter(id=>document.getElementById(id)?.checked).length;
   const pct=Math.round(done/total*100);
-  document.getElementById('progressFill').style.width=pct+'%';
-  document.getElementById('progressLabel').textContent=`${done} / ${total}`;
+  const fill=document.getElementById('progressFill');
+  const label=document.getElementById('progressLabel');
+  if(fill)fill.style.width=pct+'%';
+  if(label)label.textContent=`${done} / ${total}`;
 }
 
 /* ---------- 18. GLOBAL SEARCH ---------- */
@@ -850,24 +855,6 @@ function calcEmpiricalFormula(){
       ${molFormula}
     </div>`;
 }
-
-/* ---------- UPDATE: PROGRESS IDS (overwrite) ---------- */
-// Remove old and replace with complete v10 list
-const _oldPids=['chk0','chk1','chk2','chk3','chk4b','chkOR','chkPoly',
-  'chk4','chk5','chk6','chk7','chk9','chk10','chk11','chk12','chkES',
-  'chk13','chkEq','chkSol','chkTools','chkBlocks','chkPT'];
-
-// Override updateProgress to use new IDs
-const _origUpdateProgress=window.updateProgress;
-window.updateProgress=function(){
-  const total=_oldPids.length;
-  const done=_oldPids.filter(id=>document.getElementById(id)?.checked).length;
-  const pct=Math.round(done/total*100);
-  const fill=document.getElementById('progressFill');
-  const label=document.getElementById('progressLabel');
-  if(fill)fill.style.width=pct+'%';
-  if(label)label.textContent=`${done} / ${total}`;
-};
 
 /* ---------- UPDATE: SEARCH INDEX ---------- */
 // Append new entries
