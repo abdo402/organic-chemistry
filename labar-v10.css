@@ -59,6 +59,7 @@ header p{font-size:clamp(0.95rem,2vw,1.2rem);color:var(--muted);max-width:680px;
 .section-title span.indigo{color:var(--gas);}
 .section-title span.eq{color:var(--equilibrium);}
 .section-lead{color:var(--muted);font-size:1rem;max-width:780px;margin-bottom:36px;}
+#calc-tool .section-lead{margin-bottom:16px;}
 .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;margin-top:32px;}
 .info-box{background:var(--surface2);border-radius:18px;padding:26px;border:1px solid var(--border);border-left:4px solid var(--accent);transition:box-shadow var(--transition);}
 .info-box:hover{box-shadow:var(--glow-green);}
@@ -74,7 +75,7 @@ header p{font-size:clamp(0.95rem,2vw,1.2rem);color:var(--muted);max-width:680px;
 .info-box h3{font-size:1rem;color:var(--text);margin-bottom:8px;}
 .info-box p,.info-box ul{color:var(--muted);font-size:0.88rem;}
 .info-box ul{padding-left:16px;}.info-box li{margin-bottom:5px;}
-#calc-tool{margin-top:-100px;position:relative;z-index:100;margin-bottom:72px;}
+
 .calc-box{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:22px 28px;display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin-bottom:4px;}
 .calc-divider{width:1px;height:52px;background:var(--border);flex-shrink:0;}
 @media(max-width:600px){.calc-divider{display:none;}}
@@ -88,6 +89,7 @@ input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-ou
 .calc-name{font-family:'DM Serif Display',serif;font-size:1.7rem;color:var(--text);padding:10px 0;border-left:3px solid var(--accent);padding-left:18px;min-width:160px;}
 .calc-name small{display:block;font-family:'Outfit',sans-serif;font-size:0.72rem;color:var(--muted);font-weight:400;margin-top:2px;text-transform:uppercase;letter-spacing:0.1em;}
 .result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px;}
+#calc-tool{padding-bottom:32px;}
 .res-card{border-radius:22px;padding:28px;border:1px solid transparent;cursor:pointer;position:relative;overflow:hidden;transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition);min-width:0;}
 .res-card::before{content:'';position:absolute;inset:0;opacity:0.07;transition:opacity var(--transition);}
 .res-card:hover{transform:translateY(-7px);}
