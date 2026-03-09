@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LabAR.EDU — Chemistry Encyclopedia v12.0</title>
+<title>LabAR.EDU — Chemistry Encyclopedia v12.1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="labar-v12.css">
@@ -44,6 +44,16 @@
       <a href="#kinetics-section">Kinetics</a>
       <a href="#lab-section">Lab Tech</a>
       <a href="#spectroscopy-section">Spectroscopy</a>
+      <a href="#magnetic-section">Magnetism</a>
+      <a href="#catalytic-section">Catalysis</a>
+      <a href="#iron-extraction-section">Fe Extraction</a>
+      <a href="#iron-properties-section">Fe Properties</a>
+      <a href="#iron-oxides-section">Fe Oxides</a>
+      <a href="#alloys-section">Alloys</a>
+      <a href="#basic-radicals-section">Basic Radicals</a>
+      <a href="#quant-analysis-section">Quant. Analysis</a>
+      <a href="#pressure-section">Pressure</a>
+      <a href="#ionic-equilibrium-section">Ionic Eq.</a>
       <span class="nav-sep"></span>
       <a href="#tools-section" style="color:var(--accent)">⚡ Tools</a>
       <a href="#blocks-section">Blocks</a>
@@ -52,7 +62,7 @@
   </div>
   <div class="nav-actions">
     <button class="nav-btn" onclick="openSearch()" title="Search (Ctrl+K)">🔍</button>
-    <button class="nav-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
+    <button class="nav-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">☀️</button>
     <button class="nav-btn nav-hamburger" onclick="toggleMobileNav()" title="Menu">☰</button>
   </div>
 </nav>
@@ -97,6 +107,16 @@
     <a href="#kinetics-section" onclick="toggleMobileNav()" class="mob-link">Reaction Kinetics</a>
     <a href="#lab-section" onclick="toggleMobileNav()" class="mob-link">Lab Techniques</a>
     <a href="#spectroscopy-section" onclick="toggleMobileNav()" class="mob-link">Spectroscopy</a>
+    <a href="#magnetic-section" onclick="toggleMobileNav()" class="mob-link">Magnetic Properties</a>
+    <a href="#catalytic-section" onclick="toggleMobileNav()" class="mob-link">Catalytic Activity</a>
+    <a href="#iron-extraction-section" onclick="toggleMobileNav()" class="mob-link">Extraction of Iron</a>
+    <a href="#iron-properties-section" onclick="toggleMobileNav()" class="mob-link">Properties of Pure Iron</a>
+    <a href="#iron-oxides-section" onclick="toggleMobileNav()" class="mob-link">Iron Oxides</a>
+    <a href="#alloys-section" onclick="toggleMobileNav()" class="mob-link">Alloys</a>
+    <a href="#basic-radicals-section" onclick="toggleMobileNav()" class="mob-link">Detection of Basic Radicals</a>
+    <a href="#quant-analysis-section" onclick="toggleMobileNav()" class="mob-link">Quantitative Analysis</a>
+    <a href="#pressure-section" onclick="toggleMobileNav()" class="mob-link">Pressure</a>
+    <a href="#ionic-equilibrium-section" onclick="toggleMobileNav()" class="mob-link">Ionic Equilibrium</a>
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;padding:14px 10px 4px;">🔧 Tools &amp; Reference</div>
     <a href="#tools-section" onclick="toggleMobileNav()" class="mob-link">⚡ Interactive Tools</a>
     <a href="#blocks-section" onclick="toggleMobileNav()" class="mob-link">Periodic Table Blocks</a>
@@ -143,11 +163,11 @@
 </div>
 
 <header>
-  <div class="hero-tag">v12.0 &nbsp;·&nbsp; Complete Chemistry Encyclopedia</div>
+  <div class="hero-tag">v12.1 &nbsp;·&nbsp; Complete Chemistry Encyclopedia</div>
   <h1>Master <em>Chemistry</em></h1>
-  <p>The ultimate interactive encyclopedia — organic, functional groups, equilibrium, bonding, nuclear, electrochemistry, and 6 live calculation tools.</p>
+  <p>The ultimate interactive encyclopedia — organic, functional groups, equilibrium, bonding, nuclear, electrochemistry, and 9 live calculation tools.</p>
   <div class="hero-stats">
-    <div class="hero-stat"><span class="num">30</span><span class="lbl">Topic Sections</span></div>
+    <div class="hero-stat"><span class="num">40</span><span class="lbl">Topic Sections</span></div>
     <div class="hero-stat"><span class="num">9</span><span class="lbl">Live Tools</span></div>
     <div class="hero-stat"><span class="num">118</span><span class="lbl">Elements</span></div>
     <div class="hero-stat"><span class="num">50+</span><span class="lbl">Ions &amp; Charges</span></div>
@@ -181,7 +201,7 @@
       <div class="pd-chapter">
         <div class="pd-ch-label" style="color:var(--alkene)">⚗️ General Chemistry</div>
         <div class="pd-ch-bar-wrap"><div class="pd-ch-bar" id="chBar1" style="background:linear-gradient(90deg,var(--alkene),var(--accent))"></div></div>
-        <div class="pd-ch-count" id="chCount1">0 / 15</div>
+        <div class="pd-ch-count" id="chCount1">0 / 28</div>
         <div class="pd-section-dots" id="chDots1"></div>
       </div>
       <div class="pd-chapter">
@@ -631,6 +651,45 @@
     <h3>💡 Why Isomerism Matters</h3>
     <p>C₅H₁₂ alone has 3 structural isomers with different boiling points and reactivities. In pharmaceuticals, the wrong isomer can be the difference between a medicine and a poison — Thalidomide being the famous tragic example. This is why modern drug synthesis must be <b>stereospecific</b> — producing only the correct enantiomer.</p>
   </div>
+  <!-- ===== INTERACTIVE ISOMER BUILDER ===== -->
+  <div style="margin-top:40px;">
+    <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:6px;">
+      ⚗️ Interactive <span style="color:var(--isomer)">Isomer Builder</span>
+    </h3>
+    <p style="color:var(--muted);font-size:0.88rem;margin-bottom:18px;">Pick a compound type and carbon count to instantly see every structural isomer with IUPAC names and condensed formulas.</p>
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:26px;">
+      <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:22px;">
+        <div>
+          <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">Compound Type</label>
+          <select id="isoType" onchange="buildIsomers()" class="tool-select" style="min-width:180px;">
+            <option value="alkane">Alkane (C&#x2099;H&#x2082;&#x2099;&#x208A;&#x2082;)</option>
+            <option value="alkene">Alkene (C&#x2099;H&#x2082;&#x2099;)</option>
+            <option value="alcohol">Alcohol (C&#x2099;H&#x2082;&#x2099;&#x208A;&#x2082;O)</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:0.66rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">Carbon Count (n)</label>
+          <select id="isoN" onchange="buildIsomers()" class="tool-select" style="min-width:100px;">
+            <option value="1">n = 1</option>
+            <option value="2">n = 2</option>
+            <option value="3">n = 3</option>
+            <option value="4" selected>n = 4</option>
+            <option value="5">n = 5</option>
+            <option value="6">n = 6</option>
+            <option value="7">n = 7</option>
+            <option value="8">n = 8</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:flex-end;">
+          <button class="tool-btn" onclick="buildIsomers()" style="width:auto;padding:10px 22px;margin-top:0;">Generate ⚗️</button>
+        </div>
+      </div>
+      <div id="isomerResult" style="min-height:80px;">
+        <span class="tool-empty">Select a compound type and carbon count above.</span>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <section id="table-section" class="card">
@@ -1208,7 +1267,7 @@
     <div class="chapter-title">General Chemistry</div>
     <div class="chapter-desc">Ions, moles, thermochemistry, nuclear, bonding, reactions, acids, electrochemistry, gas laws, equilibrium, and solutions.</div>
   </div>
-  <div class="chapter-count" style="border-color:rgba(56,189,248,0.2);color:var(--accent2);">18 Sections</div>
+  <div class="chapter-count" style="border-color:rgba(56,189,248,0.2);color:var(--accent2);">28 Sections</div>
 </div>
 
 <!-- ===== CHEMISTRY GLOSSARY ===== -->
@@ -2274,16 +2333,6 @@
   </div>
 </section>
 
-<div class="chapter-divider" style="background:linear-gradient(135deg,rgba(245,158,11,0.05),rgba(79,255,176,0.05));border-color:rgba(245,158,11,0.15);">
-  <span class="chapter-icon">🔧</span>
-  <div>
-    <div class="chapter-label" style="color:var(--reactions)">Chapter 03</div>
-    <div class="chapter-title">Tools &amp; Reference</div>
-    <div class="chapter-desc">Six live interactive calculators plus the full 118-element periodic table with element detail panels.</div>
-  </div>
-  <div class="chapter-count" style="border-color:rgba(245,158,11,0.2);color:var(--reactions);">3 Sections</div>
-</div>
-
 <!-- ===== NEW v12: REACTION KINETICS ===== -->
 <section id="kinetics-section" class="card">
   <div class="progress-check"><input type="checkbox" id="chkKinetics" onchange="updateProgress()"><label for="chkKinetics">Studied ✓</label></div>
@@ -2407,6 +2456,637 @@
   </div>
   <div class="info-box blue"><h3>🔑 Approach to Solving NMR Problems</h3><p>① Find molecular formula (from mass spec M⁺) → calculate degrees of unsaturation. ② Count distinct signals = number of unique H environments. ③ Use integration for ratios. ④ Use splitting pattern (n+1) to find neighbours. ⑤ Match δ values to functional group table to confirm structure.</p></div>
 </section>
+
+<section id="magnetic-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkMagnetic" onchange="updateProgress()"><label for="chkMagnetic">Studied ✓</label></div>
+  <span class="badge cyan">// Magnetism in Chemistry</span>
+  <h2 class="section-title">Magnetic <span class="cyan">Properties</span></h2>
+  <p class="section-lead">The magnetic behaviour of a substance is determined by how electrons are arranged in its atoms or ions. Unpaired electrons are the key: each unpaired electron acts as a tiny magnet, and their collective effect determines whether a material is attracted to, repelled by, or unaffected by a magnetic field.</p>
+
+  <div class="info-grid">
+    <div class="info-box cyan">
+      <h3>🧲 Diamagnetism</h3>
+      <p>All electrons are <b>paired</b>. Paired electrons have opposite spins that cancel out each other's magnetic moment. Result: the substance is <b>weakly repelled</b> by a magnetic field. Most non-metals and main-group compounds with complete subshells are diamagnetic.</p>
+      <p style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--electro)">Examples: He, N₂, NaCl, H₂O, Cu²⁺ (d¹⁰), Zn²⁺ (d¹⁰)</p>
+    </div>
+    <div class="info-box">
+      <h3>🧲 Paramagnetism</h3>
+      <p>One or more <b>unpaired electrons</b> are present. Each unpaired electron produces a net magnetic moment. The substance is <b>weakly attracted</b> to a magnetic field but loses magnetism when the field is removed (moments are randomly oriented without a field).</p>
+      <p style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--accent)">Examples: O₂, Fe³⁺ (5 unpaired d-electrons), Ti³⁺ (1 unpaired), Mn²⁺ (5 unpaired)</p>
+    </div>
+    <div class="info-box orange">
+      <h3>🧲 Ferromagnetism</h3>
+      <p>A special form of paramagnetism found in <b>Fe, Co, and Ni</b>. In these metals, magnetic domains (regions where all atomic moments align) form spontaneously. Domains can align permanently with an external field, producing a <b>permanent magnet</b>. Disappears above the Curie temperature.</p>
+      <p style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--thermo)">Curie temps: Fe 768°C · Co 1115°C · Ni 358°C</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Unpaired Electrons <span style="color:var(--electro)">in Transition Metals</span></h3>
+  <div class="info-grid">
+    <div class="info-box">
+      <h3>🔢 How to find unpaired electrons</h3>
+      <p>Write the electronic configuration of the ion. Fill d-orbitals using Hund's rule (one electron per orbital before pairing). Count unpaired electrons.</p>
+      <ul>
+        <li><b>Fe²⁺</b> — [Ar] 3d⁶ → 4 unpaired electrons (paramagnetic)</li>
+        <li><b>Fe³⁺</b> — [Ar] 3d⁵ → 5 unpaired electrons (strongly paramagnetic)</li>
+        <li><b>Cu²⁺</b> — [Ar] 3d⁹ → 1 unpaired electron (paramagnetic)</li>
+        <li><b>Zn²⁺</b> — [Ar] 3d¹⁰ → 0 unpaired electrons (diamagnetic)</li>
+        <li><b>Sc³⁺</b> — [Ar] 3d⁰ → 0 unpaired electrons (diamagnetic)</li>
+      </ul>
+    </div>
+    <div class="info-box blue">
+      <h3>🏭 Applications of Magnetic Properties</h3>
+      <ul>
+        <li><b>MRI machines:</b> Gadolinium (Gd) contrast agents are paramagnetic — 7 unpaired f-electrons. They alter relaxation times of nearby protons to improve image contrast.</li>
+        <li><b>Hard drives:</b> Ferromagnetic domains are switched to store binary data (1s and 0s).</li>
+        <li><b>Neodymium magnets:</b> Nd₂Fe₁₄B — the strongest permanent magnets, used in EV motors and wind turbines.</li>
+        <li><b>Magnetic separation:</b> Iron ore is separated from gangue using magnetic fields because Fe₂O₃ and Fe₃O₄ are paramagnetic/ferrimagnetic.</li>
+      </ul>
+    </div>
+    <div class="info-box purple">
+      <h3>💡 Spin and Magnetic Moment</h3>
+      <p>The magnetic moment (μ) of an ion can be estimated using the spin-only formula:</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.95rem;color:var(--nuclear);text-align:center;margin:10px 0;">μ = √[n(n+2)] Bohr Magnetons</p>
+      <p style="font-size:0.82rem;color:var(--muted)">where n = number of unpaired electrons. Fe³⁺ has n=5 → μ = √(35) ≈ 5.92 BM. This can be measured experimentally to determine the number of unpaired electrons and oxidation state.</p>
+    </div>
+  </div>
+</section>
+
+<section id="catalytic-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkCatalytic" onchange="updateProgress()"><label for="chkCatalytic">Studied ✓</label></div>
+  <span class="badge amber">// Catalysis</span>
+  <h2 class="section-title">Catalytic <span class="amber">Activity</span></h2>
+  <p class="section-lead">Transition metals and their compounds are outstanding catalysts — substances that increase the rate of a reaction without being consumed. Their variable oxidation states and ability to adsorb reactants on their surface make them industrially indispensable.</p>
+
+  <div class="info-grid">
+    <div class="info-box amber">
+      <h3>⚙️ Why Transition Metals are Catalysts</h3>
+      <p>Two key properties drive catalytic activity:</p>
+      <ul>
+        <li><b>Variable oxidation states:</b> Allows the metal to accept and donate electrons in intermediate steps, creating an alternative lower-energy pathway for the reaction.</li>
+        <li><b>Surface adsorption:</b> Reactants bind to the metal surface, weakening bonds and bringing molecules close together. Products then desorb from the surface.</li>
+      </ul>
+    </div>
+    <div class="info-box">
+      <h3>🏭 Homogeneous Catalysis</h3>
+      <p>Catalyst and reactants are in the <b>same phase</b> (usually both dissolved in solution).</p>
+      <ul>
+        <li><b>Fe³⁺ catalysing I⁻/S₂O₈²⁻ reaction:</b> Fe³⁺ oxidises I⁻ to I₂, then Fe²⁺ is re-oxidised by S₂O₈²⁻ back to Fe³⁺ (cycles between +2 and +3).</li>
+        <li><b>MnO₄⁻ in H₂O₂ decomposition:</b> Mn²⁺ intermediate formed and re-oxidised.</li>
+        <li>Advantage: efficient mixing → high activity. Disadvantage: separation from products is difficult.</li>
+      </ul>
+    </div>
+    <div class="info-box blue">
+      <h3>⚗️ Heterogeneous Catalysis</h3>
+      <p>Catalyst is in a <b>different phase</b> from reactants (usually a solid catalyst with gas or liquid reactants).</p>
+      <ul>
+        <li><b>Fe in the Haber Process:</b> N₂ + 3H₂ ⇌ 2NH₃ (450°C, 200 atm). N₂ adsorbs on Fe surface, weakening the N≡N triple bond.</li>
+        <li><b>Pt/Pd/Rh in catalytic converters:</b> CO + NO → CO₂ + ½N₂. Reduces toxic emissions from vehicles.</li>
+        <li><b>V₂O₅ in Contact Process:</b> 2SO₂ + O₂ → 2SO₃ (450°C). V cycles between V⁵⁺ and V⁴⁺.</li>
+        <li><b>Ni in margarine production:</b> Unsaturated oils + H₂ → saturated fats (hydrogenation).</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Key Industrial <span style="color:var(--reactions)">Processes</span></h3>
+  <div style="overflow-x:auto;border-radius:16px;border:1px solid var(--border);margin-top:8px;">
+    <table style="width:100%;border-collapse:collapse;min-width:600px;">
+      <thead><tr style="background:var(--surface2);">
+        <th style="padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);text-align:left;border-bottom:2px solid var(--border);">Process</th>
+        <th style="padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--reactions);text-align:left;border-bottom:2px solid var(--border);">Catalyst</th>
+        <th style="padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);text-align:left;border-bottom:2px solid var(--border);">Conditions</th>
+        <th style="padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);text-align:left;border-bottom:2px solid var(--border);">Purpose</th>
+      </tr></thead>
+      <tbody>
+        <tr><td style="padding:11px 16px;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;">Haber Process</td><td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--reactions);">Fe (iron)</td><td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--muted);">450°C, 200 atm</td><td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--muted);">Ammonia synthesis for fertilisers</td></tr>
+        <tr><td style="padding:11px 16px;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;">Contact Process</td><td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--reactions);">V₂O₅</td><td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--muted);">450°C, 1 atm</td><td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--muted);">H₂SO₄ production (SO₂→SO₃)</td></tr>
+        <tr><td style="padding:11px 16px;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;">Catalytic Converter</td><td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--reactions);">Pt, Pd, Rh</td><td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--muted);">~600°C</td><td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--muted);">Remove CO, NOₓ, hydrocarbons</td></tr>
+        <tr><td style="padding:11px 16px;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;">Hydrogenation</td><td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--reactions);">Ni</td><td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--muted);">~180°C, pressure</td><td style="padding:11px 16px;border-bottom:1px solid var(--border);color:var(--muted);">Oil → margarine (saturating C=C)</td></tr>
+        <tr><td style="padding:11px 16px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;">Zeiegler-Natta</td><td style="padding:11px 16px;color:var(--reactions);">TiCl₄ / Al(C₂H₅)₃</td><td style="padding:11px 16px;color:var(--muted);">Low T, low P</td><td style="padding:11px 16px;color:var(--muted);">Stereospecific polymerisation (HDPE)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="iron-extraction-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkIronExt" onchange="updateProgress()"><label for="chkIronExt">Studied ✓</label></div>
+  <span class="badge red">// Metallurgy</span>
+  <h2 class="section-title">Extraction of Iron <span class="red">from Ores</span></h2>
+  <p class="section-lead">Iron is extracted from its ores (primarily haematite, Fe₂O₃) in a blast furnace — a continuous industrial process that operates at temperatures up to 2000°C and produces molten iron (pig iron) that is then refined into steel.</p>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:14px;">The <span style="color:var(--acids)">Blast Furnace</span></h3>
+  <div class="info-grid">
+    <div class="info-box red">
+      <h3>📥 Raw Materials (Charged at Top)</h3>
+      <ul>
+        <li><b>Iron ore</b> — haematite (Fe₂O₃) or magnetite (Fe₃O₄). Source of iron.</li>
+        <li><b>Coke (carbon)</b> — provides carbon and CO for reduction. Also generates heat by combustion.</li>
+        <li><b>Limestone (CaCO₃)</b> — removes acidic impurities (mainly silica, SiO₂) as slag.</li>
+        <li><b>Hot air (blast)</b> — pumped in near the bottom to burn coke and drive reduction.</li>
+      </ul>
+    </div>
+    <div class="info-box orange">
+      <h3>🔥 Key Reactions in the Blast Furnace</h3>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent);line-height:2.2;margin-top:8px;">
+        C + O₂ → CO₂ (combustion of coke, very exothermic)<br>
+        CO₂ + C → 2CO (CO is the main reducing agent)<br>
+        Fe₂O₃ + 3CO → 2Fe + 3CO₂ (main reduction)<br>
+        Fe₃O₄ + 4CO → 3Fe + 4CO₂ (magnetite reduction)<br>
+        CaCO₃ → CaO + CO₂ (limestone decomposes)<br>
+        CaO + SiO₂ → CaSiO₃ (slag formation)
+      </p>
+    </div>
+    <div class="info-box">
+      <h3>🌡️ Temperature Zones</h3>
+      <ul>
+        <li><b>Top (~250°C):</b> Preheating of raw materials. CO₂ and N₂ gases exit here.</li>
+        <li><b>Middle (~700–1200°C):</b> Reduction of iron oxides by CO and C. Solid iron begins to form.</li>
+        <li><b>Lower (~1500–2000°C):</b> Molten iron and molten slag collect separately (iron is denser and settles below slag).</li>
+        <li><b>Bottom (tuyeres):</b> Hot air is blasted in. Coke burns fiercely: C + O₂ → CO₂.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info-grid" style="margin-top:18px;">
+    <div class="info-box blue">
+      <h3>🏭 Products of the Blast Furnace</h3>
+      <ul>
+        <li><b>Pig iron (cast iron):</b> Molten iron tapped from the bottom. Contains ~4% carbon + impurities (Si, Mn, S, P). Very hard but brittle — used for engine blocks, manhole covers.</li>
+        <li><b>Slag (CaSiO₃):</b> Tapped separately. Used in road construction and cement production (no waste).</li>
+        <li><b>Blast furnace gas:</b> Mostly CO, CO₂, N₂ — used to preheat the incoming air blast.</li>
+      </ul>
+    </div>
+    <div class="info-box purple">
+      <h3>⚙️ From Pig Iron to Steel</h3>
+      <p>Pig iron is refined in a <b>Basic Oxygen Furnace (BOF)</b>. High-purity O₂ is blown into molten pig iron to oxidise excess carbon and impurities:</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent);margin:8px 0;">C + O₂ → CO₂ (removes carbon)</p>
+      <p style="font-size:0.82rem;color:var(--muted);">Carbon content is controlled to produce different steel grades: mild steel (0.1–0.3% C), medium carbon steel (0.3–0.6% C), high carbon steel (0.6–1.4% C). Alloying elements (Cr, Ni, Mn) are added to make specialty steels.</p>
+    </div>
+  </div>
+</section>
+
+<section id="iron-properties-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkIronProp" onchange="updateProgress()"><label for="chkIronProp">Studied ✓</label></div>
+  <span class="badge" style="color:var(--reactions);border-color:rgba(245,158,11,0.4);">// Element Chemistry</span>
+  <h2 class="section-title">Properties of <span style="color:var(--reactions)">Pure Iron</span></h2>
+  <p class="section-lead">Pure iron (symbol Fe, atomic number 26) is a lustrous silver-grey metal with remarkable magnetic, mechanical, and chemical properties. It rarely occurs in nature in its pure form — it is almost always found as oxides or carbonate ores.</p>
+
+  <div class="info-grid">
+    <div class="info-box amber">
+      <h3>⚛️ Atomic Properties</h3>
+      <ul>
+        <li><b>Atomic number:</b> 26 · <b>Atomic mass:</b> 55.845 g/mol</li>
+        <li><b>Electron configuration:</b> [Ar] 3d⁶ 4s² (neutral atom)</li>
+        <li><b>Common oxidation states:</b> +2 (ferrous, Fe²⁺) and +3 (ferric, Fe³⁺)</li>
+        <li><b>Electronegativity:</b> 1.83 (Pauling)</li>
+        <li><b>Atomic radius:</b> 126 pm</li>
+        <li><b>4 unpaired d-electrons</b> in Fe — makes it paramagnetic (ferromagnetic in bulk)</li>
+      </ul>
+    </div>
+    <div class="info-box">
+      <h3>🔧 Physical Properties</h3>
+      <ul>
+        <li><b>Melting point:</b> 1538°C · <b>Boiling point:</b> 2862°C</li>
+        <li><b>Density:</b> 7.87 g/cm³</li>
+        <li><b>Crystal structure:</b> BCC at room temperature (α-iron). Transitions to FCC (γ-iron) above 912°C, then back to BCC (δ-iron) above 1394°C.</li>
+        <li><b>Hardness:</b> Mohs 4 — relatively soft in pure form</li>
+        <li><b>Malleability &amp; ductility:</b> High — pure iron is easily shaped</li>
+        <li><b>Electrical conductivity:</b> Good (metallic bonding)</li>
+        <li><b>Ferromagnetic</b> below 768°C (Curie temperature)</li>
+      </ul>
+    </div>
+    <div class="info-box blue">
+      <h3>⚗️ Chemical Properties &amp; Reactions</h3>
+      <ul>
+        <li><b>With oxygen:</b> Slow oxidation in moist air (rusting): 4Fe + 3O₂ + xH₂O → 2Fe₂O₃·xH₂O (rust). Fast: 3Fe + 2O₂ → Fe₃O₄ at high temperature (burnishing).</li>
+        <li><b>With dilute acids:</b> Fe + H₂SO₄(dil) → FeSO₄ + H₂↑ (iron dissolves, giving Fe²⁺ not Fe³⁺).</li>
+        <li><b>With Cl₂:</b> 2Fe + 3Cl₂ → 2FeCl₃ (gives Fe³⁺ because Cl₂ is a strong oxidiser).</li>
+        <li><b>With S:</b> Fe + S → FeS at high temperature.</li>
+        <li><b>Displacement:</b> Fe displaces Cu from CuSO₄: Fe + CuSO₄ → FeSO₄ + Cu (Fe is above Cu in reactivity series).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info-box" style="margin-top:18px;border-left-color:var(--reactions);">
+    <h3>🔴 Rusting — The Chemistry of Corrosion</h3>
+    <p>Rusting is an <b>electrochemical process</b> requiring both oxygen AND water (not just one alone). Iron acts as an anode, atmospheric oxygen is reduced at the cathode, with the moisture acting as the electrolyte:</p>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent);margin:10px 0;line-height:2;">
+      Anode: Fe → Fe²⁺ + 2e⁻<br>
+      Cathode: O₂ + 2H₂O + 4e⁻ → 4OH⁻<br>
+      Overall: Fe²⁺ + 2OH⁻ → Fe(OH)₂ → oxidised further to Fe₂O₃·H₂O (rust)
+    </p>
+    <p style="font-size:0.82rem;color:var(--muted)"><b>Prevention methods:</b> Galvanising (zinc coating), electroplating, painting, oiling, alloying (stainless steel), cathodic protection (sacrificial anode of Mg or Zn).</p>
+  </div>
+</section>
+
+<section id="iron-oxides-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkIronOx" onchange="updateProgress()"><label for="chkIronOx">Studied ✓</label></div>
+  <span class="badge red">// Inorganic Chemistry</span>
+  <h2 class="section-title">Iron <span class="red">Oxides</span></h2>
+  <p class="section-lead">Iron forms three principal oxides: FeO, Fe₂O₃, and Fe₃O₄. Each has a distinct colour, oxidation state composition, crystal structure, and set of industrial uses. Understanding them is central to iron metallurgy, pigments, and materials science.</p>
+
+  <div class="info-grid">
+    <div class="info-box">
+      <h3>⬛ FeO — Iron(II) Oxide / Wüstite</h3>
+      <ul>
+        <li><b>Oxidation state of Fe:</b> +2</li>
+        <li><b>Colour:</b> Black powder</li>
+        <li><b>Structure:</b> Rock-salt cubic structure</li>
+        <li><b>Formation:</b> Unstable at room temperature — forms only above 570°C by controlled reduction of Fe₂O₃ in limited O₂. Readily oxidises further to Fe₂O₃.</li>
+        <li><b>Reaction with acids:</b> FeO + H₂SO₄ → FeSO₄ + H₂O (gives Fe²⁺ salts)</li>
+        <li><b>Uses:</b> Intermediate in iron oxide production, green glass colouring agent.</li>
+      </ul>
+    </div>
+    <div class="info-box red">
+      <h3>🔴 Fe₂O₃ — Iron(III) Oxide / Haematite</h3>
+      <ul>
+        <li><b>Oxidation state of Fe:</b> +3</li>
+        <li><b>Colour:</b> Red/brown (the colour of rust)</li>
+        <li><b>Structure:</b> Corundum structure (hexagonal close-packed)</li>
+        <li><b>Formation:</b> 4Fe + 3O₂ → 2Fe₂O₃ (slow oxidation in air; also product of rusting).</li>
+        <li><b>Reaction with acids:</b> Fe₂O₃ + 3H₂SO₄ → Fe₂(SO₄)₃ + 3H₂O (gives Fe³⁺ salts)</li>
+        <li><b>Uses:</b> Main iron ore (haematite), red pigment (ochre), polishing powder (jeweller's rouge), thermite reaction (Fe₂O₃ + Al → Al₂O₃ + Fe, very exothermic), catalyst support.</li>
+      </ul>
+    </div>
+    <div class="info-box orange">
+      <h3>⬛🔴 Fe₃O₄ — Magnetite / Iron(II,III) Oxide</h3>
+      <ul>
+        <li><b>Oxidation states of Fe:</b> +2 and +3 combined (ratio 1:2)</li>
+        <li><b>Colour:</b> Black, very dense</li>
+        <li><b>Structure:</b> Inverse spinel structure — FeO·Fe₂O₃</li>
+        <li><b>Formation:</b> 3Fe + 2O₂ → Fe₃O₄ (iron burning in air/O₂). Also formed on iron surface at high T as a protective scale.</li>
+        <li><b>Magnetic:</b> <b>Ferrimagnetic</b> — natural magnetic ore (lodestone was the first known magnet).</li>
+        <li><b>Uses:</b> Recording media, magnetic nanoparticles (MRI contrast agents, targeted drug delivery), pigments, magnetic separation, steel surface treatment (bluing).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info-box" style="margin-top:18px;border-left-color:var(--acids);">
+    <h3>🔑 Comparison Table</h3>
+    <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);margin-top:10px;">
+      <table style="width:100%;border-collapse:collapse;min-width:500px;">
+        <thead><tr style="background:var(--surface2);">
+          <th style="padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);text-align:left;border-bottom:1px solid var(--border);">Property</th>
+          <th style="padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);text-align:center;border-bottom:1px solid var(--border);">FeO</th>
+          <th style="padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--acids);text-align:center;border-bottom:1px solid var(--border);">Fe₂O₃</th>
+          <th style="padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--thermo);text-align:center;border-bottom:1px solid var(--border);">Fe₃O₄</th>
+        </tr></thead>
+        <tbody>
+          <tr><td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--muted);font-size:0.85rem;">Fe oxidation state(s)</td><td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--text);">+2</td><td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--text);">+3</td><td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--text);">+2, +3</td></tr>
+          <tr><td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--muted);font-size:0.85rem;">Colour</td><td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;color:var(--muted);font-size:0.82rem;">Black</td><td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;color:#f87171;font-size:0.82rem;">Red/brown</td><td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;color:var(--muted);font-size:0.82rem;">Black</td></tr>
+          <tr><td style="padding:9px 14px;border-bottom:1px solid var(--border);color:var(--muted);font-size:0.85rem;">Magnetism</td><td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;color:var(--muted);font-size:0.82rem;">Paramagnetic</td><td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;color:var(--muted);font-size:0.82rem;">Weakly paramagnetic</td><td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;color:var(--accent);font-size:0.82rem;">Ferrimagnetic</td></tr>
+          <tr><td style="padding:9px 14px;color:var(--muted);font-size:0.85rem;">Stability in air</td><td style="padding:9px 14px;text-align:center;color:#f87171;font-size:0.82rem;">Unstable (oxidises)</td><td style="padding:9px 14px;text-align:center;color:#4ade80;font-size:0.82rem;">Stable</td><td style="padding:9px 14px;text-align:center;color:#4ade80;font-size:0.82rem;">Stable</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="alloys-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkAlloys" onchange="updateProgress()"><label for="chkAlloys">Studied ✓</label></div>
+  <span class="badge" style="color:var(--solutions);border-color:rgba(52,211,153,0.4);">// Materials Science</span>
+  <h2 class="section-title">Alloys: <span style="color:var(--solutions)">Engineered Metals</span></h2>
+  <p class="section-lead">An alloy is a metallic material made by mixing two or more elements, where at least one is a metal. Alloys almost always have superior properties to pure metals — greater hardness, corrosion resistance, strength, or specific melting points — making them the backbone of modern engineering.</p>
+
+  <div class="info-grid">
+    <div class="info-box">
+      <h3>🔧 Why Alloys are Stronger than Pure Metals</h3>
+      <p>Pure metals have layers of atoms that can slide past each other easily — this is why they are soft and malleable. Adding differently-sized atoms of another element <b>distorts the regular lattice</b>, making it harder for layers to slide. Result: increased hardness and strength.</p>
+      <p style="margin-top:8px;font-size:0.82rem;color:var(--muted)">The added atoms can be larger (substitutional alloy) or smaller (interstitial alloy) than the host metal atoms.</p>
+    </div>
+    <div class="info-box blue">
+      <h3>⚙️ Types of Alloys</h3>
+      <ul>
+        <li><b>Substitutional alloy:</b> Atoms of similar size replace host atoms. Example: brass (Cu + Zn), bronze (Cu + Sn), sterling silver (Ag + Cu).</li>
+        <li><b>Interstitial alloy:</b> Small atoms fit into gaps (interstices) between large host atoms. Example: steel (Fe + C — C atoms are tiny compared to Fe).</li>
+        <li><b>Eutectic alloy:</b> Composition with the lowest melting point. Example: solder (60% Sn + 40% Pb) melts at 183°C.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Important <span style="color:var(--solutions)">Iron Alloys</span></h3>
+  <div class="info-grid">
+    <div class="info-box">
+      <h3>🔩 Steel (Fe + C)</h3>
+      <p>The most important industrial alloy. Carbon is an interstitial impurity that dramatically changes properties:</p>
+      <ul>
+        <li><b>Mild steel:</b> 0.1–0.3% C — tough, weldable, used in construction, car bodies, pipes.</li>
+        <li><b>Medium carbon:</b> 0.3–0.6% C — harder, used in railway tracks, structural beams.</li>
+        <li><b>High carbon:</b> 0.6–1.4% C — very hard but brittle, used in cutting tools, springs, wire.</li>
+        <li><b>Cast iron:</b> 2–4% C — very hard but brittle (excess C forms graphite plates).</li>
+      </ul>
+    </div>
+    <div class="info-box blue">
+      <h3>🌟 Stainless Steel (Fe + Cr + Ni)</h3>
+      <p>Typically: 74% Fe, 18% Cr, 8% Ni. The chromium reacts with O₂ to form a thin, adherent Cr₂O₃ layer that prevents further oxidation — the steel is effectively <b>self-healing and corrosion-resistant</b>.</p>
+      <ul>
+        <li>Surgical instruments and implants</li>
+        <li>Kitchen equipment and cutlery</li>
+        <li>Chemical plant equipment</li>
+        <li>Architecture (cladding, bridges)</li>
+      </ul>
+    </div>
+    <div class="info-box purple">
+      <h3>✈️ Duralumin &amp; Titanium Alloys</h3>
+      <p><b>Duralumin:</b> Al + 4% Cu + Mn + Mg. Age-hardened to be almost as strong as mild steel but only one-third the density. Used in aircraft fuselages and spacecraft.</p>
+      <p style="margin-top:8px;"><b>Ti alloys (Ti-6Al-4V):</b> Titanium + aluminium + vanadium. Strongest-to-weight ratio of any structural metal. Used in jet engines, medical implants, high-performance sporting goods.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Other <span style="color:var(--solutions)">Common Alloys</span></h3>
+  <div class="info-grid">
+    <div class="info-box amber">
+      <h3>🟡 Brass (Cu + Zn)</h3>
+      <p>70% Cu + 30% Zn. Golden colour. Harder than pure copper, good corrosion resistance, easily machined. Used in musical instruments, plumbing fittings, zippers, electrical terminals, ammunition casings.</p>
+    </div>
+    <div class="info-box orange">
+      <h3>🟤 Bronze (Cu + Sn)</h3>
+      <p>~88% Cu + 12% Sn. Historically the first alloy ever made (Bronze Age). Much harder than copper, resistant to seawater corrosion. Used in ship propellers, bearings, bells, sculpture, coins.</p>
+    </div>
+    <div class="info-box">
+      <h3>⚪ Solder (Sn + Pb) / Lead-free solder</h3>
+      <p>Traditional solder: 60% Sn + 40% Pb (mp 183°C). Used in electronics. Lead-free versions (SAC alloys: Sn + Ag + Cu) are now mandated by RoHS regulations. Gold alloys (karat system): 24K = pure gold, 18K = 75% Au + 25% other metals.</p>
+    </div>
+  </div>
+</section>
+
+<section id="basic-radicals-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkBasicRad" onchange="updateProgress()"><label for="chkBasicRad">Studied ✓</label></div>
+  <span class="badge violet">// Qualitative Analysis</span>
+  <h2 class="section-title">Detection of <span class="violet">Basic Radicals</span></h2>
+  <p class="section-lead">Basic radicals (cations) in an unknown salt can be systematically identified through a series of chemical tests. The classical scheme uses flame tests, precipitation with NaOH and NH₃, and confirmatory reactions to narrow down and confirm the identity of the cation present.</p>
+
+  <div class="info-grid">
+    <div class="info-box purple">
+      <h3>🔥 Flame Test (Group 1 &amp; 2 Metals)</h3>
+      <p>Metallic ions impart characteristic colours when introduced into a flame. The heat excites electrons to higher energy levels; when they fall back, they emit visible light.</p>
+      <ul>
+        <li><b>Lithium (Li⁺):</b> Crimson red flame</li>
+        <li><b>Sodium (Na⁺):</b> Intense golden yellow flame</li>
+        <li><b>Potassium (K⁺):</b> Lilac/violet (may be masked by Na⁺ — use cobalt blue glass)</li>
+        <li><b>Calcium (Ca²⁺):</b> Brick red / orange-red flame</li>
+        <li><b>Barium (Ba²⁺):</b> Apple green flame</li>
+        <li><b>Copper (Cu²⁺):</b> Blue-green flame (distinctive, esp. with HCl)</li>
+        <li><b>Strontium (Sr²⁺):</b> Crimson red (more intense than Li)</li>
+      </ul>
+    </div>
+    <div class="info-box blue">
+      <h3>🧪 Precipitation with NaOH</h3>
+      <p>Add NaOH(aq) to the salt solution in drops then in excess:</p>
+      <ul>
+        <li><b>White ppt insoluble in excess:</b> Ca²⁺, Mg²⁺ (Ca(OH)₂ slightly soluble)</li>
+        <li><b>White ppt soluble in excess NaOH (amphoteric):</b> Al³⁺ → [Al(OH)₄]⁻, Zn²⁺ → [Zn(OH)₄]²⁻, Pb²⁺ → [Pb(OH)₄]²⁻</li>
+        <li><b>Green ppt insoluble in excess:</b> Fe²⁺ → Fe(OH)₂ (green, may turn brown on standing)</li>
+        <li><b>Brown/rusty ppt insoluble:</b> Fe³⁺ → Fe(OH)₃ (red-brown)</li>
+        <li><b>Blue ppt insoluble:</b> Cu²⁺ → Cu(OH)₂ (blue)</li>
+        <li><b>Cream ppt:</b> Bi³⁺</li>
+        <li><b>White ppt + NH₃ gas:</b> NH₄⁺ → NH₃ (turns damp red litmus blue)</li>
+      </ul>
+    </div>
+    <div class="info-box">
+      <h3>🧪 Precipitation with NH₃(aq)</h3>
+      <p>Add dilute NH₃ in drops then in excess:</p>
+      <ul>
+        <li><b>Blue ppt, soluble in excess NH₃ (deep blue):</b> Cu²⁺ → [Cu(NH₃)₄]²⁺ (tetraamminecopper complex)</li>
+        <li><b>White ppt soluble in excess NH₃:</b> Zn²⁺ → [Zn(NH₃)₄]²⁺, Ag⁺ → [Ag(NH₃)₂]⁺</li>
+        <li><b>White ppt insoluble in excess:</b> Mg²⁺, Ca²⁺</li>
+        <li><b>Green ppt (Fe²⁺) or brown ppt (Fe³⁺) insoluble in excess NH₃</b></li>
+        <li><b>No ppt with Na⁺, K⁺:</b> Group 1 hydroxides are soluble</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Confirmatory <span style="color:var(--bonding)">Tests for Common Cations</span></h3>
+  <div class="info-grid">
+    <div class="info-box violet">
+      <h3>✅ Fe²⁺ Confirmation</h3>
+      <ul>
+        <li>Add K₃[Fe(CN)₆] (potassium hexacyanoferrate(III)): gives <b>deep blue precipitate (Turnbull's blue)</b></li>
+        <li>Or: dissolve in dilute H₂SO₄ → add KMnO₄: KMnO₄ is decolourised (Fe²⁺ reduces MnO₄⁻)</li>
+      </ul>
+    </div>
+    <div class="info-box violet">
+      <h3>✅ Fe³⁺ Confirmation</h3>
+      <ul>
+        <li>Add KSCN (potassium thiocyanate): gives <b>blood-red colour</b> [Fe(SCN)]²⁺</li>
+        <li>Or: add K₄[Fe(CN)₆]: gives deep blue precipitate (Prussian blue)</li>
+      </ul>
+    </div>
+    <div class="info-box violet">
+      <h3>✅ Cu²⁺, NH₄⁺, Pb²⁺</h3>
+      <ul>
+        <li><b>Cu²⁺:</b> Excess NH₃ → deep blue solution. Or: add K₄[Fe(CN)₆] → red-brown precipitate.</li>
+        <li><b>NH₄⁺:</b> Add NaOH and heat → NH₃ gas evolved (turns damp red litmus blue).</li>
+        <li><b>Pb²⁺:</b> Add KI → yellow precipitate PbI₂ (soluble in hot water, recrystallises as golden needles). Or H₂SO₄ → white PbSO₄ precipitate.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="quant-analysis-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkQuantAnal" onchange="updateProgress()"><label for="chkQuantAnal">Studied ✓</label></div>
+  <span class="badge teal">// Analytical Chemistry</span>
+  <h2 class="section-title">Quantitative <span class="teal">Analysis</span></h2>
+  <p class="section-lead">Quantitative analysis determines the amount (mass, concentration, or percentage) of a substance in a sample using precise measurements. The core techniques include gravimetric analysis, volumetric (titrimetric) analysis, and colorimetry.</p>
+
+  <div class="info-grid">
+    <div class="info-box eq">
+      <h3>⚖️ Gravimetric Analysis</h3>
+      <p>The analyte is converted into a <b>pure, stable, sparingly soluble precipitate</b> that is filtered, dried, and weighed. The mass of the precipitate is used to calculate the amount of analyte.</p>
+      <p style="margin-top:8px;font-size:0.82rem;"><b>Steps:</b> Dissolve sample → precipitate analyte → filter → wash → dry/ignite to constant mass → weigh → calculate.</p>
+      <p style="margin-top:8px;font-size:0.82rem;color:var(--muted)"><b>Example:</b> BaSO₄ gravimetry — add excess BaCl₂ to a sulfate solution: Ba²⁺ + SO₄²⁻ → BaSO₄↓ (white). Weigh BaSO₄ → calculate sulfate content.</p>
+      <p style="margin-top:8px;font-size:0.82rem;color:var(--muted)"><b>Accuracy tip:</b> Digestion (heating near boiling) is used to grow larger crystals → easier to filter, less surface area to adsorb impurities.</p>
+    </div>
+    <div class="info-box blue">
+      <h3>🧪 Volumetric Analysis (Titration)</h3>
+      <p>A <b>solution of known concentration (standard solution / titrant)</b> is delivered from a burette until the reaction is complete (equivalence point). An indicator signals the end-point.</p>
+      <p style="margin-top:8px;font-size:0.82rem;"><b>Key formula:</b> C₁V₁/n₁ = C₂V₂/n₂</p>
+      <p style="margin-top:8px;font-size:0.82rem;color:var(--muted)">Types of titration:</p>
+      <ul style="font-size:0.82rem;color:var(--muted)">
+        <li><b>Acid-base:</b> Uses indicators (phenolphthalein, methyl orange)</li>
+        <li><b>Redox titration:</b> KMnO₄ or K₂Cr₂O₇ as oxidant (self-indicating for KMnO₄)</li>
+        <li><b>Complexometric (EDTA):</b> Eriochrome Black T indicator, determines Ca²⁺, Mg²⁺ in water hardness</li>
+        <li><b>Precipitation (Mohr's method):</b> AgNO₃ titrates Cl⁻, K₂CrO₄ as indicator</li>
+        <li><b>Iodometric:</b> Indirect — oxidant liberates I₂ from KI, then titrate I₂ with Na₂S₂O₃</li>
+      </ul>
+    </div>
+    <div class="info-box">
+      <h3>📊 Colorimetry &amp; Spectrophotometry</h3>
+      <p>Based on Beer-Lambert Law: the absorbance of a solution is proportional to concentration.</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--accent);text-align:center;margin:10px 0;">A = εcl</p>
+      <ul style="font-size:0.82rem;color:var(--muted)">
+        <li><b>A</b> = absorbance (unitless)</li>
+        <li><b>ε</b> = molar absorptivity (L mol⁻¹ cm⁻¹)</li>
+        <li><b>c</b> = concentration (mol/L)</li>
+        <li><b>l</b> = path length (cm)</li>
+      </ul>
+      <p style="margin-top:8px;font-size:0.82rem;color:var(--muted)"><b>Calibration curve:</b> Prepare standards of known concentration → measure absorbance → plot A vs. c → use to read off unknown concentration.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Back Titration <span style="color:var(--equilibrium)">&amp; Double Indicators</span></h3>
+  <div class="info-grid">
+    <div class="info-box eq">
+      <h3>🔄 Back Titration</h3>
+      <p>Used when the analyte reacts slowly, is insoluble, or the end-point is hard to detect directly. An <b>excess of known reagent</b> is added to react completely with the analyte, then the <b>unreacted excess</b> is titrated with a second standard solution.</p>
+      <p style="margin-top:8px;font-size:0.82rem;font-family:'JetBrains Mono',monospace;color:var(--accent)">moles(analyte) = moles(reagent added) − moles(reagent titrated back)</p>
+      <p style="margin-top:8px;font-size:0.82rem;color:var(--muted)"><b>Example:</b> Determining CaCO₃ purity — add excess HCl, then back-titrate with NaOH.</p>
+    </div>
+    <div class="info-box blue">
+      <h3>📏 Sources of Error in Quantitative Analysis</h3>
+      <ul style="font-size:0.82rem;color:var(--muted)">
+        <li><b>Systematic errors:</b> Calibration error in glassware, indicator error, dissolved CO₂ in NaOH standard.</li>
+        <li><b>Random errors:</b> Reading meniscus, parallex, volume delivery variation.</li>
+        <li><b>Minimisation:</b> Repeat titrations until concordant results (within 0.1 cm³), rinse burette with titrant, use appropriate indicator for the particular acid-base reaction.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="pressure-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkPressure" onchange="updateProgress()"><label for="chkPressure">Studied ✓</label></div>
+  <span class="badge indigo">// Physical Chemistry</span>
+  <h2 class="section-title">Pressure <span class="indigo">in Chemistry</span></h2>
+  <p class="section-lead">Pressure is the force exerted per unit area. In chemistry, pressure plays a central role in gas behaviour, equilibrium, and industrial processes. Understanding different types of pressure — atmospheric, partial, osmotic, and vapour pressure — is essential for physical chemistry.</p>
+
+  <div class="info-grid">
+    <div class="info-box indigo">
+      <h3>🌍 Atmospheric Pressure</h3>
+      <p>The pressure exerted by the weight of the atmosphere. Standard atmosphere (STP): <b>1 atm = 101,325 Pa = 760 mmHg = 760 torr = 1.01325 bar</b>.</p>
+      <p style="margin-top:8px;font-size:0.82rem;color:var(--muted)">Measured by barometer (mercury column). At sea level: 1 atm. Decreases with altitude — at 10 km (cruising altitude) it is ~0.25 atm.</p>
+    </div>
+    <div class="info-box">
+      <h3>🔵 Dalton's Law of Partial Pressures</h3>
+      <p>The total pressure of a mixture of non-reacting gases equals the <b>sum of the partial pressures</b> of each individual gas:</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--accent);text-align:center;margin:10px 0;">P_total = P₁ + P₂ + P₃ + ...</p>
+      <p style="font-size:0.82rem;color:var(--muted)">Partial pressure of gas i: Pᵢ = xᵢ × P_total, where xᵢ is the mole fraction. Used in calculations involving gas collection over water: P(dry gas) = P(total) − P(water vapour).</p>
+    </div>
+    <div class="info-box blue">
+      <h3>💧 Vapour Pressure</h3>
+      <p>The pressure exerted by a vapour in equilibrium with its liquid phase at a given temperature. Increases with temperature (more molecules have enough energy to escape). At the <b>boiling point</b>, vapour pressure = atmospheric pressure.</p>
+      <p style="margin-top:8px;font-size:0.82rem;color:var(--muted)">Raoult's Law (ideal solutions): P = x_solvent × P°_solvent. Adding a non-volatile solute <b>lowers</b> vapour pressure → elevates boiling point and depresses freezing point.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Osmotic Pressure <span style="color:var(--gas)">&amp; Applied Pressure</span></h3>
+  <div class="info-grid">
+    <div class="info-box">
+      <h3>🌊 Osmotic Pressure (π)</h3>
+      <p>The pressure required to prevent osmosis (net flow of solvent through a semipermeable membrane from low to high concentration). Van't Hoff equation:</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--accent);text-align:center;margin:10px 0;">π = iMRT</p>
+      <ul style="font-size:0.82rem;color:var(--muted)">
+        <li><b>i</b> = van't Hoff factor (dissociation: NaCl → i=2)</li>
+        <li><b>M</b> = molarity · <b>R</b> = 8.314 J/mol·K · <b>T</b> = temperature in K</li>
+        <li>Application: reverse osmosis water purification, dialysis, IV drip solutions must be isotonic (same π as blood).</li>
+      </ul>
+    </div>
+    <div class="info-box blue">
+      <h3>⚙️ Pressure in Chemical Equilibrium</h3>
+      <p>From Le Chatelier's principle, increasing pressure on a gas-phase equilibrium shifts it toward the side with <b>fewer moles of gas</b>.</p>
+      <ul style="font-size:0.82rem;color:var(--muted)">
+        <li>N₂ + 3H₂ ⇌ 2NH₃ → (4 moles → 2 moles): higher pressure favours NH₃ production ✓</li>
+        <li>H₂ + I₂ ⇌ 2HI → (2 moles → 2 moles): pressure has NO effect on equilibrium position</li>
+        <li>At equilibrium, Kp = Kc(RT)^Δn, where Δn = moles of gas products − moles of gas reactants</li>
+      </ul>
+    </div>
+    <div class="info-box purple">
+      <h3>🏭 Industrial Significance of Pressure</h3>
+      <ul style="font-size:0.82rem;color:var(--muted)">
+        <li><b>Haber Process (NH₃):</b> 150–300 atm — high pressure favours product side (Δn = −2)</li>
+        <li><b>Contact Process (H₂SO₄):</b> ~1 atm — high pressure makes little difference (Δn = −1), not worth the cost</li>
+        <li><b>Supercritical CO₂:</b> Above 73 atm, 31°C — excellent green solvent for decaffeination and dry cleaning</li>
+        <li><b>Diamond synthesis:</b> ~50,000 atm, ~1500°C — extreme pressure to convert graphite to diamond</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="ionic-equilibrium-section" class="card">
+  <div class="progress-check"><input type="checkbox" id="chkIonicEq" onchange="updateProgress()"><label for="chkIonicEq">Studied ✓</label></div>
+  <span class="badge eq">// Ionic Equilibrium</span>
+  <h2 class="section-title">Ionic <span class="eq">Equilibrium</span></h2>
+  <p class="section-lead">Ionic equilibrium describes reversible processes involving ions in solution — including the dissociation of weak acids and bases, solubility equilibria, buffer systems, and hydrolysis. It extends the concept of chemical equilibrium to ionic species.</p>
+
+  <div class="info-grid">
+    <div class="info-box eq">
+      <h3>⚗️ Weak Acid Dissociation (Kₐ)</h3>
+      <p>A weak acid HA only partially dissociates in water:</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:var(--equilibrium);margin:8px 0;text-align:center;">HA ⇌ H⁺ + A⁻</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:var(--accent);text-align:center;margin-bottom:10px;">Kₐ = [H⁺][A⁻] / [HA]</p>
+      <ul style="font-size:0.82rem;color:var(--muted)">
+        <li>Larger Kₐ → stronger (more dissociated) weak acid</li>
+        <li>pKₐ = −log(Kₐ). Lower pKₐ = stronger weak acid.</li>
+        <li>Approximation: if α (degree of dissociation) &lt;&lt;1, [H⁺] ≈ √(Kₐ·C)</li>
+        <li>pH = ½(pKₐ − log C) for weak acid</li>
+      </ul>
+    </div>
+    <div class="info-box blue">
+      <h3>⚗️ Weak Base Dissociation (K_b)</h3>
+      <p>A weak base B accepts a proton from water:</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:var(--alkene);margin:8px 0;text-align:center;">B + H₂O ⇌ BH⁺ + OH⁻</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:var(--accent);text-align:center;margin-bottom:10px;">K_b = [BH⁺][OH⁻] / [B]</p>
+      <ul style="font-size:0.82rem;color:var(--muted)">
+        <li>pK_b = −log(K_b). Lower pK_b = stronger weak base.</li>
+        <li>Key relationship: <b>Kₐ × K_b = Kw = 1×10⁻¹⁴</b> (at 25°C)</li>
+        <li>pKₐ + pK_b = 14 (conjugate acid-base pair)</li>
+        <li>pOH = ½(pK_b − log C) for weak base</li>
+      </ul>
+    </div>
+    <div class="info-box">
+      <h3>🛡️ Buffer Solutions</h3>
+      <p>A buffer resists changes in pH when small amounts of acid or base are added. It contains a <b>weak acid and its conjugate base</b> (or weak base + conjugate acid) in comparable concentrations.</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:var(--accent);text-align:center;margin:10px 0;">Henderson-Hasselbalch:<br>pH = pKₐ + log([A⁻]/[HA])</p>
+      <ul style="font-size:0.82rem;color:var(--muted)">
+        <li>Buffer pH = pKₐ when [A⁻] = [HA]</li>
+        <li>Effective buffer range: pKₐ ± 1</li>
+        <li><b>Blood buffer:</b> H₂CO₃/HCO₃⁻, pKₐ = 6.1, blood pH = 7.4 (maintained by lungs and kidneys)</li>
+        <li><b>Acetate buffer:</b> CH₃COOH/CH₃COO⁻, pKₐ = 4.75</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-top:36px;margin-bottom:14px;">Solubility Product <span style="color:var(--equilibrium)">(Ksp) &amp; Salt Hydrolysis</span></h3>
+  <div class="info-grid">
+    <div class="info-box eq">
+      <h3>🌊 Solubility Product (Ksp)</h3>
+      <p>For a sparingly soluble salt MA dissolving:</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--equilibrium);text-align:center;margin:8px 0;">MA(s) ⇌ M⁺(aq) + A⁻(aq)<br>Ksp = [M⁺][A⁻]</p>
+      <ul style="font-size:0.82rem;color:var(--muted)">
+        <li>If ion product Q &lt; Ksp → more salt dissolves</li>
+        <li>If Q &gt; Ksp → precipitation occurs</li>
+        <li><b>Common ion effect:</b> Adding a common ion reduces solubility (shifts equilibrium left)</li>
+        <li>AgCl: Ksp = 1.8×10⁻¹⁰ → solubility = √(1.8×10⁻¹⁰) = 1.34×10⁻⁵ mol/L</li>
+      </ul>
+    </div>
+    <div class="info-box orange">
+      <h3>💧 Salt Hydrolysis</h3>
+      <p>When a salt dissolves in water, the resulting solution may be acidic, basic, or neutral depending on the nature of the parent acid and base:</p>
+      <ul style="font-size:0.82rem;color:var(--muted)">
+        <li><b>Strong acid + Strong base → pH = 7</b> (NaCl, KNO₃ — neither ion hydrolyses)</li>
+        <li><b>Weak acid + Strong base → pH &gt; 7</b> (CH₃COONa — acetate ion hydrolyses: A⁻ + H₂O ⇌ HA + OH⁻)</li>
+        <li><b>Strong acid + Weak base → pH &lt; 7</b> (NH₄Cl — ammonium ion hydrolyses: BH⁺ ⇌ B + H⁺)</li>
+        <li><b>Weak acid + Weak base:</b> pH depends on relative Kₐ and K_b values</li>
+      </ul>
+    </div>
+    <div class="info-box purple">
+      <h3>🔑 Degree of Hydrolysis</h3>
+      <p>For a salt of weak acid and strong base (e.g. CH₃COONa), the degree of hydrolysis (h) is:</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--nuclear);text-align:center;margin:8px 0;">h = √(Kw / Kₐ × C)<br>pH = 7 + ½(pKₐ + log C)</p>
+      <p style="font-size:0.82rem;color:var(--muted);margin-top:8px;">The Common Ion Effect also suppresses hydrolysis — adding the weak acid (CH₃COOH) to CH₃COONa solution reduces the degree of hydrolysis of the acetate ion.</p>
+    </div>
+  </div>
+</section>
+
+
+<div class="chapter-divider" style="background:linear-gradient(135deg,rgba(245,158,11,0.05),rgba(79,255,176,0.05));border-color:rgba(245,158,11,0.15);">
+  <span class="chapter-icon">🔧</span>
+  <div>
+    <div class="chapter-label" style="color:var(--reactions)">Chapter 03</div>
+    <div class="chapter-title">Tools &amp; Reference</div>
+    <div class="chapter-desc">Six live interactive calculators plus the full 118-element periodic table with element detail panels.</div>
+  </div>
+  <div class="chapter-count" style="border-color:rgba(245,158,11,0.2);color:var(--reactions);">3 Sections</div>
+</div>
 
 <section id="tools-section" class="card">
   <div class="progress-check"><input type="checkbox" id="chkTools" onchange="updateProgress()"><label for="chkTools">Studied ✓</label></div>
@@ -2749,8 +3429,8 @@
   <p>Designed for Excellence by Abdelrahman Mohamed © 2026</p>
   <div class="footer-divider"></div>
   <div class="footer-meta">
-    <span><span class="dot"></span> Version 12.0</span>
-    <span><span class="dot"></span> 30 Sections · 9 Live Tools</span>
+    <span><span class="dot"></span> Version 12.1</span>
+    <span><span class="dot"></span> 40 Sections · 9 Live Tools</span>
     <span><span class="dot"></span> 118 Elements · Click for Details</span>
     <span><span class="dot"></span> Educational Level: Pro</span>
   </div>
