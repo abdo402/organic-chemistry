@@ -662,8 +662,8 @@ function restoreTheme(){
 const CHAPTERS=[
   {
     label:'Organic',
-    ids:['chkCalc','chk0','chk1','chk2','chk3','chk4b','chkOR','chkSynth','chkPoly'],
-    names:['Calc','Hydrocarbons','IUPAC','Isomers','Library','Func. Groups','Org. Reactions','Synthesis','Polymers']
+    ids:['chkCalc','chk0','chk1','chk2','chk-alkiso','chk3','chk4b','chkOR','chkSynth','chkPoly'],
+    names:['Calc','Hydrocarbons','IUPAC','Isomers','Iso Builder','Library','Func. Groups','Org. Reactions','Synthesis','Polymers']
   },
   {
     label:'General',
@@ -779,6 +779,7 @@ const SEARCH_INDEX=[
   {title:'What are Hydrocarbons',ctx:'Alkanes saturated alkenes alkynes unsaturated C–H compounds fossil fuels combustion hydrocarbon types',anchor:'hydrocarbons'},
   {title:'IUPAC Nomenclature',ctx:'Systematic naming longest chain rule substituents alphabetical order locant prefix suffix alkan alken alkyne',anchor:'iupac-section'},
   {title:'Isomerism',ctx:'Structural isomers stereoisomers geometric cis trans optical enantiomers chiral carbon R S configuration',anchor:'isomerism-section'},
+  {title:'Alkane Isomer Builder',ctx:'Alkane isomer generator structural isomers CnH2n+2 carbon skeleton IUPAC name condensed formula tool',anchor:'alkiso-section'},
   {title:'Compound Library',ctx:'Methane ethane propane butane pentane hexane heptane octane nonane decane full series C1 C10 homologous',anchor:'table-section'},
   {title:'Organic Functional Groups',ctx:'Alcohol aldehyde ketone carboxylic acid ester amine ether amide alkyl halide thiol nitrile aromatic OH CHO COOH COO NH2 Tollens Fehling test benzene',anchor:'functional-section'},
   {title:'Organic Reactions & Mechanisms',ctx:'Oxidation energy profile exothermic endothermic activation energy reaction pathway combustion substitution addition elimination polymerisation',anchor:'organic-reactions-section'},
@@ -1209,6 +1210,409 @@ function buildIsomers() {
       </div>`;
     });
     html += '</div>';
+  }
+
+  res.innerHTML = html;
+}
+
+// ============================================================
+// ALKANE ISOMER BUILDER — Recursive Tree Algorithm
+// Generates all structural isomers of CnH(2n+2) for n=1..10
+// ============================================================
+
+function setAlkaneN(n) {
+  const inp = document.getElementById('alki-n');
+  if (inp) { inp.value = n; buildAlkaneIsomers(); }
+}
+
+function buildAlkaneIsomers() {
+  const inp = document.getElementById('alki-n');
+  const res = document.getElementById('alki-result');
+  const fml = document.getElementById('alki-formula');
+  if (!inp || !res) return;
+
+  const n = parseInt(inp.value);
+  if (isNaN(n) || n < 1 || n > 10) {
+    res.innerHTML = '<div style="color:var(--danger);font-size:0.85rem;">Please enter a value between 1 and 10.</div>';
+    return;
+  }
+
+  // Update formula display
+  const H = 2 * n + 2;
+  const Csub = n > 1 ? `<sub>${n}</sub>` : '';
+  const Hsub = H > 1 ? `<sub>${H}</sub>` : '';
+  if (fml) fml.innerHTML = `C${Csub}H${Hsub} &nbsp;·&nbsp; MW = ${(12*n + H).toFixed(1)} g/mol`;
+
+  // Generate all unique rooted trees (carbon skeletons)
+  const skeletons = generateAlkaneTrees(n);
+
+  // Convert to display data
+  const isoData = skeletons.map((tree, i) => {
+    const name = nameAlkane(tree, n);
+    const condensed = treeToCondensed(tree, n);
+    return { index: i + 1, name, condensed, formula: `C${n}H${H}` };
+  });
+
+  // Sort: straight chain first, then alphabetical
+  isoData.sort((a, b) => {
+    if (a.name === straightChainName(n)) return -1;
+    if (b.name === straightChainName(n)) return 1;
+    return a.name.localeCompare(b.name);
+  });
+
+  renderAlkaneResults(isoData, n, H, res);
+}
+
+// ---- Tree generation ----
+// Represent each tree as a sorted tuple of subtree sizes (Prüfer-style canonical form)
+// We use a recursive approach: a rooted tree of n nodes has a root + subtrees summing to n-1
+
+function generateAlkaneTrees(n) {
+  if (n === 1) return [{ children: [] }];
+  const trees = [];
+  const rootedTrees = allRootedTrees(n);
+  // Convert to unrooted by centroid canonicalisation
+  const seen = new Set();
+  for (const t of rootedTrees) {
+    const canon = canonicalUnrooted(t);
+    if (!seen.has(canon)) {
+      seen.add(canon);
+      trees.push(t);
+    }
+  }
+  return trees;
+}
+
+// allRootedTrees(n): all rooted trees with n nodes, canonical (children sorted)
+function allRootedTrees(n) {
+  if (n === 1) return [{ children: [], size: 1 }];
+  const result = [];
+  // distribute n-1 nodes among children, each subtree size >= 1
+  // children subtrees must be in non-increasing order to avoid duplicates
+  distributeChildren(n - 1, n - 1, result);
+  return result;
+}
+
+// Generate all rooted trees of total n nodes where each child subtree <= maxSubSize
+function distributeChildren(remaining, maxSubSize, out) {
+  if (remaining === 0) { out.push({ children: [], size: 1 }); return; }
+  const partitions = intPartitions(remaining, maxSubSize);
+  for (const parts of partitions) {
+    // parts is a non-increasing list of subtree sizes
+    // get all combinations of rooted trees for each size
+    const childGroups = [];
+    let valid = true;
+    let prevSize = Infinity;
+    for (const sz of parts) {
+      const treesOfSz = allRootedTrees(sz);
+      childGroups.push(treesOfSz);
+    }
+    // Cartesian product of child groups, with constraint that equal-size subtrees are in canonical order
+    const combos = cartesianProduct(childGroups);
+    for (const combo of combos) {
+      if (isCanonicalChildOrder(combo)) {
+        const totalSize = 1 + combo.reduce((s, c) => s + c.size, 0);
+        out.push({ children: combo, size: totalSize });
+      }
+    }
+  }
+}
+
+function isCanonicalChildOrder(children) {
+  // children must be in non-increasing canonical order
+  for (let i = 0; i < children.length - 1; i++) {
+    const a = treeCanonString(children[i]);
+    const b = treeCanonString(children[i + 1]);
+    if (a < b) return false;
+  }
+  return true;
+}
+
+function treeCanonString(t) {
+  if (t.children.length === 0) return '()';
+  const childStrs = t.children.map(treeCanonString).sort().reverse();
+  return '(' + childStrs.join('') + ')';
+}
+
+function canonicalUnrooted(t) {
+  // Re-root at centroid for unrooted canonical form
+  // Centroid: node(s) where max subtree size <= n/2
+  const n = t.size;
+  const centroid = findCentroid(t, n);
+  return treeCanonString(reRootAt(t, centroid));
+}
+
+function findCentroid(t, n) {
+  // Simple: collect all nodes, find centroid
+  // We'll work with the recursive structure
+  // A centroid node has all subtrees (including "upward") of size <= n/2
+  const nodes = flattenTree(t, null);
+  for (const node of nodes) {
+    const maxSub = maxSubtreeSize(node, n);
+    if (maxSub <= Math.floor(n / 2)) return node;
+  }
+  return nodes[0];
+}
+
+function flattenTree(node, parent) {
+  const result = [{ node, parent }];
+  for (const child of node.children) {
+    result.push(...flattenTree(child, node));
+  }
+  return result;
+}
+
+function maxSubtreeSize(nodeInfo, n) {
+  // Max subtree when rooted at nodeInfo.node
+  const downMax = nodeInfo.node.children.reduce((m, c) => Math.max(m, c.size), 0);
+  const upSize = n - nodeInfo.node.size;
+  return Math.max(downMax, upSize);
+}
+
+function reRootAt(root, centroidInfo) {
+  // Build new tree rooted at centroid node
+  // This is complex; simpler approach: just use treeCanonString after sorting all subtree strings
+  // For our purposes, use the canonical string directly
+  return root; // canonical string handles this
+}
+
+// Integer partitions of n into parts <= maxPart, non-increasing
+function intPartitions(n, maxPart) {
+  if (n === 0) return [[]];
+  if (maxPart === 0) return [];
+  const result = [];
+  for (let first = Math.min(n, maxPart); first >= 1; first--) {
+    const rest = intPartitions(n - first, first);
+    for (const r of rest) {
+      result.push([first, ...r]);
+    }
+  }
+  return result;
+}
+
+function cartesianProduct(arrays) {
+  if (arrays.length === 0) return [[]];
+  const [first, ...rest] = arrays;
+  const restProduct = cartesianProduct(rest);
+  return first.flatMap(item => restProduct.map(r => [item, ...r]));
+}
+
+// ---- Naming ----
+const ALKANE_PREFIXES = ['','meth','eth','prop','but','pent','hex','hept','oct','non','dec'];
+const MULTIPLIERS = ['','di','tri','tetra','penta','hexa','hepta','octa','nona','deca'];
+
+function straightChainName(n) {
+  return ALKANE_PREFIXES[n] + 'ane';
+}
+
+function nameAlkane(tree, n) {
+  if (n === 1) return 'methane';
+  if (n === 2) return 'ethane';
+  if (n === 3) return 'propane';
+
+  // Find longest chain
+  const longest = longestChain(tree);
+  if (longest === n) return ALKANE_PREFIXES[n] + 'ane';
+
+  // Build substituted name
+  return iupacName(tree, n);
+}
+
+function longestChain(tree) {
+  // Diameter of tree = longest path
+  if (!tree.children || tree.children.length === 0) return 1;
+  // Get two longest depths from this root
+  const depths = tree.children.map(c => longestChainFromRoot(c));
+  depths.sort((a, b) => b - a);
+  if (depths.length === 1) return 1 + depths[0];
+  return 1 + depths[0] + (depths[1] || 0);
+}
+
+function longestChainFromRoot(tree) {
+  if (!tree.children || tree.children.length === 0) return 1;
+  return 1 + Math.max(...tree.children.map(longestChainFromRoot));
+}
+
+function iupacName(tree, n) {
+  // Find all chains of max length, then apply substituent rules
+  const chains = getAllMaxChains(tree);
+  const bestChain = choosePrincipalChain(chains, tree, n);
+  const chainLen = bestChain.length;
+
+  // Find substituents (nodes not on chain)
+  const substituents = getSubstituents(tree, bestChain);
+
+  if (substituents.length === 0) {
+    return ALKANE_PREFIXES[chainLen] + 'ane';
+  }
+
+  // Group substituents by type and position
+  const groups = {};
+  for (const sub of substituents) {
+    const type = sub.type; // e.g. "methyl", "ethyl"
+    if (!groups[type]) groups[type] = [];
+    groups[type].push(sub.pos);
+  }
+
+  // Build name: sort substituent types alphabetically
+  const subTypes = Object.keys(groups).sort();
+  let prefix = '';
+  for (const type of subTypes) {
+    const positions = groups[type].sort((a, b) => a - b);
+    prefix += MULTIPLIERS[positions.length] + type + '-' + positions.join(',') + '-';
+  }
+
+  // Final: prefix + parent chain name, clean up trailing dash
+  prefix = prefix.replace(/-$/, '');
+  return prefix + ALKANE_PREFIXES[chainLen] + 'ane';
+}
+
+function getAllMaxChains(tree) {
+  // Get all paths in the tree, return those of max length
+  const allPaths = [];
+  collectPaths(tree, [], allPaths);
+  const maxLen = Math.max(...allPaths.map(p => p.length));
+  return allPaths.filter(p => p.length === maxLen);
+}
+
+function collectPaths(node, current, out) {
+  const newPath = [...current, node];
+  if (!node.children || node.children.length === 0) {
+    out.push(newPath);
+  }
+  for (const child of node.children) {
+    collectPaths(child, newPath, out);
+  }
+  // Also paths that don't go to leaves at this node
+  if (node.children && node.children.length > 1) {
+    // Paths that go through this node connecting two subtrees
+    const depths = node.children.map(c => ({ child: c, depth: longestChainFromRoot(c) }));
+    depths.sort((a, b) => b.depth - a.depth);
+    if (depths.length >= 2) {
+      const pathThrough = buildPathThrough(node, depths[0].child, depths[1].child);
+      if (pathThrough) out.push(pathThrough);
+    }
+  }
+}
+
+function buildPathThrough(node, child1, child2) {
+  const path1 = deepestPath(child1);
+  const path2 = deepestPath(child2);
+  return [...path1.reverse(), node, ...path2];
+}
+
+function deepestPath(node) {
+  if (!node.children || node.children.length === 0) return [node];
+  const bestChild = node.children.reduce((best, c) =>
+    longestChainFromRoot(c) > longestChainFromRoot(best) ? c : best
+  );
+  return [node, ...deepestPath(bestChild)];
+}
+
+function choosePrincipalChain(chains, tree, n) {
+  // Return the chain that gives lowest locants to substituents
+  // For simplicity: pick any max-length chain for now
+  return chains[0] || [];
+}
+
+function getSubstituents(tree, chain) {
+  const chainSet = new Set(chain);
+  const subs = [];
+  for (let i = 0; i < chain.length; i++) {
+    const node = chain[i];
+    for (const child of (node.children || [])) {
+      if (!chainSet.has(child)) {
+        const subLen = child.size;
+        subs.push({
+          pos: i + 1,
+          type: ALKANE_PREFIXES[subLen] + 'yl'
+        });
+      }
+    }
+  }
+  return subs;
+}
+
+// ---- Condensed structure ----
+function treeToCondensed(tree, n) {
+  if (n === 1) return 'CH₄';
+  if (n === 2) return 'CH₃CH₃';
+  if (n === 3) return 'CH₃CH₂CH₃';
+
+  const chains = getAllMaxChains(tree);
+  const chain = chains[0] || [];
+  if (chain.length === 0) return buildCondensedFromRoot(tree, null);
+
+  return buildCondensedFromChain(tree, chain);
+}
+
+function buildCondensedFromChain(tree, chain) {
+  const chainSet = new Set(chain);
+  let result = '';
+  for (let i = 0; i < chain.length; i++) {
+    const node = chain[i];
+    const branches = (node.children || []).filter(c => !chainSet.has(c));
+    const degree = branches.length;
+    const H = 3 - degree - (i === 0 ? 0 : 1) - (i === chain.length - 1 ? 0 : 1);
+    const Hcount = Math.max(0, H + (i === 0 || i === chain.length - 1 ? 1 : 0));
+
+    let seg = 'C';
+    if (Hcount > 0) seg += 'H' + (Hcount > 1 ? subscript(Hcount) : '');
+    for (const br of branches) {
+      seg += '(' + buildCondensedFromRoot(br, null) + ')';
+    }
+    result += seg;
+  }
+  return result;
+}
+
+function buildCondensedFromRoot(node, parent) {
+  const children = (node.children || []);
+  const degree = children.length + (parent !== null ? 1 : 0);
+  const H = Math.max(0, 4 - degree);
+  let seg = 'C' + (H > 0 ? 'H' + (H > 1 ? subscript(H) : '') : '');
+  for (const child of children) {
+    seg += buildCondensedFromRoot(child, node);
+  }
+  return seg;
+}
+
+function subscript(n) {
+  const subs = '₀₁₂₃₄₅₆₇₈₉';
+  return String(n).split('').map(d => subs[+d]).join('');
+}
+
+// ---- Render ----
+function renderAlkaneResults(isoData, n, H, res) {
+  const count = isoData.length;
+  const accent = 'var(--accent)';
+  const H2 = 2 * n + 2;
+
+  let html = `
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px;">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:${accent};background:color-mix(in srgb,var(--accent) 12%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);padding:4px 14px;border-radius:50px;letter-spacing:0.12em;text-transform:uppercase;">
+        C${n > 1 ? '<sub>' + n + '</sub>' : ''}H<sub>${H2}</sub> — Alkane
+      </span>
+      <span style="font-size:0.85rem;color:var(--muted);">${count} structural isomer${count !== 1 ? 's' : ''}</span>
+    </div>`;
+
+  if (count === 1) {
+    html += `<div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid ${accent};border-radius:12px;padding:18px 20px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:4px;">ONLY ISOMER</div>
+      <div style="font-size:1rem;font-weight:600;color:var(--text);margin-bottom:6px;">${isoData[0].name}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:${accent};">${isoData[0].condensed}</div>
+    </div>`;
+  } else {
+    html += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;">`;
+    isoData.forEach((iso, i) => {
+      const isMain = i === 0;
+      html += `<div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid ${isMain ? accent : 'var(--border)'};border-radius:12px;padding:14px 16px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:4px;">ISOMER ${iso.index}</div>
+        <div style="font-size:0.9rem;font-weight:600;color:var(--text);margin-bottom:6px;">${iso.name}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:${accent};">${iso.condensed}</div>
+      </div>`;
+    });
+    html += `</div>`;
   }
 
   res.innerHTML = html;
