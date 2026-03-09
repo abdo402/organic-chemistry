@@ -232,7 +232,7 @@ function buildCompound(){
   const cleanAni=aniSym.replace(/[()]/g,'');
   const cleanCat=catSym.replace(/[()]/g,'');
   let formula='';
-  formula+=catN>1?`(${cleanCat})${catN>1?'<sub>'+catN+'</sub>':''}`:cleanCat;
+  formula+=catN>1?(needParenCat?`(${cleanCat})<sub>${catN}</sub>`:`${cleanCat}<sub>${catN}</sub>`):cleanCat;
   if(aniSym.includes('(')&&aniN>1)formula+=`(${cleanAni})<sub>${aniN}</sub>`;
   else formula+=cleanAni+(aniN>1?`<sub>${aniN}</sub>`:'');
   document.getElementById('compoundResult').innerHTML=`<span class="tool-result-formula">${formula}</span><div class="tool-result-breakdown">Ratio: ${catSym}<sup>${catChg}+</sup> : ${aniSym}<sup>${aniChg}−</sup> → ${catN}:${aniN}</div>`;
@@ -640,11 +640,16 @@ function toggleMobileNav(){
 
 /* ---------- 16b. THEME PERSISTENCE ---------- */
 function toggleTheme(){
-  const isDark=!document.documentElement.hasAttribute('data-theme');
-  document.documentElement.setAttribute('data-theme',isDark?'light':'');
-  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
-  if(!isDark)document.documentElement.removeAttribute('data-theme');
-  try{localStorage.setItem('labar_theme',isDark?'light':'dark');}catch(e){}
+  const isLight=document.documentElement.getAttribute('data-theme')==='light';
+  if(isLight){
+    document.documentElement.removeAttribute('data-theme');
+    document.getElementById('themeBtn').textContent='☀️';
+    try{localStorage.setItem('labar_theme','dark');}catch(e){}
+  }else{
+    document.documentElement.setAttribute('data-theme','light');
+    document.getElementById('themeBtn').textContent='🌙';
+    try{localStorage.setItem('labar_theme','light');}catch(e){}
+  }
 }
 function restoreTheme(){
   try{
@@ -662,8 +667,8 @@ const CHAPTERS=[
   },
   {
     label:'General',
-    ids:['chkGlossary','chkReactivity','chk4','chk5','chk6','chk7','chk9','chk10','chk11','chk12','chkES','chkECalc','chk13','chkEq','chkSol','chkKinetics','chkLab','chkSpec'],
-    names:['Glossary','Reactivity','Ions','Moles','Thermo','Nuclear','Bonding','Reactions','Acids','Redox','E-Series','E-Calc','Gas Laws','Equilibrium','Solutions','Kinetics','Lab Tech','Spectroscopy']
+    ids:['chkGlossary','chkReactivity','chk4','chk5','chk6','chk7','chk9','chk10','chk11','chk12','chkES','chkECalc','chk13','chkEq','chkSol','chkKinetics','chkLab','chkSpec','chkMagnetic','chkCatalytic','chkIronExt','chkIronProp','chkIronOx','chkAlloys','chkBasicRad','chkQuantAnal','chkPressure','chkIonicEq'],
+    names:['Glossary','Reactivity','Ions','Moles','Thermo','Nuclear','Bonding','Reactions','Acids','Redox','E-Series','E-Calc','Gas Laws','Equilibrium','Solutions','Kinetics','Lab Tech','Spectroscopy','Magnetism','Catalysis','Fe Extraction','Fe Properties','Fe Oxides','Alloys','Basic Radicals','Quant. Analysis','Pressure','Ionic Eq.']
   },
   {
     label:'Tools',
@@ -799,6 +804,18 @@ const SEARCH_INDEX=[
   {title:'Reaction Kinetics',ctx:'Rate of reaction collision theory activation energy Arrhenius rate constant rate law order first second zero half-life Maxwell-Boltzmann temperature concentration surface area catalyst',anchor:'kinetics-section'},
   {title:'Lab Techniques',ctx:'Filtration distillation chromatography titration reflux crystallisation Rf value TLC GC HPLC paper chromatography practical separation purification',anchor:'lab-section'},
   {title:'Spectroscopy',ctx:'IR infrared NMR mass spectrometry chemical shift ppm splitting pattern integration wavenumber molecular ion fragmentation base peak carbonyl OH C=O functional group identification',anchor:'spectroscopy-section'},
+
+  /* === New General Chemistry Sections === */
+  {title:'Magnetic Properties',ctx:'diamagnetic paramagnetic ferromagnetic unpaired electrons d-orbitals spin magnetic moment Bohr magnetons MRI gadolinium neodymium magnets Curie temperature iron cobalt nickel',anchor:'magnetic-section'},
+  {title:'Catalytic Activity',ctx:'catalyst heterogeneous homogeneous transition metal variable oxidation states surface adsorption Haber process Haber-Bosch Contact process iron vanadium V2O5 platinum palladium Ziegler-Natta hydrogenation catalytic converter Fe V Ni Pt Pd',anchor:'catalytic-section'},
+  {title:'Extraction of Iron from Ores',ctx:'blast furnace haematite magnetite coke limestone pig iron slag steel basic oxygen furnace reduction CO carbon Fe2O3 Fe3O4 iron ore metallurgy steel production',anchor:'iron-extraction-section'},
+  {title:'Properties of Pure Iron',ctx:'iron Fe physical chemical properties oxidation states Fe2+ ferrous Fe3+ ferric electron configuration rusting corrosion galvanising cathodic protection electrochemical melting point density',anchor:'iron-properties-section'},
+  {title:'Iron Oxides',ctx:'FeO Fe2O3 haematite Fe3O4 magnetite wustite ferric ferrous iron oxide colours red black magnetic thermite pigment rust lodestone',anchor:'iron-oxides-section'},
+  {title:'Alloys',ctx:'steel stainless bronze brass duralumin solder amalgam substitutional interstitial alloy iron carbon nickel chromium copper zinc tin aluminium titanium eutectic alloy properties',anchor:'alloys-section'},
+  {title:'Detection of Basic Radicals',ctx:'cation identification flame test NaOH NH3 precipitate Cu2+ Fe2+ Fe3+ Ca2+ Mg2+ Al3+ Zn2+ Pb2+ NH4+ confirmatory tests Prussian blue KSCN Turnbull blue qualitative analysis',anchor:'basic-radicals-section'},
+  {title:'Quantitative Analysis',ctx:'gravimetric volumetric titration Beer-Lambert colorimetry back titration BaSO4 precipitation EDTA Mohr iodometric KMnO4 Na2S2O3 calibration curve absorbance concentration analytical chemistry',anchor:'quant-analysis-section'},
+  {title:'Pressure in Chemistry',ctx:'atmospheric pressure partial pressure Dalton law vapour pressure osmotic pressure Raoult law boiling point STP atm Pascal mmHg torr equilibrium Le Chatelier Haber Contact osmosis van Hoff',anchor:'pressure-section'},
+  {title:'Ionic Equilibrium',ctx:'weak acid dissociation Ka Kb Kw buffer Henderson-Hasselbalch solubility product Ksp common ion effect salt hydrolysis degree pKa pKb degree of hydrolysis pH weak acid weak base conjugate pair',anchor:'ionic-equilibrium-section'},
 
   /* === Ch03: Tools & Reference === */
   {title:'Interactive Chemistry Tools',ctx:'Molar mass calculator ion compound builder nuclear decay simulator unit converter stoichiometry pH pOH equation balancer titration empirical formula',anchor:'tools-section'},
@@ -1069,3 +1086,130 @@ function calcEmpiricalFormula(){
 }
 
 /* v11 — Search index fully updated above, no patch needed */
+
+/* ---------- 23. ISOMER BUILDER ---------- */
+const ISOMER_DATA = {
+  alkane: {
+    1: [{name:'Methane',formula:'CH₄',condensed:'CH₄',stereo:0}],
+    2: [{name:'Ethane',formula:'C₂H₆',condensed:'CH₃–CH₃',stereo:0}],
+    3: [{name:'Propane',formula:'C₃H₈',condensed:'CH₃–CH₂–CH₃',stereo:0}],
+    4: [
+      {name:'n-Butane',formula:'C₄H₁₀',condensed:'CH₃CH₂CH₂CH₃',stereo:0},
+      {name:'2-Methylpropane (Isobutane)',formula:'C₄H₁₀',condensed:'CH₃CH(CH₃)CH₃',stereo:0}
+    ],
+    5: [
+      {name:'n-Pentane',formula:'C₅H₁₂',condensed:'CH₃(CH₂)₃CH₃',stereo:0},
+      {name:'2-Methylbutane (Isopentane)',formula:'C₅H₁₂',condensed:'CH₃CH(CH₃)CH₂CH₃',stereo:0},
+      {name:'2,2-Dimethylpropane (Neopentane)',formula:'C₅H₁₂',condensed:'C(CH₃)₄',stereo:0}
+    ],
+    6: [
+      {name:'n-Hexane',formula:'C₆H₁₄',condensed:'CH₃(CH₂)₄CH₃',stereo:0},
+      {name:'2-Methylpentane',formula:'C₆H₁₄',condensed:'CH₃CH(CH₃)(CH₂)₂CH₃',stereo:0},
+      {name:'3-Methylpentane',formula:'C₆H₁₄',condensed:'CH₃CH₂CH(CH₃)CH₂CH₃',stereo:0},
+      {name:'2,2-Dimethylbutane',formula:'C₆H₁₄',condensed:'CH₃C(CH₃)₂CH₂CH₃',stereo:0},
+      {name:'2,3-Dimethylbutane',formula:'C₆H₁₄',condensed:'CH₃CH(CH₃)CH(CH₃)CH₃',stereo:0}
+    ],
+    7: [{name:'n-Heptane + 8 branched isomers',formula:'C₇H₁₆',condensed:'9 structural isomers total',stereo:0,summary:true}],
+    8: [{name:'n-Octane + 17 branched isomers',formula:'C₈H₁₈',condensed:'18 structural isomers total',stereo:0,summary:true}]
+  },
+  alkene: {
+    1: [{name:'N/A — alkenes require n ≥ 2',formula:'—',condensed:'—',stereo:0,na:true}],
+    2: [{name:'Ethene (Ethylene)',formula:'C₂H₄',condensed:'CH₂=CH₂',stereo:0}],
+    3: [{name:'Propene (Propylene)',formula:'C₃H₆',condensed:'CH₃–CH=CH₂',stereo:0}],
+    4: [
+      {name:'But-1-ene',formula:'C₄H₈',condensed:'CH₂=CHCH₂CH₃',stereo:0},
+      {name:'But-2-ene',formula:'C₄H₈',condensed:'CH₃CH=CHCH₃',stereo:2,stereoNote:'cis and trans geometric isomers'},
+      {name:'2-Methylpropene (Isobutylene)',formula:'C₄H₈',condensed:'CH₂=C(CH₃)₂',stereo:0}
+    ],
+    5: [
+      {name:'Pent-1-ene',formula:'C₅H₁₀',condensed:'CH₂=CH(CH₂)₂CH₃',stereo:0},
+      {name:'Pent-2-ene',formula:'C₅H₁₀',condensed:'CH₃CH=CHCH₂CH₃',stereo:2,stereoNote:'cis and trans'},
+      {name:'2-Methylbut-1-ene',formula:'C₅H₁₀',condensed:'CH₂=C(CH₃)CH₂CH₃',stereo:0},
+      {name:'3-Methylbut-1-ene',formula:'C₅H₁₀',condensed:'CH₂=CHCH(CH₃)₂',stereo:0},
+      {name:'2-Methylbut-2-ene',formula:'C₅H₁₀',condensed:'CH₃C(CH₃)=CHCH₃',stereo:0}
+    ],
+    6: [{name:'6 structural isomers (hex-1-ene, hex-2-ene, hex-3-ene, 2-methylpent-1-ene, and more)',formula:'C₆H₁₂',condensed:'6 structural isomers — several have cis/trans forms',stereo:0,summary:true}],
+    7: [{name:'12 structural isomers',formula:'C₇H₁₄',condensed:'12 structural isomers total',stereo:0,summary:true}],
+    8: [{name:'18+ structural isomers',formula:'C₈H₁₆',condensed:'18+ structural isomers total',stereo:0,summary:true}]
+  },
+  alcohol: {
+    1: [{name:'Methanol (Primary)',formula:'CH₄O',condensed:'CH₃OH',stereo:0}],
+    2: [{name:'Ethanol (Primary)',formula:'C₂H₆O',condensed:'CH₃CH₂OH',stereo:0}],
+    3: [
+      {name:'Propan-1-ol (Primary)',formula:'C₃H₈O',condensed:'CH₃CH₂CH₂OH',stereo:0},
+      {name:'Propan-2-ol (Secondary)',formula:'C₃H₈O',condensed:'CH₃CH(OH)CH₃',stereo:0}
+    ],
+    4: [
+      {name:'Butan-1-ol (Primary)',formula:'C₄H₁₀O',condensed:'CH₃(CH₂)₂CH₂OH',stereo:0},
+      {name:'Butan-2-ol (Secondary)',formula:'C₄H₁₀O',condensed:'CH₃CH(OH)CH₂CH₃',stereo:2,stereoNote:'chiral centre — R and S enantiomers'},
+      {name:'2-Methylpropan-1-ol (Primary)',formula:'C₄H₁₀O',condensed:'(CH₃)₂CHCH₂OH',stereo:0},
+      {name:'2-Methylpropan-2-ol (Tertiary)',formula:'C₄H₁₀O',condensed:'(CH₃)₃COH',stereo:0}
+    ],
+    5: [
+      {name:'Pentan-1-ol (Primary)',formula:'C₅H₁₂O',condensed:'CH₃(CH₂)₃CH₂OH',stereo:0},
+      {name:'Pentan-2-ol (Secondary)',formula:'C₅H₁₂O',condensed:'CH₃CH(OH)(CH₂)₂CH₃',stereo:2,stereoNote:'chiral centre'},
+      {name:'Pentan-3-ol (Secondary)',formula:'C₅H₁₂O',condensed:'CH₃CH₂CH(OH)CH₂CH₃',stereo:0},
+      {name:'2-Methylbutan-1-ol (Primary)',formula:'C₅H₁₂O',condensed:'(CH₃)₂CHCH₂CH₂OH',stereo:0},
+      {name:'2-Methylbutan-2-ol (Tertiary)',formula:'C₅H₁₂O',condensed:'(CH₃)₂C(OH)CH₂CH₃',stereo:0},
+      {name:'3-Methylbutan-1-ol (Primary)',formula:'C₅H₁₂O',condensed:'(CH₃)₂CHCH₂CH₂OH',stereo:0},
+      {name:'3-Methylbutan-2-ol (Secondary)',formula:'C₅H₁₂O',condensed:'(CH₃)₂CHCH(OH)CH₃',stereo:2,stereoNote:'chiral centre'},
+      {name:'2,2-Dimethylpropan-1-ol (Primary)',formula:'C₅H₁₂O',condensed:'(CH₃)₃CCH₂OH',stereo:0}
+    ],
+    6: [{name:'17 structural isomers',formula:'C₆H₁₄O',condensed:'17 structural isomers total',stereo:0,summary:true}],
+    7: [{name:'57 structural isomers',formula:'C₇H₁₆O',condensed:'57 structural isomers total',stereo:0,summary:true}],
+    8: [{name:'89 structural isomers',formula:'C₈H₁₈O',condensed:'89 structural isomers total',stereo:0,summary:true}]
+  }
+};
+
+function buildIsomers() {
+  const type = document.getElementById('isoType').value;
+  const n = parseInt(document.getElementById('isoN').value);
+  const res = document.getElementById('isomerResult');
+  if (!res) return;
+
+  const data = ISOMER_DATA[type] && ISOMER_DATA[type][n];
+  if (!data) {
+    res.innerHTML = '<span class="tool-empty">No data available for this combination.</span>';
+    return;
+  }
+
+  const typeLabels = { alkane: 'Alkane', alkene: 'Alkene', alcohol: 'Alcohol' };
+  const typeColors = { alkane: 'var(--alkane)', alkene: 'var(--alkene)', alcohol: 'var(--nuclear)' };
+  const color = typeColors[type];
+
+  if (data[0].na) {
+    res.innerHTML = `<div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:18px;color:var(--muted);font-size:0.88rem;">${data[0].name}</div>`;
+    return;
+  }
+
+  const count = data[0].summary ? data[0].condensed : `${data.length} structural isomer${data.length > 1 ? 's' : ''}`;
+
+  let html = `<div style="margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:${color};background:${color}18;border:1px solid ${color}40;padding:4px 12px;border-radius:50px;letter-spacing:0.12em;text-transform:uppercase;">${typeLabels[type]} · n=${n}</span>
+    <span style="font-size:0.85rem;color:var(--muted);">${count}</span>
+  </div>`;
+
+  if (data[0].summary) {
+    html += `<div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid ${color};border-radius:12px;padding:18px 20px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:1rem;color:${color};margin-bottom:6px;">${data[0].formula}</div>
+      <div style="font-size:0.85rem;color:var(--muted);">${data[0].name}</div>
+    </div>`;
+  } else {
+    html += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;">`;
+    data.forEach((iso, i) => {
+      let stereoTag = '';
+      if (iso.stereo > 0) {
+        stereoTag = `<span style="font-size:0.65rem;font-family:'JetBrains Mono',monospace;color:var(--isomer);background:rgba(255,179,71,0.1);border:1px solid rgba(255,179,71,0.3);padding:2px 7px;border-radius:5px;display:inline-block;margin-top:6px;">⬡ ${iso.stereoNote || iso.stereo + ' stereoisomers'}</span>`;
+      }
+      html += `<div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid ${color};border-radius:12px;padding:14px 16px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:4px;">ISOMER ${i+1} — ${iso.formula}</div>
+        <div style="font-size:0.9rem;font-weight:600;color:var(--text);margin-bottom:6px;">${iso.name}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:${color};">${iso.condensed}</div>
+        ${stereoTag}
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  res.innerHTML = html;
+}
