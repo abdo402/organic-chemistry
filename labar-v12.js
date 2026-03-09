@@ -27,19 +27,35 @@
 })();
 
 /* ---------- 2. SCROLL REVEAL — staggered ---------- */
-const revealObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      // stagger siblings inside the same parent
-      const siblings=[...e.target.parentElement.querySelectorAll('.card')];
-      const i=siblings.indexOf(e.target);
-      e.target.style.transitionDelay=Math.min(i*60,300)+'ms';
-      e.target.classList.add('visible');
-      revealObs.unobserve(e.target);
-    }
-  });
-},{threshold:.06});
-document.querySelectorAll('.card').forEach(c=>revealObs.observe(c));
+function initReveal(){
+  const cards=document.querySelectorAll('.card');
+  if(!cards.length)return;
+
+  // Safety fallback: show all cards after 1.5s if observer never fires
+  const fallback=setTimeout(()=>{
+    cards.forEach(c=>c.classList.add('visible'));
+  },1500);
+
+  const revealObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        clearTimeout(fallback);
+        const siblings=[...e.target.parentElement.querySelectorAll('.card')];
+        const i=siblings.indexOf(e.target);
+        e.target.style.transitionDelay=Math.min(i*60,280)+'ms';
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  },{threshold:0,rootMargin:'0px 0px -40px 0px'});
+
+  cards.forEach(c=>revealObs.observe(c));
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',initReveal);
+}else{
+  initReveal();
+}
 
 /* ---------- 3. HYDROCARBON CALCULATOR ---------- */
 const PREFIXES=['Meth','Eth','Prop','But','Pent','Hex','Hept','Oct','Non','Dec',
@@ -863,7 +879,6 @@ function initHeroCounters(){
     setTimeout(()=>requestAnimationFrame(tick),400);
   });
 }
-});
 
 /* ---------- SCROLL SPY — active nav highlight ---------- */
 function initScrollSpy(){
