@@ -1,5 +1,79 @@
 /* ========== LabAR.EDU v12.0 — Main Script ========== */
 
+// ═══════════════════════════════════════
+// CONTENT PROTECTION
+// © 2026 Abdelrahman Mohamed. All rights reserved.
+// Unauthorized copying, redistribution or modification
+// of this code or its content is strictly prohibited.
+// ═══════════════════════════════════════
+(function () {
+
+  // ── Console watermark ──
+  console.clear();
+  console.log(
+    '%c LabAR.EDU ',
+    'background:#0a0f1e;color:#3b9eff;font-size:18px;font-weight:bold;padding:8px 16px;border-radius:6px;'
+  );
+  console.log(
+    '%c © 2026 Abdelrahman Mohamed. All rights reserved.\n%c Unauthorized use or redistribution of this code is prohibited.',
+    'color:#8899aa;font-size:13px;',
+    'color:#cc2936;font-size:12px;font-weight:bold;'
+  );
+  console.log(
+    '%c If you\'re a developer exploring this for learning purposes, please respect the author\'s work.',
+    'color:#556677;font-size:11px;font-style:italic;'
+  );
+
+  // ── Disable right-click context menu ──
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+    return false;
+  });
+
+  // ── Disable text selection on non-input elements ──
+  document.addEventListener('selectstart', function (e) {
+    const tag = e.target.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return true;
+    e.preventDefault();
+    return false;
+  });
+
+  // ── Block DevTools shortcuts & source-view hotkeys ──
+  document.addEventListener('keydown', function (e) {
+    const ctrl  = e.ctrlKey || e.metaKey;
+    const shift = e.shiftKey;
+    const key   = e.key;
+
+    if (key === 'F12') { e.preventDefault(); return false; }
+    if (ctrl && shift && (key === 'I' || key === 'i' || key === 'J' || key === 'j' || key === 'C' || key === 'c')) {
+      e.preventDefault(); return false;
+    }
+    if (ctrl && (key === 'U' || key === 'u')) { e.preventDefault(); return false; }
+    if (ctrl && (key === 'S' || key === 's')) { e.preventDefault(); return false; }
+    if (ctrl && (key === 'A' || key === 'a')) {
+      const tag = document.activeElement?.tagName;
+      if (tag !== 'INPUT' && tag !== 'TEXTAREA') { e.preventDefault(); return false; }
+    }
+  }, true);
+
+  // ── DevTools size detection ──
+  const _threshold = 160;
+  let _devWarn = false;
+  setInterval(function () {
+    const widthDiff  = window.outerWidth  - window.innerWidth;
+    const heightDiff = window.outerHeight - window.innerHeight;
+    if ((widthDiff > _threshold || heightDiff > _threshold) && !_devWarn) {
+      _devWarn = true;
+      console.clear();
+      console.log('%c🚫 DevTools detected', 'color:#cc2936;font-size:16px;font-weight:bold;');
+      console.log('%cThis tool is protected. Please respect the author\'s work.', 'color:#556677;');
+    } else if (widthDiff <= _threshold && heightDiff <= _threshold) {
+      _devWarn = false;
+    }
+  }, 1000);
+
+})();
+
 /* ---------- 1. CANVAS BACKGROUND ---------- */
 (function(){
   const c=document.getElementById('bgCanvas');
@@ -1016,15 +1090,19 @@ function calcTitration(){
   const c1ok=!isNaN(C1),v1ok=!isNaN(V1),c2ok=!isNaN(C2),v2ok=!isNaN(V2);
 
   if(c1ok&&v1ok&&c2ok&&!v2ok){
+    if(n1*C2===0){res.innerHTML='<span style="color:var(--alkyne)">Denominator cannot be zero.</span>';return;}
     const ans=(C1*V1*n2)/(n1*C2);
     res.innerHTML=`<span class="tool-result-main">V₂ = ${ans.toFixed(3)} mL</span><div class="tool-result-breakdown">(${C1}×${V1}×${n2}) ÷ (${n1}×${C2}) = ${ans.toFixed(3)} mL</div>`;
   } else if(c1ok&&v1ok&&!c2ok&&v2ok){
+    if(n1*V2===0){res.innerHTML='<span style="color:var(--alkyne)">Denominator cannot be zero.</span>';return;}
     const ans=(C1*V1*n2)/(n1*V2);
     res.innerHTML=`<span class="tool-result-main">C₂ = ${ans.toFixed(4)} mol/L</span><div class="tool-result-breakdown">(${C1}×${V1}×${n2}) ÷ (${n1}×${V2}) = ${ans.toFixed(4)} mol/L</div>`;
   } else if(c1ok&&!v1ok&&c2ok&&v2ok){
+    if(n2*C1===0){res.innerHTML='<span style="color:var(--alkyne)">Denominator cannot be zero.</span>';return;}
     const ans=(C2*V2*n1)/(n2*C1);
     res.innerHTML=`<span class="tool-result-main">V₁ = ${ans.toFixed(3)} mL</span><div class="tool-result-breakdown">(${C2}×${V2}×${n1}) ÷ (${n2}×${C1}) = ${ans.toFixed(3)} mL</div>`;
   } else if(!c1ok&&v1ok&&c2ok&&v2ok){
+    if(n2*V1===0){res.innerHTML='<span style="color:var(--alkyne)">Denominator cannot be zero.</span>';return;}
     const ans=(C2*V2*n1)/(n2*V1);
     res.innerHTML=`<span class="tool-result-main">C₁ = ${ans.toFixed(4)} mol/L</span><div class="tool-result-breakdown">(${C2}×${V2}×${n1}) ÷ (${n2}×${V1}) = ${ans.toFixed(4)} mol/L</div>`;
   } else {
@@ -1055,6 +1133,7 @@ function calcEmpiricalFormula(){
   if(badEl){res.innerHTML=`<span style="color:var(--alkyne)">Unknown element: ${badEl.err}</span>`;return;}
 
   const minMol=Math.min(...moles.map(m=>m.mol));
+  if(minMol<=0){res.innerHTML='<span style="color:var(--alkyne)">Percentages must be greater than zero.</span>';return;}
   const ratios=moles.map(m=>m.mol/minMol);
 
   // Find integer ratios (multiply until all within 0.05 of integer, max ×6)
