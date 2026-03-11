@@ -997,3 +997,20 @@ span.teal { color:#2dd4bf; } span.amber { color:#fbbf24; }
   .iron-process-box{padding:16px;}
   .iron-process-step{gap:10px;}
 }
+
+/* ── Global text selection protection ── */
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* Re-enable selection in inputs and tool output areas (students need to copy results) */
+input, textarea, [contenteditable],
+.tool-result, .tool-result-main, .tool-result-breakdown,
+.isomer-card, .isomer-card h3, .isomer-card p, .isomer-card li {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
