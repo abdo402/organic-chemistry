@@ -3479,8 +3479,17 @@
     <span><span class="dot"></span> 118 Elements · Click for Details</span>
     <span><span class="dot"></span> Educational Level: Pro</span>
   </div>
+  <div class="footer-divider"></div>
+  <div class="footer-contact-row">
+    <a id="labFooterEmail" href="#">📧 tea_kun&#64;outlook&#46;com</a>
+    <a href="https://www.instagram.com/abdo_kun_2007" target="_blank" rel="noopener">📸 @abdo_kun_2007</a>
+  </div>
 </footer>
 <button id="backToTop" title="Back to top" aria-label="Back to top">↑</button>
 <script src="labar-v12.js"></script>
+<script>
+  // Assemble email at runtime — bypasses Cloudflare email obfuscation
+  (function(){ const a=document.getElementById('labFooterEmail'); if(a){ const e='tea_kun'+'@'+'outlook.com'; a.href='mailto:'+e; } })();
+</script>
 </body>
 </html>
