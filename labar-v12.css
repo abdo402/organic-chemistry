@@ -516,6 +516,9 @@ footer p{color:var(--muted);font-size:0.85rem;margin-bottom:6px;}
 .footer-divider{width:44px;height:2px;background:var(--accent);margin:22px auto;border-radius:2px;}
 .footer-meta{display:inline-flex;gap:22px;flex-wrap:wrap;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);}
 .footer-meta span{display:flex;align-items:center;gap:5px;}
+.footer-contact-row{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:14px;}
+.footer-contact-row a{font-size:0.75rem;color:var(--muted);text-decoration:none;opacity:0.75;transition:opacity 0.2s,color 0.2s;}
+.footer-contact-row a:hover{opacity:1;color:var(--accent);}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block;}
 [data-tip]{position:relative;cursor:help;}
 [data-tip]::after{content:attr(data-tip);position:absolute;bottom:130%;left:50%;transform:translateX(-50%);background:var(--surface2);color:var(--text);border:1px solid var(--border);font-size:0.75rem;padding:6px 12px;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.2s ease;}
