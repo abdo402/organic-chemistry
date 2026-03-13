@@ -716,10 +716,8 @@ function toggleMobileNav(){
 function _applyTheme(isLight){
   if(isLight){
     document.documentElement.removeAttribute('data-theme');
-    try{localStorage.setItem('labar_theme','dark');}catch(e){}
   }else{
     document.documentElement.setAttribute('data-theme','light');
-    try{localStorage.setItem('labar_theme','light');}catch(e){}
   }
   // Update pill state
   const btn=document.getElementById('themeBtn');
@@ -728,16 +726,19 @@ function _applyTheme(isLight){
 function toggleTheme(){
   const isLight=document.documentElement.getAttribute('data-theme')==='light';
   const btn=document.getElementById('themeBtn');
+  const next=isLight?'dark':'light';
   // View Transition API — circular wipe from toggle position
   if(!document.startViewTransition){
-    _applyTheme(isLight); return;
+    _applyTheme(isLight);
+    try{localStorage.setItem('labar_theme',next);}catch(e){}
+    return;
   }
   // Get click origin for the radial clip
   const rect=btn?btn.getBoundingClientRect():{top:0,left:0,width:0,height:0};
   const x=rect.left+rect.width/2;
   const y=rect.top+rect.height/2;
   const maxR=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
-  document.startViewTransition(()=>{ _applyTheme(isLight); }).ready.then(()=>{
+  document.startViewTransition(()=>{ _applyTheme(isLight); try{localStorage.setItem('labar_theme',next);}catch(e){} }).ready.then(()=>{
     document.documentElement.animate(
       {clipPath:[`circle(0px at ${x}px ${y}px)`,`circle(${maxR}px at ${x}px ${y}px)`]},
       {duration:500,easing:'ease-in-out',pseudoElement:'::view-transition-new(root)'}
