@@ -68,7 +68,11 @@
   </div>
   <div class="nav-actions">
     <button class="nav-btn" onclick="openSearch()" title="Search (Ctrl+K)">🔍</button>
-    <button class="nav-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">☀️</button>
+    <button class="theme-pill" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+      <span class="theme-pill__label">☀️</span>
+      <span class="theme-pill__track"><span class="theme-pill__thumb"></span></span>
+      <span class="theme-pill__label">🌙</span>
+    </button>
     <button class="nav-btn nav-hamburger" onclick="toggleMobileNav()" title="Menu">☰</button>
   </div>
 </nav>
@@ -3468,6 +3472,55 @@
 
 </div>
 
+<!-- ===== CONTACT SECTION ===== -->
+<section class="contact-section">
+  <h2>Get in Touch</h2>
+  <p>Have a question or just want to say hi?</p>
+  <div class="contact-icons">
+    <div class="icon-wrap">
+      <a href="https://instagram.com/abdo_kun_2007"
+         class="icon-btn icon-btn--instagram"
+         target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07
+            3.252.148 4.771 1.691 4.919 4.919.058 1.265.069
+            1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149
+            3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07
+            -3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919
+            -4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07
+            -4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057
+            1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072
+            2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12
+            c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98
+            6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014
+            4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073
+            -1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196
+            -4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0z
+            m0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000
+            -12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a
+            1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+        </svg>
+      </a>
+      <span class="icon-label">Instagram</span>
+    </div>
+    <div class="icon-wrap">
+      <a href="mailto:tea_kun@outlook.com"
+         class="icon-btn icon-btn--gmail"
+         aria-label="Email">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636
+            1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636
+            A1.636 1.636 0 010 19.366V5.457c0-.25.055-.486.153
+            -.7L12 13.09 23.847 4.757c.099.214.153.45.153.7z
+            M12 10.927L.207 3.64A1.636 1.636 0 011.636
+            3h20.728c.525 0 .99.247 1.29.64L12 10.927z"/>
+        </svg>
+      </a>
+      <span class="icon-label">Email</span>
+    </div>
+  </div>
+</section>
+
 <footer>
   <span class="footer-logo">🧪 LAB<span>AR</span>.EDU</span>
   <p>The Advanced Chemistry Learning Platform</p>
@@ -3480,25 +3533,9 @@
     <span><span class="dot"></span> Educational Level: Pro</span>
   </div>
   <div class="footer-divider"></div>
-  <div class="footer-contact-box">
-    <p class="footer-contact-title">📬 Feedback &amp; Contact</p>
-    <p class="footer-contact-desc">Found a mistake? Have a suggestion? I'd love to hear from you.</p>
-    <div class="footer-contact-row">
-      <a id="labFooterEmail" href="#" class="footer-contact-card">
-        <span class="footer-contact-card-icon">✉️</span>
-        <span class="footer-contact-card-info">
-          <strong>Email</strong>
-          <span>tea_kun@outlook.com</span>
-        </span>
-      </a>
-      <a href="https://www.instagram.com/abdo_kun_2007" target="_blank" rel="noopener" class="footer-contact-card">
-        <span class="footer-contact-card-icon">📸</span>
-        <span class="footer-contact-card-info">
-          <strong>Instagram</strong>
-          <span>@abdo_kun_2007</span>
-        </span>
-      </a>
-    </div>
+  <div class="footer-contact-row">
+    <a id="labFooterEmail" href="#">📧 tea_kun&#64;outlook&#46;com</a>
+    <a href="https://www.instagram.com/abdo_kun_2007" target="_blank" rel="noopener">📸 @abdo_kun_2007</a>
   </div>
 </footer>
 <button id="backToTop" title="Back to top" aria-label="Back to top">↑</button>
