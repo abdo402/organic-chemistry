@@ -713,22 +713,45 @@ function toggleMobileNav(){
 }
 
 /* ---------- 16b. THEME PERSISTENCE ---------- */
-function toggleTheme(){
-  const isLight=document.documentElement.getAttribute('data-theme')==='light';
+function _applyTheme(isLight){
   if(isLight){
     document.documentElement.removeAttribute('data-theme');
-    document.getElementById('themeBtn').textContent='☀️';
     try{localStorage.setItem('labar_theme','dark');}catch(e){}
   }else{
     document.documentElement.setAttribute('data-theme','light');
-    document.getElementById('themeBtn').textContent='🌙';
     try{localStorage.setItem('labar_theme','light');}catch(e){}
   }
+  // Update pill state
+  const btn=document.getElementById('themeBtn');
+  if(btn) btn.classList.toggle('theme-pill--light',!isLight);
+}
+function toggleTheme(){
+  const isLight=document.documentElement.getAttribute('data-theme')==='light';
+  const btn=document.getElementById('themeBtn');
+  // View Transition API — circular wipe from toggle position
+  if(!document.startViewTransition){
+    _applyTheme(isLight); return;
+  }
+  // Get click origin for the radial clip
+  const rect=btn?btn.getBoundingClientRect():{top:0,left:0,width:0,height:0};
+  const x=rect.left+rect.width/2;
+  const y=rect.top+rect.height/2;
+  const maxR=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+  document.startViewTransition(()=>{ _applyTheme(isLight); }).ready.then(()=>{
+    document.documentElement.animate(
+      {clipPath:[`circle(0px at ${x}px ${y}px)`,`circle(${maxR}px at ${x}px ${y}px)`]},
+      {duration:500,easing:'ease-in-out',pseudoElement:'::view-transition-new(root)'}
+    );
+  });
 }
 function restoreTheme(){
   try{
     const t=localStorage.getItem('labar_theme');
-    if(t==='light'){document.documentElement.setAttribute('data-theme','light');const b=document.getElementById('themeBtn');if(b)b.textContent='🌙';}
+    const btn=document.getElementById('themeBtn');
+    if(t==='light'){
+      document.documentElement.setAttribute('data-theme','light');
+      if(btn) btn.classList.add('theme-pill--light');
+    }
   }catch(e){}
 }
 
